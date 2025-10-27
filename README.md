@@ -1,7 +1,7 @@
 # Microservicio: Citas y Evaluaciones
 
 <p align="center">
-  <img src="./modelo_dominio.png" alt="Modelo de dominio" width="600"/>
+  <img src="./modelo_dominio_appointment.png" alt="Modelo de dominio" width="600"/>
 </p>
 
 ## Descripción
