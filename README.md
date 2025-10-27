@@ -3,7 +3,9 @@
 
 # Microservicio: Citas y Evaluaciones
 
-![Vista general](./modelo_dominio.png)
+<p align="center">
+  <img src="./modelo_dominio.png" alt="Modelo de dominio" width="600"/>
+</p>
 
 ## Descripción
 
