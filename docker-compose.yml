@@ -1,0 +1,32 @@
+services:
+  citas_evaluaciones:
+    image: paulcpvs/nurtricenter-appointment-api:1.0.0
+    container_name: grupo3-citas-evaluaciones
+    environment:
+      SERVICE_NAME: citas_evaluaciones
+      DB_URL: jdbc:postgresql://citas_evaluaciones_postgres:5432/nurtricenter_db
+      DB_USER: citas_evaluaciones_user
+      DB_PASS: SuperUsuar10
+    ports:
+      - 9004:8080
+    depends_on:
+      - citas_evaluaciones_postgres
+
+  citas_evaluaciones_postgres:
+    image: postgres:17.7
+    container_name: grupo3-citas-evaluaciones-postgres
+    environment:
+      - POSTGRES_USER=citas_evaluaciones_user
+      - POSTGRES_PASSWORD=SuperUsuar10
+      - POSTGRES_DB=nurtricenter_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - citas_evaluaciones_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U citas_evaluaciones_user -d nurtricenter_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  citas_evaluaciones_postgres_data:

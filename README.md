@@ -16,3 +16,11 @@ Su objetivo es administrar de manera eficiente las consultas entre pacientes y n
 - **Cancelación de consultas:** anulación de citas previamente registradas.  
 - **Registro de inasistencias:** control de citas no atendidas por el paciente.  
 - **Registro de atención:** permite documentar la atención realizada durante la consulta.
+
+## Docker Compose
+paulcpvs/nurtricenter-appointment-api:1.0.0
+
+Variables de entorno:
+- DB_URL (Conexión a base de datos)
+- DB_USER
+- DB_PASS
