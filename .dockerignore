@@ -1,0 +1,36 @@
+# Ignorar carpetas de compilación
+target/
+build/
+
+# Ignorar configuraciones locales e IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.class
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar logs
+*.log
+
+# Ignorar dependencias descargadas (por seguridad y tamaño)
+.mvn/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar  # excepto el wrapper
+
+# Ignorar archivos de control de versiones
+.git
+.gitignore
+.gitlab-ci.yml
+
+# Ignorar archivos de entorno sensibles
+.env
+*.env
+
+# Ignorar documentación local
+README.md
+LICENSE
