@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "b0e2e595-cb4c-4f83-8117-582d83951663",
+		"name": "Nurtricenter-Appointment Integration Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14478604"
+	},
+	"item": [
+		{
+			"name": "1.0 Crear citas válidas e inválidas",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function randomDate(isFuture) {\r",
+							"    const now = new Date();\r",
+							"    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+							"\r",
+							"    if (isFuture) {\r",
+							"        now.setDate(now.getDate() + daysOffset);\r",
+							"    } else {\r",
+							"        now.setDate(now.getDate() - daysOffset);\r",
+							"    }\r",
+							"\r",
+							"    const hour = Math.floor(Math.random() * 9) + 8;\r",
+							"    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+							"\r",
+							"    const dd = String(now.getDate()).padStart(2, '0');\r",
+							"    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+							"    const yyyy = now.getFullYear();\r",
+							"    const hh = String(hour).padStart(2, '0');\r",
+							"\r",
+							"    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+							"}\r",
+							"\r",
+							"\r",
+							"const appointments = JSON.parse(pm.collectionVariables.get(\"appointments\"));\r",
+							"let index = pm.collectionVariables.get(\"index\");\r",
+							"if (!index) {\r",
+							"    index = 0;\r",
+							"}\r",
+							"const appointment = appointments[parseInt(index)];\r",
+							"\r",
+							"if (appointment.scheduleDate === \"FUTURE\") {\r",
+							"    appointment.scheduleDate = randomDate(true);\r",
+							"} else if (appointment.scheduleDate === \"PAST\") {\r",
+							"    appointment.scheduleDate = randomDate(false);\r",
+							"}\r",
+							"pm.collectionVariables.set(\"index\", parseInt(index));\r",
+							"pm.collectionVariables.set(\"appointmentJson\", JSON.stringify(appointment));"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"const index = pm.collectionVariables.get(\"index\");\r",
+							"console.log(pm.response.code);\r",
+							"if (pm.response.code == 200) {\r",
+							"    pm.test(\"Status code is 200 for appointment \" + index, function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"    if (body.success) {\r",
+							"        pm.test(\"Appointment created - value token not empty\", function () {\r",
+							"            pm.expect(body).to.have.property(\"value\");\r",
+							"            pm.expect(body.value).to.be.a(\"string\");\r",
+							"            pm.expect(body.value.trim()).to.not.equal(\"\");\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"Appointment not created - value null\", function () {\r",
+							"            pm.expect(body.value).to.be.null;\r",
+							"        })\r",
+							"        pm.test(\"Appointment not created - error code not empty\", function () {\r",
+							"            pm.expect(body).to.have.property(\"error\");\r",
+							"            pm.expect(body.error).to.have.property(\"code\");\r",
+							"            pm.expect(body.error.code).to.be.a(\"string\");\r",
+							"            pm.expect(body.error.code.trim()).to.not.equal(\"\");\r",
+							"        })\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"let appointments = JSON.parse(pm.collectionVariables.get(\"appointments\"));\r",
+							"if (index + 1 >= appointments.length) {\r",
+							"    index = 0;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"index\", parseInt(index) + 1);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{appointmentJson}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_BASE}}/api/appointment/schedule",
+					"host": [
+						"{{URL_BASE}}"
+					],
+					"path": [
+						"api",
+						"appointment",
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL_BASE",
+			"value": ""
+		},
+		{
+			"key": "appointments",
+			"value": ""
+		},
+		{
+			"key": "index",
+			"value": ""
+		},
+		{
+			"key": "appointmentJson",
+			"value": ""
+		}
+	]
+}
