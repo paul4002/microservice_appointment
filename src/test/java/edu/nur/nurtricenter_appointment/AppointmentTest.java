@@ -2,6 +2,7 @@ package edu.nur.nurtricenter_appointment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -83,5 +84,64 @@ public class AppointmentTest {
       assertEquals(notes, appointment.getNotes());
       assertEquals(measurement, appointment.getMeasurement());
       assertEquals(diagnosis, appointment.getDiagnosis());
+  }
+
+  @Test
+  void notAttended_ShouldSetStatusClosed() {
+    // Arrange
+    Appointment appointment = Appointment.schedule(
+        UUID.randomUUID(),
+        UUID.randomUUID(),
+        LocalDateTime.now().plusDays(1),
+        AppointmentType.FOLLOWUP
+    );
+
+    // Act
+    appointment.notAttended();
+
+    // Assert
+    assertEquals(AppointmentStatus.CLOSED, appointment.getStatus());
+    assertEquals(AppointmentAttendance.NOT_ATTENDED, appointment.getAttendance());
+  }
+
+  @Test
+  void shouldCreateAppointmentWithAllFields() {
+    // Arrange
+    UUID appointmentId = UUID.randomUUID();
+    UUID patientId = UUID.randomUUID();
+    UUID nutritionistId = UUID.randomUUID();
+    AppointmentType type = AppointmentType.INITIAL;
+    AppointmentStatus status = AppointmentStatus.SCHEDULED;
+    AppointmentAttendance attendance = AppointmentAttendance.PENDING;
+    LocalDateTime creationDate = LocalDateTime.now();
+    LocalDateTime scheduleDate = creationDate.plusDays(3);
+    LocalDateTime cancelDate = null;
+    String notes = "Primera consulta nutricional";
+
+    // Act
+    Appointment appointment = new Appointment(
+            appointmentId,
+            patientId,
+            nutritionistId,
+            type,
+            creationDate,
+            scheduleDate,
+            cancelDate,
+            status,
+            attendance,
+            notes
+    );
+
+    // Assert
+    assertEquals(appointmentId, appointment.getId());
+    assertEquals(patientId, appointment.getPatientId());
+    assertEquals(nutritionistId, appointment.getNutritionistId());
+    assertEquals(type, appointment.getType());
+    assertEquals(status, appointment.getStatus());
+    assertEquals(attendance, appointment.getAttendance());
+    assertEquals(creationDate, appointment.getCreationDate());
+    assertEquals(scheduleDate, appointment.getScheduledDate());
+    assertNull(appointment.getCancelDate());
+    assertEquals(notes, appointment.getNotes());
   }
 }

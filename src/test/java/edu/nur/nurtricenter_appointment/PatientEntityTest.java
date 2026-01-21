@@ -1,0 +1,66 @@
+package edu.nur.nurtricenter_appointment;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Date;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+
+import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
+import edu.nur.nurtricenter_appointment.domain.patients.Email;
+import edu.nur.nurtricenter_appointment.domain.patients.Patient;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
+
+public class PatientEntityTest {
+  @Test
+  void shouldSetAndGetFields() {
+    // Arrange
+    UUID id = UUID.randomUUID();
+    String name = "Luis";
+    String lastname = "Padilla";
+    Date birthDate = new Date();
+    Email email = new Email("test@email.com");
+    Cellphone cellphone = new Cellphone("71234678");
+
+    // Act
+    PatientEntity entity = new PatientEntity();
+    entity.setId(id);
+    entity.setName(name);
+    entity.setLastname(lastname);
+    entity.setBirthDate(birthDate);
+    entity.setEmail(email);
+    entity.setCellphone(cellphone);
+
+    // Assert
+    assertEquals(id, entity.getId());
+    assertEquals(name, entity.getName());
+    assertEquals(lastname, entity.getLastname());
+    assertEquals(birthDate, entity.getBirthDate());
+    assertEquals(email.value(), entity.getEmail().value());
+    assertEquals(cellphone.value(), entity.getCellphone().value());
+  }
+
+  @Test
+  void shouldConvertToDomain() {
+    // Arrange
+    PatientEntity entity = new PatientEntity();
+    entity.setId(UUID.randomUUID());
+    entity.setName("Luis");
+    entity.setLastname("Padilla");
+    entity.setBirthDate(new Date());
+    entity.setEmail(new Email("test@email.com"));
+    entity.setCellphone(new Cellphone("71238421"));
+
+    // Act
+    Patient patient = entity.toDomain();
+
+    // Assert
+    assertEquals(entity.getId(), patient.getId());
+    assertEquals(entity.getName(), patient.getName());
+    assertEquals(entity.getLastname(), patient.getLastname());
+    assertEquals(entity.getBirthDate(), patient.getBirthDate());
+    assertEquals(entity.getEmail().value(), patient.getEmail().value());
+    assertEquals(entity.getCellphone().value(), patient.getCellphone().value());
+  }
+}

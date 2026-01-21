@@ -27,7 +27,7 @@ public class GetNutritionistsHandler implements Command.Handler<GetNutritionists
       .map(nutritionist -> new NutritionistDto(
         nutritionist.getId(),
         nutritionist.getName(),
-        nutritionist.getName(),
+        nutritionist.getLastname(),
         nutritionist.getSpecialty(),
         nutritionist.getProfessionalLicense()
       ))

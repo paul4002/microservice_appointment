@@ -27,9 +27,6 @@ import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
-import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
-import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
-import edu.nur.nurtricenter_appointment.domain.patients.Email;
 import edu.nur.nurtricenter_appointment.domain.patients.IPatientRepository;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
