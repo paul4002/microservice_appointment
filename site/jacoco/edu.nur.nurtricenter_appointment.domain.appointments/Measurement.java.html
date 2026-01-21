@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Measurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nurtricenter-appointment</a> &gt; <a href="index.source.html" class="el_package">edu.nur.nurtricenter_appointment.domain.appointments</a> &gt; <span class="el_source">Measurement.java</span></div><h1>Measurement.java</h1><pre class="source lang-java linenums">package edu.nur.nurtricenter_appointment.domain.appointments;
+
+import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
+
+
+public class Measurement {
+  private UnitMeasure weight; 
+  private UnitMeasure height; 
+  private DecimalValue imc; 
+  private Percentage bodyFat;
+  private Percentage muscleMass;
+
+<span class="fc" id="L13">  public Measurement() {</span>
+<span class="fc" id="L14">  }</span>
+
+<span class="fc" id="L16">  public Measurement(DecimalValue weight, DecimalValue height, DecimalValue imc, Percentage bodyFat, Percentage muscleMass) {</span>
+<span class="fc" id="L17">    this.weight = new UnitMeasure(weight, UnitMeasureName.KG);</span>
+<span class="fc" id="L18">    this.height = new UnitMeasure(height, UnitMeasureName.CM);</span>
+<span class="fc" id="L19">    this.imc = imc;</span>
+<span class="fc" id="L20">    this.bodyFat = bodyFat;</span>
+<span class="fc" id="L21">    this.muscleMass = muscleMass;</span>
+<span class="fc" id="L22">  }</span>
+
+  public UnitMeasure getWeight() {
+<span class="fc" id="L25">    return weight;</span>
+  }
+
+  public UnitMeasure getHeight() {
+<span class="fc" id="L29">    return height;</span>
+  }
+
+  public DecimalValue getImc() {
+<span class="fc" id="L33">    return imc;</span>
+  }
+
+  public Percentage getBodyFat() {
+<span class="fc" id="L37">    return bodyFat;</span>
+  }
+
+  public Percentage getMuscleMass() {
+<span class="fc" id="L41">    return muscleMass;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppointmentAttendedEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nurtricenter-appointment</a> &gt; <a href="index.source.html" class="el_package">edu.nur.nurtricenter_appointment.domain.appointments.events</a> &gt; <span class="el_source">AppointmentAttendedEvent.java</span></div><h1>AppointmentAttendedEvent.java</h1><pre class="source lang-java linenums">package edu.nur.nurtricenter_appointment.domain.appointments.events;
+
+import java.util.UUID;
+
+import edu.nur.nurtricenter_appointment.core.abstractions.DomainEvent;
+import edu.nur.nurtricenter_appointment.domain.mealplans.MealPlan;
+
+public class AppointmentAttendedEvent extends DomainEvent  {
+  private UUID appointmentId;
+  private MealPlan mealPlan;
+<span class="fc" id="L11">  public AppointmentAttendedEvent(UUID appointmentId, MealPlan mealPlan) {</span>
+<span class="fc" id="L12">    this.appointmentId = appointmentId;</span>
+<span class="fc" id="L13">    this.mealPlan = mealPlan;</span>
+<span class="fc" id="L14">  }</span>
+  public UUID getAppointmentId() {
+<span class="fc" id="L16">    return appointmentId;</span>
+  }
+  public MealPlan getMealPlan() {
+<span class="fc" id="L19">    return mealPlan;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

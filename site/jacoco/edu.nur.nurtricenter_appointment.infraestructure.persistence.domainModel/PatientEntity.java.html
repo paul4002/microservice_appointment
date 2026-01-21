@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nurtricenter-appointment</a> &gt; <a href="index.source.html" class="el_package">edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel</a> &gt; <span class="el_source">PatientEntity.java</span></div><h1>PatientEntity.java</h1><pre class="source lang-java linenums">package edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel;
+
+import java.util.Date;
+import java.util.UUID;
+
+import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
+import edu.nur.nurtricenter_appointment.domain.patients.Email;
+import edu.nur.nurtricenter_appointment.domain.patients.Patient;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.CellphoneConverter;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.EmailConverter;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = &quot;patients&quot;)
+<span class="fc" id="L18">public class PatientEntity {</span>
+  @Id
+  private UUID id;
+  private String name;
+  private String lastname;
+  private Date birthDate;
+  @Convert(converter = EmailConverter.class)
+  private Email email;
+  @Convert(converter = CellphoneConverter.class)
+  private Cellphone cellphone;
+
+  public UUID getId() {
+<span class="fc" id="L30">    return id;</span>
+  }
+  public void setId(UUID id) {
+<span class="fc" id="L33">    this.id = id;</span>
+<span class="fc" id="L34">  }</span>
+  public String getName() {
+<span class="fc" id="L36">    return name;</span>
+  }
+  public void setName(String name) {
+<span class="fc" id="L39">    this.name = name;</span>
+<span class="fc" id="L40">  }</span>
+  public String getLastname() {
+<span class="fc" id="L42">    return lastname;</span>
+  }
+  public void setLastname(String lastname) {
+<span class="fc" id="L45">    this.lastname = lastname;</span>
+<span class="fc" id="L46">  }</span>
+  public Date getBirthDate() {
+<span class="fc" id="L48">    return birthDate;</span>
+  }
+  public void setBirthDate(Date birthDate) {
+<span class="fc" id="L51">    this.birthDate = birthDate;</span>
+<span class="fc" id="L52">  }</span>
+  public Email getEmail() {
+<span class="fc" id="L54">    return email;</span>
+  }
+  public void setEmail(Email email) {
+<span class="fc" id="L57">    this.email = email;</span>
+<span class="fc" id="L58">  }</span>
+  public Cellphone getCellphone() {
+<span class="fc" id="L60">    return cellphone;</span>
+  }
+  public void setCellphone(Cellphone cellphone) {
+<span class="fc" id="L63">    this.cellphone = cellphone;</span>
+<span class="fc" id="L64">  }</span>
+  
+  public Patient toDomain() {
+<span class="fc" id="L67">    return new Patient(id, name, lastname, birthDate, email, cellphone);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
