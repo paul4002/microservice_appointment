@@ -9,6 +9,8 @@ import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
+import edu.nur.nurtricenter_appointment.domain.nutritionists.events.NutritionistCreatedEvent;
+import edu.nur.nurtricenter_appointment.domain.nutritionists.events.NutritionistUpdatedEvent;
 
 @Component
 public class UpdateNutritionistHandler implements Command.Handler<UpdateNutritionistCommand, ResultWithValue<Boolean>> {
@@ -37,7 +39,8 @@ public class UpdateNutritionistHandler implements Command.Handler<UpdateNutritio
       return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
     }
     this.nutritionistRepository.Update(nutritionist);
-    this.unitOfWork.commitAsync();
+    nutritionist.addDomainEvent(new NutritionistUpdatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
+    this.unitOfWork.commitAsync(nutritionist);
     return ResultWithValue.success(true);
   }
   

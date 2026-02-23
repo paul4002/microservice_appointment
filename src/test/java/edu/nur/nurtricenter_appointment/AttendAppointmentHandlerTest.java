@@ -72,7 +72,7 @@ public class AttendAppointmentHandlerTest {
     );
 
     verify(appointmentRepository).update(appointment);
-    verify(unitOfWork).register(appointment);
+    // verify(unitOfWork).register(appointment);
     verify(unitOfWork).commitAsync();
 
     assertTrue(result.isSuccess());
@@ -96,7 +96,7 @@ public class AttendAppointmentHandlerTest {
     assertEquals("Test.Code", result.getError().getCode());
 
     verify(appointmentRepository, never()).update(any());
-    verify(unitOfWork, never()).register(any());
+    // verify(unitOfWork, never()).register(any());
     verify(unitOfWork, never()).commitAsync();
   }
 }

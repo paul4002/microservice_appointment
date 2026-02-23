@@ -3,7 +3,6 @@ package edu.nur.nurtricenter_appointment.domain.appointments;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import edu.nur.nurtricenter_appointment.domain.appointments.events.AppointmentAttendedEvent;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.mealplans.MealPlan;
 import edu.nur.nurtricenter_appointment.core.abstractions.AggregateRoot;
@@ -81,7 +80,6 @@ public class Appointment extends AggregateRoot {
     this.notes = notes;
     this.measurement = measurement;
     this.diagnosis = diagnosis;
-    this.addDomainEvent(new AppointmentAttendedEvent(id, mealPlan));
   }
 
   public void notAttended() {

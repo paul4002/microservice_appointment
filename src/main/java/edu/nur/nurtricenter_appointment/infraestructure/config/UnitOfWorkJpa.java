@@ -8,45 +8,56 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import an.awesome.pipelinr.Pipeline;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.nur.nurtricenter_appointment.core.abstractions.AggregateRoot;
 import edu.nur.nurtricenter_appointment.core.abstractions.DomainEvent;
 import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
-import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.outbox.OutboxEventEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.outbox.OutboxEventMapper;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.outbox.OutboxEventRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Component
 public class UnitOfWorkJpa implements IUnitOfWork {
   private final EntityManager em;
-  private final Pipeline pipeline;
-  private final Set<Appointment> registeredEntities = new HashSet<>();
+  private final OutboxEventRepository outboxRepository;
+  private final OutboxEventMapper mapper;
 
-  public UnitOfWorkJpa(EntityManager em, Pipeline pipeline) {
+  public UnitOfWorkJpa(EntityManager em, OutboxEventRepository outboxRepository, ObjectMapper objectMapper) {
     this.em = em;
-    this.pipeline = pipeline;
-  }
-
-  public void register(Appointment entity) {
-    registeredEntities.add(entity);
+    this.outboxRepository = outboxRepository;
+    this.mapper = new OutboxEventMapper(objectMapper);
   }
 
   @Override
   @Async
   @Transactional
-  public CompletableFuture<Void> commitAsync() {
-    this.em.flush();
-    List<DomainEvent> domainEvents = registeredEntities.stream()
-      .filter(e -> !e.getDomainEvents().isEmpty())
-      .flatMap(e -> {
-          List<DomainEvent> events = new ArrayList<>(e.getDomainEvents());
-          e.clearDomainEvents();
-          return events.stream();
-      })
-      .toList();
-    for (DomainEvent domainEvent : domainEvents) {
-      domainEvent.send(pipeline);
+  public CompletableFuture<Void> commitAsync(AggregateRoot... aggregates) {
+    List<DomainEvent> events = new ArrayList<>();
+    if (aggregates != null) {
+      for (AggregateRoot aggregate : aggregates) {
+        if (aggregate != null) {
+          events.addAll(aggregate.getDomainEvents());
+        }
+      }
     }
-    registeredEntities.clear();
+    if (!events.isEmpty()) {
+      List<OutboxEventEntity> outbox = new ArrayList<>();
+      for (DomainEvent event : events) {
+        outbox.add(mapper.toEntity(event));
+      }
+      outboxRepository.saveAll(outbox);
+    }
+    this.em.flush();
+    if (aggregates != null) {
+      for (AggregateRoot aggregate : aggregates) {
+        if (aggregate != null) {
+          aggregate.clearDomainEvents();
+        }
+      }
+    }
     return CompletableFuture.completedFuture(null);
   }
 }

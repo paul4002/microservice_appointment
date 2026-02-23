@@ -7,6 +7,7 @@ import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
+import edu.nur.nurtricenter_appointment.domain.nutritionists.events.NutritionistDeletedEvent;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
@@ -24,7 +25,8 @@ public class DeleteNutritionistHandler implements Command.Handler<DeleteNutritio
     Nutritionist dbNutritionist = this.nutritionistRepository.GetById(request.id());
     if (dbNutritionist == null) return ResultWithValue.failure(Error.notFound("Nutritionist.NotFound", "The nutritionist was not found", request.id().toString()));
     this.nutritionistRepository.Delete(dbNutritionist);
-    this.unitOfWork.commitAsync();
+    this.unitOfWork.commitAsync(dbNutritionist);
+    dbNutritionist.addDomainEvent(new NutritionistDeletedEvent(dbNutritionist.getId()));
     return ResultWithValue.success(true);
   }
 }

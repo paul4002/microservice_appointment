@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.CommandHandlers;
@@ -17,8 +19,10 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistReposi
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.NutritionistJpaRepository;
 
 @SpringBootApplication(scanBasePackages = "edu.nur.nurtricenter_appointment")
-@EntityScan({"edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel", "edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel"})
-@EnableJpaRepositories(basePackages = { "edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories" })
+@EntityScan({"edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel", "edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel", "edu.nur.nurtricenter_appointment.infraestructure.persistence.outbox"})
+@EnableJpaRepositories(basePackages = { "edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories", "edu.nur.nurtricenter_appointment.infraestructure.persistence.outbox" })
+@EnableAsync
+@EnableScheduling
 public class NurtricenterAppointmentApplication {
 
 	public static void main(String[] args) {

@@ -10,6 +10,7 @@ import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
+import edu.nur.nurtricenter_appointment.domain.nutritionists.events.NutritionistCreatedEvent;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
@@ -35,8 +36,9 @@ public class CreateNutritionistHandler implements Command.Handler<CreateNutritio
     } catch(IllegalArgumentException e) {
       return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
     }
-    this.nutritionistRepository.Add(nutritionist)  ;
-    this.unitOfWork.commitAsync();
+    this.nutritionistRepository.Add(nutritionist);
+    nutritionist.addDomainEvent(new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
+    this.unitOfWork.commitAsync(nutritionist);
     return ResultWithValue.success(nutritionist.getId());
   }
 }

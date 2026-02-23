@@ -11,6 +11,7 @@ import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
+import edu.nur.nurtricenter_appointment.domain.appointments.events.AppointmentScheduledEvent;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.patients.IPatientRepository;
@@ -61,7 +62,8 @@ public class ScheduleAppointmentHandler implements Command.Handler<ScheduleAppoi
     );
     
     this.appointmentRepository.add(appointment);
-    this.unitOfWork.commitAsync();
+    this.unitOfWork.commitAsync(appointment);
+    appointment.addDomainEvent(new AppointmentScheduledEvent(appointment.getId(), appointment.getPatientId(), appointment.getScheduledDate()));
     return ResultWithValue.success(appointment.getId());
   }
 }

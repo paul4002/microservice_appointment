@@ -9,6 +9,7 @@ import edu.nur.nurtricenter_appointment.application.utils.MeasurementMapper;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
+import edu.nur.nurtricenter_appointment.domain.appointments.events.AppointmentAttendedEvent;
 import edu.nur.nurtricenter_appointment.infraestructure.config.UnitOfWorkJpa;
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
@@ -40,8 +41,8 @@ public class AttendAppointmentHandler implements Command.Handler<AttendAppointme
       return ResultWithValue.failure(Error.failure(err.getCode(), err.getStructuredMessage(), request.id().toString()));
     }
     this.appointmentRepository.update(appointment);
-    this.unitOfWork.register(appointment);
-    this.unitOfWork.commitAsync();
+    this.unitOfWork.commitAsync(appointment);
+    appointment.addDomainEvent(new AppointmentAttendedEvent(appointment.getId(), appointment.getMeasurement(), appointment.getDiagnosis()));
     return ResultWithValue.success(true);
   }
 }
