@@ -1,0 +1,277 @@
+{
+  "info": {
+    "_postman_id": "5abeb727-8f9a-4197-b1b6-963a6921c33c",
+    "name": "Nurtricenter-Appointment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14478604"
+  },
+  "item": [
+    {
+      "name": "Nutritionist",
+      "item": [
+        {
+          "name": "List Nutritionists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9004/api/nutritionist",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "nutritionist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Nutritionist",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Paúl\",\r\n    \"lastname\": \"Valverde\",\r\n    \"specialty\": \"Functional Nutrition\",\r\n    \"professionalLicense\": \"129887-A1JK2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/nutritionist",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "nutritionist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Nutritionist",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"2625bdcf-dd13-4427-89c4-caf9c62ad22d\",\r\n    \"name\": \"Carlos\",\r\n    \"lastname\": \"Valverde\",\r\n    \"specialty\": \"Functional Nutrition\",\r\n    \"professionalLicense\": \"129887-A1JK2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9004/api/nutritionist",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "nutritionist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Nutritionists Appointments",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nutritionistId\": \"2625bdcf-dd13-4427-89c4-caf9c62ad22d\",\r\n    \"date\": \"21-10-2025\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9004/api/nutritionist/appointments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "nutritionist",
+                "appointments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Nutritionist",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"2625bdcf-dd13-4427-89c4-caf9c62ad22d\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9004/api/nutritionist",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "nutritionist"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointment",
+      "item": [
+        {
+          "name": "Schedule new Appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"patientId\": \"a2f5c1e4-9c7b-4c02-8df3-61b6c47bfa2a\",\r\n    \"nutritionistId\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\r\n    \"type\": \"Initial\",\r\n    \"scheduleDate\": \"27-10-2025 09:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/appointment/schedule",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "appointment",
+                "schedule"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"c32e9cd6-bde5-4978-aac8-478fcc219e63\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9004/api/appointment/cancel",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "appointment",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NotAttended Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"8fc023fd-50da-41c5-8e2d-2c903766686d\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9004/api/appointment/notattended",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9004",
+              "path": [
+                "api",
+                "appointment",
+                "notattended"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Attend Appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"7fbb52c2-2eec-4ec8-95ad-f2f02ccd1d14\",\r\n    \"notes\": \"Notas descripción de la consulta.\",\r\n    \"measurementDto\": {\r\n        \"weight\": 80.5,\r\n        \"height\": 182.0,\r\n        \"imc\": 20.0,\r\n        \"bodyFat\": 25.0,\r\n        \"muscleMass\": 60.0\r\n    },\r\n    \"diagnosisDto\": {\r\n        \"description\": \"Descripción de prueba del diagnóstico.\",\r\n        \"nutritionalState\": \"Normal weight\",\r\n        \"associatedRisks\": \"\",\r\n        \"recommendations\": \"\",\r\n        \"goals\": \"\",\r\n        \"comments\": \"\"\r\n    },\r\n    \"mealPlanDto\": {\r\n        \"generalDescription\": \"Descripción de prueba del plan de alimentación.\",\r\n        \"nutritionalGoal\": \"El objetivo del plan alimenticio es bajar de peso.\",\r\n        \"startDate\": \"20-10-2025\",\r\n        \"endDate\": \"20-11-2025\",\r\n        \"restrictions\": \"\",\r\n        \"mealDtos\": [\r\n            {\r\n                \"name\": \"Lomito\",\r\n                \"schedule\": \"Lunch\",\r\n                \"totalCalories\": 500\r\n            },\r\n            {\r\n                \"name\": \"Sandwich con mortadela\",\r\n                \"schedule\": \"Breakfast\",\r\n                \"totalCalories\": 300\r\n            }\r\n        ]\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/appointment/attend",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "appointment",
+                "attend"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
