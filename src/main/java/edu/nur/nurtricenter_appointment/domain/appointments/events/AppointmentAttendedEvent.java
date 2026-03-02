@@ -46,8 +46,46 @@ public class AppointmentAttendedEvent extends DomainEvent {
 
   @Override
   public Object getPayload() {
-    return new Payload(appointmentId.toString(), measurement, diagnosis);
+    return new Payload(appointmentId.toString(), new MeasurementPayload(measurement), new DiagnosisPayload(diagnosis));
   }
 
-  private record Payload(String citaId, Object pacienteId, Object horarioAgendado) {}
+  private record Payload(String citaId, Object mediciones, Object diagnostico) {}
+
+  public record MeasurementPayload(
+    Double peso,
+    Double altura,
+    Double imc,
+    Double porcentajeGrasaCorporal,
+    Double porcentajeMasaMuscular
+  ) {
+      public MeasurementPayload(Measurement m) {
+          this(
+              m.getWeight().value().value(),
+              m.getHeight().value().value(),
+              m.getImc().value(),
+              m.getBodyFat().value().value(),
+              m.getMuscleMass().value().value()
+          );
+      }
+  }
+
+  public record DiagnosisPayload(
+    String descripcion,
+    String estadoNutricional,
+    String riesgosAsociados,
+    String recomendaciones,
+    String objetivo,
+    String comentarios
+  ) {
+      public DiagnosisPayload(Diagnosis d) {
+          this(
+              d.getDescription(),
+              d.getNutritionalState().getLabel(),
+              d.getAssociatedRisks(),
+              d.getRecommendations(),
+              d.getGoals(),
+              d.getComments()
+          );
+      }
+  }
 }

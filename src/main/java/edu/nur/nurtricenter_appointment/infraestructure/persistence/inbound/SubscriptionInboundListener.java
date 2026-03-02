@@ -6,6 +6,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +32,11 @@ public class SubscriptionInboundListener {
     this.patientEntityRepository = patientEntityRepository;
   }
 
-  @RabbitListener(queues = "${inbound.rabbitmq.queue:citas-evaluaciones.inbound}")
+  @RabbitListener(bindings = @QueueBinding(
+    value = @Queue(value = "${inbound.rabbitmq.queue:citas-evaluaciones.inbound}"),
+    exchange = @Exchange(value = "${inbound.rabbitmq.exchange}", type = "topic"),
+    key = "${inbound.rabbitmq.routing-keys:paciente.paciente-creado}"
+  ))
   public void onMessage(Message message) {
     try {
       String body = new String(message.getBody());
@@ -38,6 +45,10 @@ public class SubscriptionInboundListener {
       String routingKey = message.getMessageProperties() != null
         ? message.getMessageProperties().getReceivedRoutingKey()
         : null;
+
+      if (!"paciente.paciente-creado".equals(routingKey)) {
+        return;
+      }
 
       String eventName = readString(parsed, "event", "event_name", "eventName");
       Map<String, Object> payload = extractPayload(parsed);
