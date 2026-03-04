@@ -19,7 +19,7 @@ public class PatientEntity {
   @Id
   private UUID id;
   private String name;
-  private String lastname;
+  private String document;
   private Date birthDate;
   @Convert(converter = EmailConverter.class)
   private Email email;
@@ -38,11 +38,11 @@ public class PatientEntity {
   public void setName(String name) {
     this.name = name;
   }
-  public String getLastname() {
-    return lastname;
+  public String getDocument() {
+    return document;
   }
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
+  public void setDocument(String lastname) {
+    this.document = lastname;
   }
   public Date getBirthDate() {
     return birthDate;
@@ -67,10 +67,11 @@ public class PatientEntity {
     PatientEntity entity = new PatientEntity();
     entity.id = patient.getId();
     entity.name = patient.getName();
+    entity.document = patient.getDocument();
     return entity;
   }
   
   public Patient toDomain() {
-    return new Patient(id, name, lastname, birthDate, email, cellphone);
+    return new Patient(id, name, document, birthDate, email, cellphone);
   }
 }

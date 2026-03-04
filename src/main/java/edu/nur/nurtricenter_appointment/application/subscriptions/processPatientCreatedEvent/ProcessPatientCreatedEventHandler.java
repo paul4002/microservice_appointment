@@ -30,9 +30,13 @@ public class ProcessPatientCreatedEventHandler implements Command.Handler<Proces
     if (request.payload().get("nombre") == null || request.payload().get("nombre").toString().isBlank()) {
       return Result.failure(new Error("PatientCreated.PatientNameMissing", "Patient name is required in event", ErrorType.VALIDATION, ""));
     }
+    if (request.payload().get("documento") == null || request.payload().get("documento").toString().isBlank()) {
+      return Result.failure(new Error("PatientCreated.PatientDocumentMissing", "Patient document is required in event", ErrorType.VALIDATION, ""));
+    }
     String pacienteId = request.payload().get("pacienteId").toString();
     String name = request.payload().get("nombre").toString();
-    Patient patient = new Patient(UUID.fromString(pacienteId), name);
+    String document = request.payload().get("documento").toString();
+    Patient patient = new Patient(UUID.fromString(pacienteId), name, document);
     this.patientRepository.Add(patient);
     this.unitOfWork.commitAsync(patient);
     return Result.success();

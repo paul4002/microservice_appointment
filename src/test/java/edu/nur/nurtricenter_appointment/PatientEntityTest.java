@@ -27,7 +27,7 @@ public class PatientEntityTest {
     PatientEntity entity = new PatientEntity();
     entity.setId(id);
     entity.setName(name);
-    entity.setLastname(lastname);
+    entity.setDocument(lastname);
     entity.setBirthDate(birthDate);
     entity.setEmail(email);
     entity.setCellphone(cellphone);
@@ -35,7 +35,7 @@ public class PatientEntityTest {
     // Assert
     assertEquals(id, entity.getId());
     assertEquals(name, entity.getName());
-    assertEquals(lastname, entity.getLastname());
+    assertEquals(lastname, entity.getDocument());
     assertEquals(birthDate, entity.getBirthDate());
     assertEquals(email.value(), entity.getEmail().value());
     assertEquals(cellphone.value(), entity.getCellphone().value());
@@ -47,7 +47,7 @@ public class PatientEntityTest {
     PatientEntity entity = new PatientEntity();
     entity.setId(UUID.randomUUID());
     entity.setName("Luis");
-    entity.setLastname("Padilla");
+    entity.setDocument("Padilla");
     entity.setBirthDate(new Date());
     entity.setEmail(new Email("test@email.com"));
     entity.setCellphone(new Cellphone("71238421"));
@@ -58,7 +58,7 @@ public class PatientEntityTest {
     // Assert
     assertEquals(entity.getId(), patient.getId());
     assertEquals(entity.getName(), patient.getName());
-    assertEquals(entity.getLastname(), patient.getLastname());
+    assertEquals(entity.getDocument(), patient.getDocument());
     assertEquals(entity.getBirthDate(), patient.getBirthDate());
     assertEquals(entity.getEmail().value(), patient.getEmail().value());
     assertEquals(entity.getCellphone().value(), patient.getCellphone().value());

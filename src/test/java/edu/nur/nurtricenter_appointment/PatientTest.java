@@ -32,7 +32,7 @@ public class PatientTest {
 
     assertEquals(id, patient.getId());
     assertEquals("Juan", patient.getName());
-    assertEquals("Torrez", patient.getLastname());
+    assertEquals("Torrez", patient.getDocument());
     assertEquals(birthDate, patient.getBirthDate());
     assertEquals(email, patient.getEmail());
     assertEquals(cellphone, patient.getCellphone());
