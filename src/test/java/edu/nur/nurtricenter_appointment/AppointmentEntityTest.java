@@ -92,7 +92,7 @@ public class AppointmentEntityTest {
       LocalDateTime.now().plusDays(1), 
       AppointmentType.FOLLOWUP
     );
-    appointment.attend("Control", measurement, null, null);
+    appointment.attend("Control", measurement, null);
 
     // Act
     AppointmentEntity entity = AppointmentEntity.fromDomain(appointment);

@@ -69,7 +69,7 @@ public class Appointment extends AggregateRoot {
     this.cancelDate = LocalDateTime.now();
   }
 
-  public void attend(String notes, Measurement measurement, Diagnosis diagnosis, MealPlan mealPlan) {
+  public void attend(String notes, Measurement measurement, Diagnosis diagnosis) {
     if (this.status != AppointmentStatus.SCHEDULED) {
       throw new DomainException(AppointmentErrors.StatusNotScheduled());
     } else if (this.attendance != AppointmentAttendance.PENDING) {

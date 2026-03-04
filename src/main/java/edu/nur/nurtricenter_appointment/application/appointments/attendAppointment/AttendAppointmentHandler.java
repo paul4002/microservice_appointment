@@ -33,8 +33,8 @@ public class AttendAppointmentHandler implements Command.Handler<AttendAppointme
     appointment.attend(
       request.notes(), 
       MeasurementMapper.from(request.measurementDto()), 
-      DiagnosisMapper.from(request.diagnosisDto()),
-      MealPlanMapper.from(request.mealPlanDto())
+      DiagnosisMapper.from(request.diagnosisDto())
+      // MealPlanMapper.from(request.mealPlanDto())
     );
     } catch(DomainException e) {
       Error err = e.getError();

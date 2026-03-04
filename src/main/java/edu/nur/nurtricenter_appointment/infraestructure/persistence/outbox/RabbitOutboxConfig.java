@@ -35,6 +35,8 @@ public class RabbitOutboxConfig {
     factory.setPassword(props.getPassword());
     factory.setVirtualHost(props.getVhost());
     factory.setConnectionTimeout(props.getConnectTimeoutSeconds() * 1000);
+    factory.setPublisherReturns(true);
+    factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
     return factory;
   }
 
@@ -42,29 +44,52 @@ public class RabbitOutboxConfig {
   public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, OutboxPublisherProperties props) {
     RabbitTemplate template = new RabbitTemplate(connectionFactory);
     template.setReplyTimeout(props.getReadWriteTimeoutSeconds() * 1000L);
+    template.setMandatory(true);
+    // template.setReturnsCallback(returned ->
+    //   auditLog.error(
+    //     "Rabbit outbound returned (unroutable): exchange={} routingKey={} replyCode={} replyText={} message={}",
+    //     returned.getExchange(),
+    //     returned.getRoutingKey(),
+    //     returned.getReplyCode(),
+    //     returned.getReplyText(),
+    //     returned.getMessage() != null ? new String(returned.getMessage().getBody()) : null
+    //   )
+    // );
+    template.setConfirmCallback((correlationData, ack, cause) -> {
+      // if (!ack) {
+      //   auditLog.error(
+      //     "Rabbit outbound nack: correlation={} cause={}",
+      //     correlationData != null ? correlationData.getId() : null,
+      //     cause
+      //   );
+      // }
+    });
     return template;
   }
 
   @Bean
   public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
     RabbitAdmin admin = new RabbitAdmin(connectionFactory);
-    admin.setAutoStartup(true);
+    admin.setAutoStartup(false);
     return admin;
   }
 
   @Bean
   public Declarables rabbitOutboxDeclarables(OutboxPublisherProperties props) {
+    if (!props.isDeclareTopology()) {
+      return new Declarables();
+    }
     Exchange exchange = buildExchange(props);
 
     List<Declarable> declarables = new ArrayList<>();
     declarables.add(exchange);
 
     List<String> queueNames = resolveQueueNames(props.getQueue());
-    if (queueNames.isEmpty()) {
+    if (queueNames.isEmpty() && props.getQueue() != null && !props.getQueue().isBlank()) {
       Queue queue = buildQueue(props, props.getQueue());
       declarables.add(queue);
       declarables.add(buildBinding(queue, exchange, props.getBindingKey()));
-    } else {
+    } else if (!queueNames.isEmpty()) {
       for (String queueName : queueNames) {
         Queue queue = buildQueue(props, queueName);
         declarables.add(queue);

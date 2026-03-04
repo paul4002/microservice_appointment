@@ -76,7 +76,7 @@ public class AppointmentTest {
       MealPlan mealPlan = new MealPlan();
 
       // Act
-      appointment.attend(notes, measurement, diagnosis, mealPlan);
+      appointment.attend(notes, measurement, diagnosis);
 
       // Assert
       assertEquals(AppointmentStatus.COMPLETED, appointment.getStatus());

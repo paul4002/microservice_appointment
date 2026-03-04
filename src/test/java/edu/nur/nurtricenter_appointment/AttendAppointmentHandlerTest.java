@@ -44,7 +44,7 @@ public class AttendAppointmentHandlerTest {
   @Test
   void shouldReturnFailureWhenAppointmentNotFound() {
     UUID id = UUID.randomUUID();
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, null, null, null, null);
+    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, null, null, null);
 
     when(appointmentRepository.GetById(id)).thenReturn(null);
 
@@ -58,7 +58,7 @@ public class AttendAppointmentHandlerTest {
   void shouldAttendAppointmentSuccessfully() throws DomainException {
     UUID id = UUID.randomUUID();
     Appointment appointment = mock(Appointment.class);
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null, null);
+    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
 
     when(appointmentRepository.GetById(id)).thenReturn(appointment);
 
@@ -66,7 +66,6 @@ public class AttendAppointmentHandlerTest {
 
     verify(appointment).attend(
         eq("Notas"),
-        any(),
         any(),
         any()
     );
@@ -83,12 +82,12 @@ public class AttendAppointmentHandlerTest {
   void shouldReturnFailureWhenAttendThrowsDomainException() throws DomainException {
     UUID id = UUID.randomUUID();
     Appointment appointment = mock(Appointment.class);
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null, null);
+    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
 
     when(appointmentRepository.GetById(id)).thenReturn(appointment);
     
     DomainException ex = new DomainException(Error.failure("Test.Code", "Test message"));
-    doThrow(ex).when(appointment).attend(any(), any(), any(), any());
+    doThrow(ex).when(appointment).attend(any(), any(), any());
 
     var result = handler.handle(cmd);
 
