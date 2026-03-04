@@ -11,6 +11,11 @@ public class Patient extends AggregateRoot {
   private Date birthDate;
   private Email email;
   private Cellphone cellphone;
+
+  public Patient(UUID id, String name) {
+    super(id);
+    this.name = name;
+  }
   
   public Patient(UUID id, String name, String lastname, Date birthDate, Email email, Cellphone cellphone) {
     super(id);

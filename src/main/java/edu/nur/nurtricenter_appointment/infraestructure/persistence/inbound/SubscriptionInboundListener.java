@@ -1,7 +1,6 @@
 package edu.nur.nurtricenter_appointment.infraestructure.persistence.inbound;
 
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,21 +14,20 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.PatientEntityRepository;
+import an.awesome.pipelinr.Pipeline;
+import edu.nur.nurtricenter_appointment.application.subscriptions.processPatientCreatedEvent.ProcessPatientCreatedEventCommand;
+import edu.nur.nurtricenter_appointment.core.results.Result;
 
 @Component
 public class SubscriptionInboundListener {
   private static final Logger log = LoggerFactory.getLogger(SubscriptionInboundListener.class);
 
-  // private final Pipeline pipeline;
+  private final Pipeline pipeline;
   private final ObjectMapper objectMapper;
-  private final PatientEntityRepository patientEntityRepository;
 
-  public SubscriptionInboundListener(/*Pipeline pipeline,*/ ObjectMapper objectMapper, PatientEntityRepository patientEntityRepository) {
-    // this.pipeline = pipeline;
+  public SubscriptionInboundListener(Pipeline pipeline, ObjectMapper objectMapper) {
+    this.pipeline = pipeline;
     this.objectMapper = objectMapper;
-    this.patientEntityRepository = patientEntityRepository;
   }
 
   @RabbitListener(bindings = @QueueBinding(
@@ -42,24 +40,15 @@ public class SubscriptionInboundListener {
       String body = new String(message.getBody());
       Map<String, Object> parsed = objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {});
 
-      String routingKey = message.getMessageProperties() != null
-        ? message.getMessageProperties().getReceivedRoutingKey()
-        : null;
-
-      if (!"paciente.paciente-creado".equals(routingKey)) {
-        return;
-      }
-
       String eventName = readString(parsed, "event", "event_name", "eventName");
+
       Map<String, Object> payload = extractPayload(parsed);
-      PatientEntity entity = new PatientEntity();
-      entity.setId(UUID.fromString(payload.get("pacienteId").toString()));
-      entity.setName(payload.get("nombre").toString());
-      patientEntityRepository.save(entity);
-      // Result result = new ProcessSubscriptionEventCommand(eventName, payload, routingKey).execute(pipeline);
-      // if (result.isFailure()) {
-      //   log.warn("Inbound subscription event failed: event={} routingKey={} error={}", eventName, routingKey, result.getError().getDescription());
-      // }
+
+      Result result = Result.success();
+      if ("paciente.paciente-creado".equals(eventName)) {
+        result = new ProcessPatientCreatedEventCommand(payload).execute(pipeline);
+      }
+      if (result.isFailure()) throw new Exception(result.getError().getDescription());
     } catch (Exception ex) {
       ex.printStackTrace();
       log.error("Inbound subscription message parse failure", ex);

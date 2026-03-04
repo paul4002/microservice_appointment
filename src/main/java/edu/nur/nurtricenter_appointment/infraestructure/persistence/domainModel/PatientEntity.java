@@ -62,6 +62,13 @@ public class PatientEntity {
   public void setCellphone(Cellphone cellphone) {
     this.cellphone = cellphone;
   }
+
+  public static PatientEntity fromDomain(Patient patient) {
+    PatientEntity entity = new PatientEntity();
+    entity.id = patient.getId();
+    entity.name = patient.getName();
+    return entity;
+  }
   
   public Patient toDomain() {
     return new Patient(id, name, lastname, birthDate, email, cellphone);

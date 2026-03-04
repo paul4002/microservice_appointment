@@ -4,4 +4,5 @@ import java.util.UUID;
 
 public interface IPatientRepository {
   Patient GetById(UUID id);
+  void Add(Patient patient);
 }
