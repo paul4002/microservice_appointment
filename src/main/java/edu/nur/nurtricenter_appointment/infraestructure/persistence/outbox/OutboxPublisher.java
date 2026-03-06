@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.client.Envelope;
 
 import jakarta.transaction.Transactional;
 
@@ -54,9 +53,6 @@ public class OutboxPublisher {
     this.rabbitAdmin = rabbitAdmin;
     this.props = props;
     this.objectMapper = objectMapper;
-    // if (props.getExchange() != null && !props.getExchange().isBlank() && !FORCED_EXCHANGE.equals(props.getExchange())) {
-    //   log.warn("Ignoring rabbitmq.exchange={} and forcing exchange={}", props.getExchange(), FORCED_EXCHANGE);
-    // }
   }
 
   @Scheduled(fixedDelayString = "${rabbitmq.outbox-poll-interval-ms:1000}")
@@ -65,9 +61,6 @@ public class OutboxPublisher {
       LocalDateTime.now(),
       PageRequest.of(0, props.getOutboxBatchSize())
     );
-    // if (!events.isEmpty()) {
-    //   auditLog.info("Rabbit outbound batch: pending={} exchange={}", events.size(), FORCED_EXCHANGE);
-    // }
     for (OutboxEventEntity event : events) {
       publishSingle(event);
     }
@@ -79,15 +72,6 @@ public class OutboxPublisher {
       String routingKey = resolveRoutingKey(event);
       String envelope = buildEnvelope(event);
       ensureEventQueueBinding(routingKey);
-      // auditLog.info(
-      //   "Rabbit outbound sending: event={} eventId={} correlationId={} routingKey={} exchange={} attempt={}",
-      //   event.getEventName(),
-      //   event.getEventId(),
-      //   event.getCorrelationId(),
-      //   routingKey,
-      //   FORCED_EXCHANGE,
-      //   event.getAttempts() != null ? event.getAttempts() + 1 : 1
-      // );
       rabbitTemplate.convertAndSend(FORCED_EXCHANGE, routingKey, envelope, msg -> {
         msg.getMessageProperties().setContentType("application/json");
         return msg;
@@ -95,20 +79,6 @@ public class OutboxPublisher {
       event.setProcessedOn(LocalDateTime.now());
       event.setLastError(null);
       repository.save(event);
-      // log.info("Outbox published: event={} eventId={} routingKey={} exchange={}",
-      //   event.getEventName(),
-      //   event.getEventId(),
-      //   routingKey,
-      //   FORCED_EXCHANGE
-      // );
-      // auditLog.info(
-      //   "Rabbit outbound sent: event={} eventId={} correlationId={} routingKey={} exchange={}",
-      //   event.getEventName(),
-      //   event.getEventId(),
-      //   event.getCorrelationId(),
-      //   routingKey,
-      //   FORCED_EXCHANGE
-      // );
     } catch (Exception ex) {
       int attempts = event.getAttempts() != null ? event.getAttempts() + 1 : 1;
       event.setAttempts(attempts);
@@ -118,21 +88,6 @@ public class OutboxPublisher {
       long delayMs = baseBackoffMs * Math.min(attempts, cap);
       event.setNextAttemptAt(LocalDateTime.now().plusNanos(delayMs * 1_000_000));
       repository.save(event);
-      // log.error("Outbox publish failed: event={} eventId={} attempts={} error={}",
-      //   event.getEventName(),
-      //   event.getEventId(),
-      //   attempts,
-      //   ex.getMessage()
-      // );
-      // auditLog.error(
-      //   "Rabbit outbound failed: event={} eventId={} correlationId={} attempts={} nextAttemptAt={} error={}",
-      //   event.getEventName(),
-      //   event.getEventId(),
-      //   event.getCorrelationId(),
-      //   attempts,
-      //   event.getNextAttemptAt(),
-      //   ex.getMessage()
-      // );
     }
   }
 
@@ -150,10 +105,8 @@ public class OutboxPublisher {
       rabbitAdmin.declareExchange(exchange);
       rabbitAdmin.declareQueue(queue);
       rabbitAdmin.declareBinding(buildBinding(queue, exchange, queueName));
-      // auditLog.info("Rabbit outbound topology ensured: exchange={} queue={} type={}", FORCED_EXCHANGE, queueName, props.getExchangeType());
     } catch (Exception ex) {
       declaredEventQueues.remove(queueName);
-      // auditLog.error("Rabbit outbound topology ensure failed: exchange={} queue={} error={}", FORCED_EXCHANGE, queueName, ex.getMessage());
     }
   }
 

@@ -45,24 +45,7 @@ public class RabbitOutboxConfig {
     RabbitTemplate template = new RabbitTemplate(connectionFactory);
     template.setReplyTimeout(props.getReadWriteTimeoutSeconds() * 1000L);
     template.setMandatory(true);
-    // template.setReturnsCallback(returned ->
-    //   auditLog.error(
-    //     "Rabbit outbound returned (unroutable): exchange={} routingKey={} replyCode={} replyText={} message={}",
-    //     returned.getExchange(),
-    //     returned.getRoutingKey(),
-    //     returned.getReplyCode(),
-    //     returned.getReplyText(),
-    //     returned.getMessage() != null ? new String(returned.getMessage().getBody()) : null
-    //   )
-    // );
     template.setConfirmCallback((correlationData, ack, cause) -> {
-      // if (!ack) {
-      //   auditLog.error(
-      //     "Rabbit outbound nack: correlation={} cause={}",
-      //     correlationData != null ? correlationData.getId() : null,
-      //     cause
-      //   );
-      // }
     });
     return template;
   }
