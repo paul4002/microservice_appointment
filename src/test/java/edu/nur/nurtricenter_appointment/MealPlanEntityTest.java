@@ -46,7 +46,9 @@ public class MealPlanEntityTest {
   @Test
   void shouldMapFromDomainWithMeals() {
     // Arrange
-    MealPlan mealPlan = new MealPlan("Plan completo", "Subir masa muscular", new Date(), new Date(), "Ninguna");
+    Date futureStart = new Date(System.currentTimeMillis() + 86400000L);
+    Date futureEnd = new Date(System.currentTimeMillis() + 172800000L);
+    MealPlan mealPlan = new MealPlan("Plan completo", "Subir masa muscular", futureStart, futureEnd, "Ninguna");
     mealPlan.addMeal("Tostadas", MealSchedule.BREAKFAST, new QuantityValue(150));
     mealPlan.addMeal("Bife con huevo", MealSchedule.LUNCH, new QuantityValue(600));
 

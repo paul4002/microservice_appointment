@@ -42,8 +42,8 @@ public class MealPlanMapperTest {
       MealPlanDto dto = new MealPlanDto();
       dto.generalDescription = "Desc";
       dto.nutritionalGoal = "Lose weight";
-      dto.startDate = new Date();
-      dto.endDate = new Date();
+      dto.startDate = new Date(System.currentTimeMillis() + 86400000L);
+      dto.endDate = new Date(System.currentTimeMillis() + 172800000L);
       dto.restrictions = "No sugar";
       dto.mealDtos = java.util.List.of(mealDto1, mealDto2);
 

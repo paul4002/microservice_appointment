@@ -40,7 +40,7 @@ public class UpdateNutritionistHandler implements Command.Handler<UpdateNutritio
     }
     this.nutritionistRepository.Update(nutritionist);
     nutritionist.addDomainEvent(new NutritionistUpdatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
-    this.unitOfWork.commitAsync(nutritionist);
+    this.unitOfWork.commitAsync();
     return ResultWithValue.success(true);
   }
   

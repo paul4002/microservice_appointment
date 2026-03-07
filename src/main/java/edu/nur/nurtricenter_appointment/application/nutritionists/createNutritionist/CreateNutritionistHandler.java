@@ -38,7 +38,7 @@ public class CreateNutritionistHandler implements Command.Handler<CreateNutritio
     }
     this.nutritionistRepository.Add(nutritionist);
     nutritionist.addDomainEvent(new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
-    this.unitOfWork.commitAsync(nutritionist);
+    this.unitOfWork.commitAsync();
     return ResultWithValue.success(nutritionist.getId());
   }
 }

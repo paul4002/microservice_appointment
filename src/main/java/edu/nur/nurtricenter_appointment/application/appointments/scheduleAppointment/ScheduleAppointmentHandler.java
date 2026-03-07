@@ -62,7 +62,7 @@ public class ScheduleAppointmentHandler implements Command.Handler<ScheduleAppoi
     );
     
     this.appointmentRepository.add(appointment);
-    this.unitOfWork.commitAsync(appointment);
+    this.unitOfWork.commitAsync();
     appointment.addDomainEvent(new AppointmentScheduledEvent(appointment.getId(), appointment.getPatientId(), appointment.getScheduledDate()));
     return ResultWithValue.success(appointment.getId());
   }

@@ -25,7 +25,7 @@ public class DeleteNutritionistHandler implements Command.Handler<DeleteNutritio
     Nutritionist dbNutritionist = this.nutritionistRepository.GetById(request.id());
     if (dbNutritionist == null) return ResultWithValue.failure(Error.notFound("Nutritionist.NotFound", "The nutritionist was not found", request.id().toString()));
     this.nutritionistRepository.Delete(dbNutritionist);
-    this.unitOfWork.commitAsync(dbNutritionist);
+    this.unitOfWork.commitAsync();
     dbNutritionist.addDomainEvent(new NutritionistDeletedEvent(dbNutritionist.getId()));
     return ResultWithValue.success(true);
   }

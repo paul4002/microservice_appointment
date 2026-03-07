@@ -41,7 +41,7 @@ public class AttendAppointmentHandler implements Command.Handler<AttendAppointme
       return ResultWithValue.failure(Error.failure(err.getCode(), err.getStructuredMessage(), request.id().toString()));
     }
     this.appointmentRepository.update(appointment);
-    this.unitOfWork.commitAsync(appointment);
+    this.unitOfWork.commitAsync();
     appointment.addDomainEvent(new AppointmentAttendedEvent(appointment.getId(), appointment.getMeasurement(), appointment.getDiagnosis()));
     return ResultWithValue.success(true);
   }
