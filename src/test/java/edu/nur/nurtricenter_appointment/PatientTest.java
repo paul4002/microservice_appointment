@@ -6,13 +6,11 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
 import edu.nur.nurtricenter_appointment.domain.patients.Email;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
-@SpringBootTest
 public class PatientTest {
   @Test
   void shouldCreatePatientSuccessfully() {

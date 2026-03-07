@@ -13,6 +13,7 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 
 @Configuration
 @EnableRabbit
+@ConditionalOnProperty(name = "inbound.rabbitmq.enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(InboundSubscriptionProperties.class)
 public class InboundRabbitConfig {
 

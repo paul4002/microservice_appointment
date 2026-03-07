@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
@@ -15,7 +14,6 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistErrors;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
-@SpringBootTest
 public class NutritionistTest {
   @Test
   void shouldCreateNutritionistSuccessfully() {

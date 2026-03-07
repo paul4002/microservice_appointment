@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -19,6 +20,7 @@ import edu.nur.nurtricenter_appointment.application.subscriptions.processPatient
 import edu.nur.nurtricenter_appointment.core.results.Result;
 
 @Component
+@ConditionalOnProperty(name = "inbound.rabbitmq.enabled", havingValue = "true", matchIfMissing = true)
 public class SubscriptionInboundListener {
   private static final Logger log = LoggerFactory.getLogger(SubscriptionInboundListener.class);
 

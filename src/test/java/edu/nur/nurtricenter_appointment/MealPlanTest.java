@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
@@ -19,7 +18,6 @@ import edu.nur.nurtricenter_appointment.domain.mealplans.MealPlan;
 import edu.nur.nurtricenter_appointment.domain.mealplans.MealPlanErrors;
 import edu.nur.nurtricenter_appointment.domain.shared.QuantityValue;
 
-@SpringBootTest
 public class MealPlanTest {
 
   private Date futureDate(int daysAhead) {
