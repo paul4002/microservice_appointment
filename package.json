@@ -1,0 +1,28 @@
+{
+  "name": "proyecto-github",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">   <img src=\"./modelo_dominio_appointment.png\" alt=\"Modelo de dominio\" width=\"600\"/> </p>",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paul4002/microservice_appointment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/paul4002/microservice_appointment/issues"
+  },
+  "homepage": "https://github.com/paul4002/microservice_appointment#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
