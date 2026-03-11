@@ -35,10 +35,10 @@ public class NurtricenterAppointmentApplication {
 	}
 
 	@Bean
-  Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {
-    return new Pipelinr()
-      .with((CommandHandlers) commandHandlers::stream)
-      .with((NotificationHandlers) notificationHandlers::stream)
-      .with((Command.Middlewares) middlewares::orderedStream);
-  }
+	Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {
+		return new Pipelinr()
+			.with((CommandHandlers) commandHandlers::stream)
+			.with((NotificationHandlers) notificationHandlers::stream)
+			.with((Command.Middlewares) middlewares::orderedStream);
+	}
 }
