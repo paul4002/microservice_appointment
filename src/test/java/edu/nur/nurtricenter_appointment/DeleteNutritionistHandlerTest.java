@@ -23,50 +23,50 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistReposi
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 
 public class DeleteNutritionistHandlerTest {
-  @Mock
-  private INutritionistRepository nutritionistRepository;
+	@Mock
+	private INutritionistRepository nutritionistRepository;
 
-  @Mock
-  private IUnitOfWork unitOfWork;
+	@Mock
+	private IUnitOfWork unitOfWork;
 
-  private DeleteNutritionistHandler handler;
+	private DeleteNutritionistHandler handler;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    handler = new DeleteNutritionistHandler(nutritionistRepository, unitOfWork);
-  }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		handler = new DeleteNutritionistHandler(nutritionistRepository, unitOfWork);
+	}
 
-  @Test
-  void shouldReturnFailureWhenNutritionistNotFound() {
-    UUID id = UUID.randomUUID();
-    DeleteNutritionistCommand cmd = new DeleteNutritionistCommand(id);
+	@Test
+	void shouldReturnFailureWhenNutritionistNotFound() {
+		UUID id = UUID.randomUUID();
+		DeleteNutritionistCommand cmd = new DeleteNutritionistCommand(id);
 
-    when(nutritionistRepository.GetById(id)).thenReturn(null);
+		when(nutritionistRepository.GetById(id)).thenReturn(null);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Nutritionist.NotFound", result.getError().getCode());
+		assertFalse(result.isSuccess());
+		assertEquals("Nutritionist.NotFound", result.getError().getCode());
 
-    verify(nutritionistRepository, never()).Delete(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		verify(nutritionistRepository, never()).Delete(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 
-  @Test
-  void shouldDeleteNutritionistSuccessfully() {
-    UUID id = UUID.randomUUID();
-    Nutritionist nutritionist = mock(Nutritionist.class);
-    DeleteNutritionistCommand cmd = new DeleteNutritionistCommand(id);
+	@Test
+	void shouldDeleteNutritionistSuccessfully() {
+		UUID id = UUID.randomUUID();
+		Nutritionist nutritionist = mock(Nutritionist.class);
+		DeleteNutritionistCommand cmd = new DeleteNutritionistCommand(id);
 
-    when(nutritionistRepository.GetById(id)).thenReturn(nutritionist);
+		when(nutritionistRepository.GetById(id)).thenReturn(nutritionist);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    verify(nutritionistRepository).Delete(nutritionist);
-    verify(unitOfWork).commitAsync();
+		verify(nutritionistRepository).Delete(nutritionist);
+		verify(unitOfWork).commitAsync();
 
-    assertTrue(result.isSuccess());
-    assertEquals(true, result.getValue());
-  }
+		assertTrue(result.isSuccess());
+		assertEquals(true, result.getValue());
+	}
 }

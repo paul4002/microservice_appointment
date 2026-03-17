@@ -13,30 +13,30 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.
 
 @Repository
 public class AppointmentJpaRepository implements IAppointmentRepository {
-  @Autowired
-  private AppointmentEntityRepository appointmentEntityRepository;
+	@Autowired
+	private AppointmentEntityRepository appointmentEntityRepository;
 
-  @Override
-  public boolean existsAppointmentNearTime(UUID nutritionistId, LocalDateTime start, LocalDateTime end) {
-    return this.appointmentEntityRepository.existsAppointmentNearTime(nutritionistId, start, end);
-  }
+	@Override
+	public boolean existsAppointmentNearTime(UUID nutritionistId, LocalDateTime start, LocalDateTime end) {
+		return this.appointmentEntityRepository.existsAppointmentNearTime(nutritionistId, start, end);
+	}
 
-  @Override
-  public UUID add(Appointment appointment) {
-    AppointmentEntity entity = AppointmentEntity.fromDomain(appointment);
-    this.appointmentEntityRepository.save(entity);
-    return appointment.getId();
-  }
+	@Override
+	public UUID add(Appointment appointment) {
+		AppointmentEntity entity = AppointmentEntity.fromDomain(appointment);
+		this.appointmentEntityRepository.save(entity);
+		return appointment.getId();
+	}
 
-  @Override
-  public void update(Appointment appointment) {
-    AppointmentEntity entity = AppointmentEntity.fromDomain(appointment);
-    this.appointmentEntityRepository.save(entity);
-  }
+	@Override
+	public void update(Appointment appointment) {
+		AppointmentEntity entity = AppointmentEntity.fromDomain(appointment);
+		this.appointmentEntityRepository.save(entity);
+	}
 
-  @Override
-  public Appointment GetById(UUID id) {
-    Optional<AppointmentEntity> entity = this.appointmentEntityRepository.findById(id);
-    return entity.map(AppointmentEntity::toDomain).orElse(null);
-  }  
+	@Override
+	public Appointment GetById(UUID id) {
+		Optional<AppointmentEntity> entity = this.appointmentEntityRepository.findById(id);
+		return entity.map(AppointmentEntity::toDomain).orElse(null);
+	}  
 }

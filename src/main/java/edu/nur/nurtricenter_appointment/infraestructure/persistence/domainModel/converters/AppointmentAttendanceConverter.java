@@ -5,13 +5,13 @@ import jakarta.persistence.AttributeConverter;
 
 public class AppointmentAttendanceConverter implements AttributeConverter<AppointmentAttendance, String> {
 
-  @Override
-  public String convertToDatabaseColumn(AppointmentAttendance attribute) {
-    return attribute != null ? attribute.getLabel() : null;
-  }
+	@Override
+	public String convertToDatabaseColumn(AppointmentAttendance attribute) {
+		return attribute != null ? attribute.getLabel() : null;
+	}
 
-  @Override
-  public AppointmentAttendance convertToEntityAttribute(String dbData) {
-    return dbData != null ? AppointmentAttendance.fromLabel(dbData) : null;
-  }
+	@Override
+	public AppointmentAttendance convertToEntityAttribute(String dbData) {
+		return dbData != null ? AppointmentAttendance.fromLabel(dbData) : null;
+	}
 }

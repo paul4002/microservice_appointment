@@ -10,8 +10,8 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.
 import jakarta.transaction.Transactional;
 
 public interface NutritionistEntityRepository extends CrudRepository<NutritionistEntity, UUID> {
-  @Modifying
-  @Transactional
-  @Query("UPDATE NutritionistEntity e SET e.state = false WHERE e.id = :id")
-  void deactivateById(UUID id);
+	@Modifying
+	@Transactional
+	@Query("UPDATE NutritionistEntity e SET e.state = false WHERE e.id = :id")
+	void deactivateById(UUID id);
 }

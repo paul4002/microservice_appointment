@@ -4,12 +4,12 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecial
 import jakarta.persistence.AttributeConverter;
 
 public class NutritionistSpecialtyConverter implements AttributeConverter<NutritionistSpecialty, String> {
-  @Override
-  public String convertToDatabaseColumn(NutritionistSpecialty attribute) {
-    return attribute != null ? attribute.getLabel() : null;
-  }
-  @Override
-  public NutritionistSpecialty convertToEntityAttribute(String dbData) {
-    return dbData != null ? NutritionistSpecialty.fromLabel(dbData) : null;
-  }
+	@Override
+	public String convertToDatabaseColumn(NutritionistSpecialty attribute) {
+		return attribute != null ? attribute.getLabel() : null;
+	}
+	@Override
+	public NutritionistSpecialty convertToEntityAttribute(String dbData) {
+		return dbData != null ? NutritionistSpecialty.fromLabel(dbData) : null;
+	}
 }

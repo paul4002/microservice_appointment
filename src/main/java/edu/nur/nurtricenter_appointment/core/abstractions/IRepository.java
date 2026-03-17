@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface IRepository<TEntity extends AggregateRoot> {
 
-    CompletableFuture<TEntity> getByIdAsync(UUID id, boolean readOnly);
+		CompletableFuture<TEntity> getByIdAsync(UUID id, boolean readOnly);
 
-    CompletableFuture<Void> addAsync(TEntity entity);
+		CompletableFuture<Void> addAsync(TEntity entity);
 }

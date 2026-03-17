@@ -3,6 +3,6 @@ package edu.nur.nurtricenter_appointment.domain.patients;
 import java.util.UUID;
 
 public interface IPatientRepository {
-  Patient GetById(UUID id);
-  void Add(Patient patient);
+	Patient GetById(UUID id);
+	void Add(Patient patient);
 }

@@ -11,15 +11,15 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.
 
 public interface AppointmentEntityRepository extends CrudRepository<AppointmentEntity, UUID> {
 
-  @Query("""
-    SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END
-    FROM AppointmentPersistenceModel a
-    WHERE a.nutritionistId = :nutritionistId
-      AND a.scheduledDate BETWEEN :startDate AND :endDate
-  """)
-  boolean existsAppointmentNearTime(
-    @Param("nutritionistId") UUID nutritionistId,
-    @Param("startDate") LocalDateTime startDate,
-    @Param("endDate") LocalDateTime endDate
-  );
+	@Query("""
+		SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END
+		FROM AppointmentPersistenceModel a
+		WHERE a.nutritionistId = :nutritionistId
+			AND a.scheduledDate BETWEEN :startDate AND :endDate
+	""")
+	boolean existsAppointmentNearTime(
+		@Param("nutritionistId") UUID nutritionistId,
+		@Param("startDate") LocalDateTime startDate,
+		@Param("endDate") LocalDateTime endDate
+	);
 }

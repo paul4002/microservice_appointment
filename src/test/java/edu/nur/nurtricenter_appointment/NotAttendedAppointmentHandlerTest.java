@@ -26,68 +26,68 @@ import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
 
 public class NotAttendedAppointmentHandlerTest {
-  @Mock
-  private IAppointmentRepository appointmentRepository;
+	@Mock
+	private IAppointmentRepository appointmentRepository;
 
-  @Mock
-  private IUnitOfWork unitOfWork;
+	@Mock
+	private IUnitOfWork unitOfWork;
 
-  private NotAttendedAppointmentHandler handler;
+	private NotAttendedAppointmentHandler handler;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    handler = new NotAttendedAppointmentHandler(appointmentRepository, unitOfWork);
-  }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		handler = new NotAttendedAppointmentHandler(appointmentRepository, unitOfWork);
+	}
 
-  @Test
-  void shouldReturnFailureWhenAppointmentNotFound() {
-    UUID id = UUID.randomUUID();
-    NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
+	@Test
+	void shouldReturnFailureWhenAppointmentNotFound() {
+		UUID id = UUID.randomUUID();
+		NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
 
-    when(appointmentRepository.GetById(id)).thenReturn(null);
+		when(appointmentRepository.GetById(id)).thenReturn(null);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Appointment.NotFound", result.getError().getCode());
-  }
+		assertFalse(result.isSuccess());
+		assertEquals("Appointment.NotFound", result.getError().getCode());
+	}
 
-  @Test
-  void shouldMarkAppointmentAsNotAttendedSuccessfully() throws DomainException {
-    UUID id = UUID.randomUUID();
-    Appointment appointment = mock(Appointment.class);
-    NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
+	@Test
+	void shouldMarkAppointmentAsNotAttendedSuccessfully() throws DomainException {
+		UUID id = UUID.randomUUID();
+		Appointment appointment = mock(Appointment.class);
+		NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
 
-    when(appointmentRepository.GetById(id)).thenReturn(appointment);
+		when(appointmentRepository.GetById(id)).thenReturn(appointment);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    verify(appointment).notAttended();
+		verify(appointment).notAttended();
 
-    verify(appointmentRepository).update(appointment);
-    verify(unitOfWork).commitAsync();
+		verify(appointmentRepository).update(appointment);
+		verify(unitOfWork).commitAsync();
 
-    assertTrue(result.isSuccess());
-    assertEquals(true, result.getValue());
-  }
+		assertTrue(result.isSuccess());
+		assertEquals(true, result.getValue());
+	}
 
-  @Test
-  void shouldReturnFailureWhenNotAttendedThrowsDomainException() throws DomainException {
-    UUID id = UUID.randomUUID();
-    Appointment appointment = mock(Appointment.class);
-    NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
+	@Test
+	void shouldReturnFailureWhenNotAttendedThrowsDomainException() throws DomainException {
+		UUID id = UUID.randomUUID();
+		Appointment appointment = mock(Appointment.class);
+		NotAttendedAppointmentCommand cmd = new NotAttendedAppointmentCommand(id);
 
-    when(appointmentRepository.GetById(id)).thenReturn(appointment);
-    DomainException ex = new DomainException(Error.failure("Test.Code", "Test message"));
-    doThrow(ex).when(appointment).notAttended();
+		when(appointmentRepository.GetById(id)).thenReturn(appointment);
+		DomainException ex = new DomainException(Error.failure("Test.Code", "Test message"));
+		doThrow(ex).when(appointment).notAttended();
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Test.Code", result.getError().getCode());
+		assertFalse(result.isSuccess());
+		assertEquals("Test.Code", result.getError().getCode());
 
-    verify(appointmentRepository, never()).update(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		verify(appointmentRepository, never()).update(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 }

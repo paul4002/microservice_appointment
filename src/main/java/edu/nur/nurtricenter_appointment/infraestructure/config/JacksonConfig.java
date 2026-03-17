@@ -13,16 +13,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class JacksonConfig {
 
-  @Bean
-  public ObjectMapper objectMapper() {
-    return JsonMapper.builder().addModule(new JavaTimeModule()).build();
-  }
+	@Bean
+	public ObjectMapper objectMapper() {
+		return JsonMapper.builder().addModule(new JavaTimeModule()).build();
+	}
 
 
-  @Bean
-  public SimpleMessageConverter converter() {
-      SimpleMessageConverter converter = new SimpleMessageConverter();
-      converter.setAllowedListPatterns(List.of("xyz.test.common.*", "java.util.*"));
-      return converter;
-  }
+	@Bean
+	public SimpleMessageConverter converter() {
+			SimpleMessageConverter converter = new SimpleMessageConverter();
+			converter.setAllowedListPatterns(List.of("xyz.test.common.*", "java.util.*"));
+			return converter;
+	}
 }

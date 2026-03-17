@@ -6,5 +6,5 @@ import an.awesome.pipelinr.Command;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 
 public class GetNutritionistsQuery implements Command<ResultWithValue<List<NutritionistDto>>> {
-  public GetNutritionistsQuery() {}
+	public GetNutritionistsQuery() {}
 }

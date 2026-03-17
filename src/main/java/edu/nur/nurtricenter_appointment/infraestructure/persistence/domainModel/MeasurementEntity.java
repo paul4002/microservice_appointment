@@ -12,44 +12,44 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class MeasurementEntity {
-  @Convert(converter = WeightUnitMeasureConverter.class)
-  private UnitMeasure weight; 
-  @Convert(converter = HeightUnitMeasureConverter.class)
-  private UnitMeasure height; 
-  @Convert(converter = DecimalValueConverter.class)
-  private DecimalValue imc; 
-  @Convert(converter = PercentageConverter.class)
-  private Percentage bodyFat;
-  @Convert(converter = PercentageConverter.class)
-  private Percentage muscleMass;
-  public UnitMeasure getWeight() {
-    return weight;
-  }
-  public void setWeight(UnitMeasure weight) {
-    this.weight = weight;
-  }
-  public UnitMeasure getHeight() {
-    return height;
-  }
-  public void setHeight(UnitMeasure height) {
-    this.height = height;
-  }
-  public DecimalValue getImc() {
-    return imc;
-  }
-  public void setImc(DecimalValue imc) {
-    this.imc = imc;
-  }
-  public Percentage getBodyFat() {
-    return bodyFat;
-  }
-  public void setBodyFat(Percentage bodyFat) {
-    this.bodyFat = bodyFat;
-  }
-  public Percentage getMuscleMass() {
-    return muscleMass;
-  }
-  public void setMuscleMass(Percentage muscleMass) {
-    this.muscleMass = muscleMass;
-  }
+	@Convert(converter = WeightUnitMeasureConverter.class)
+	private UnitMeasure weight; 
+	@Convert(converter = HeightUnitMeasureConverter.class)
+	private UnitMeasure height; 
+	@Convert(converter = DecimalValueConverter.class)
+	private DecimalValue imc; 
+	@Convert(converter = PercentageConverter.class)
+	private Percentage bodyFat;
+	@Convert(converter = PercentageConverter.class)
+	private Percentage muscleMass;
+	public UnitMeasure getWeight() {
+		return weight;
+	}
+	public void setWeight(UnitMeasure weight) {
+		this.weight = weight;
+	}
+	public UnitMeasure getHeight() {
+		return height;
+	}
+	public void setHeight(UnitMeasure height) {
+		this.height = height;
+	}
+	public DecimalValue getImc() {
+		return imc;
+	}
+	public void setImc(DecimalValue imc) {
+		this.imc = imc;
+	}
+	public Percentage getBodyFat() {
+		return bodyFat;
+	}
+	public void setBodyFat(Percentage bodyFat) {
+		this.bodyFat = bodyFat;
+	}
+	public Percentage getMuscleMass() {
+		return muscleMass;
+	}
+	public void setMuscleMass(Percentage muscleMass) {
+		this.muscleMass = muscleMass;
+	}
 }

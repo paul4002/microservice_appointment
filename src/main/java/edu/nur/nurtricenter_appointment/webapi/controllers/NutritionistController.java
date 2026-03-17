@@ -28,36 +28,36 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/api/nutritionist")
 public class NutritionistController {
-  
-  private final  Pipeline pipeline;
+	
+	private final  Pipeline pipeline;
 
-  public NutritionistController(Pipeline pipeline) {
-    this.pipeline = pipeline;
-  }
+	public NutritionistController(Pipeline pipeline) {
+		this.pipeline = pipeline;
+	}
 
-  @GetMapping
-  public ResultWithValue<List<NutritionistDto>> getNutritionist() {
-    GetNutritionistsQuery query = new GetNutritionistsQuery();
-    return query.execute(pipeline);
-  }
+	@GetMapping
+	public ResultWithValue<List<NutritionistDto>> getNutritionist() {
+		GetNutritionistsQuery query = new GetNutritionistsQuery();
+		return query.execute(pipeline);
+	}
 
-  @PostMapping
-  public ResultWithValue<UUID> createNutritionist(@RequestBody CreateNutritionistCommand createNutritionistCommand) {
-    return createNutritionistCommand.execute(pipeline);
-  }
+	@PostMapping
+	public ResultWithValue<UUID> createNutritionist(@RequestBody CreateNutritionistCommand createNutritionistCommand) {
+		return createNutritionistCommand.execute(pipeline);
+	}
 
-  @PutMapping
-  public ResultWithValue<Boolean> updateNutritionist(@RequestBody UpdateNutritionistCommand command) {
-    return command.execute(pipeline);
-  }
+	@PutMapping
+	public ResultWithValue<Boolean> updateNutritionist(@RequestBody UpdateNutritionistCommand command) {
+		return command.execute(pipeline);
+	}
 
-  @DeleteMapping
-  public ResultWithValue<Boolean> deleteNutritionist(@RequestBody DeleteNutritionistCommand command) {
-    return command.execute(pipeline);
-  }
+	@DeleteMapping
+	public ResultWithValue<Boolean> deleteNutritionist(@RequestBody DeleteNutritionistCommand command) {
+		return command.execute(pipeline);
+	}
 
-  @PostMapping("/appointments")
-  public ResultWithValue<List<ScheduledAppointmentNutritionistDto>> getAppointmentsByDate(@RequestBody GetNutritionistAppointmentsScheduledByDateQuery query) {
-    return query.execute(pipeline);
-  }
+	@PostMapping("/appointments")
+	public ResultWithValue<List<ScheduledAppointmentNutritionistDto>> getAppointmentsByDate(@RequestBody GetNutritionistAppointmentsScheduledByDateQuery query) {
+		return query.execute(pipeline);
+	}
 }

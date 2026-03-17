@@ -19,47 +19,47 @@ import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 
 public class CreateNutritionistHandlerTest {
-  @Mock
-  private INutritionistRepository nutritionistRepository;
+	@Mock
+	private INutritionistRepository nutritionistRepository;
 
-  @Mock
-  private IUnitOfWork unitOfWork;
+	@Mock
+	private IUnitOfWork unitOfWork;
 
-  private CreateNutritionistHandler handler;
+	private CreateNutritionistHandler handler;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    handler = new CreateNutritionistHandler(nutritionistRepository, unitOfWork);
-  }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		handler = new CreateNutritionistHandler(nutritionistRepository, unitOfWork);
+	}
 
-  @Test
-  void shouldCreateNutritionistSuccessfully() {
-    CreateNutritionistCommand cmd = new CreateNutritionistCommand(
-        "John", "Doe", "Clinical Nutrition", "LIC12345"
-    );
+	@Test
+	void shouldCreateNutritionistSuccessfully() {
+		CreateNutritionistCommand cmd = new CreateNutritionistCommand(
+				"John", "Doe", "Clinical Nutrition", "LIC12345"
+		);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    verify(nutritionistRepository).Add(any());
-    verify(unitOfWork).commitAsync();
+		verify(nutritionistRepository).Add(any());
+		verify(unitOfWork).commitAsync();
 
-    assertTrue(result.isSuccess());
-    assertNotNull(result.getValue());
-  }
+		assertTrue(result.isSuccess());
+		assertNotNull(result.getValue());
+	}
 
-  @Test
-  void shouldReturnFailureWhenInvalidSpecialty() {
-    CreateNutritionistCommand cmd = new CreateNutritionistCommand(
-        "John", "Doe", "INVALID_SPECIALTY", "LIC12345"
-    );
+	@Test
+	void shouldReturnFailureWhenInvalidSpecialty() {
+		CreateNutritionistCommand cmd = new CreateNutritionistCommand(
+				"John", "Doe", "INVALID_SPECIALTY", "LIC12345"
+		);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
+		assertFalse(result.isSuccess());
+		assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
 
-    verify(nutritionistRepository, never()).Add(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		verify(nutritionistRepository, never()).Add(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 }

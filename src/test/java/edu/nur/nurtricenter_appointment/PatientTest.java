@@ -12,27 +12,27 @@ import edu.nur.nurtricenter_appointment.domain.patients.Email;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
 public class PatientTest {
-  @Test
-  void shouldCreatePatientSuccessfully() {
-    UUID id = UUID.randomUUID();
-    Date birthDate = new Date();
-    Email email = new Email("test@example.com");
-    Cellphone cellphone = new Cellphone("77788899");
+	@Test
+	void shouldCreatePatientSuccessfully() {
+		UUID id = UUID.randomUUID();
+		Date birthDate = new Date();
+		Email email = new Email("test@example.com");
+		Cellphone cellphone = new Cellphone("77788899");
 
-    Patient patient = new Patient(
-            id,
-            "Juan",
-            "Torrez",
-            birthDate,
-            email,
-            cellphone
-    );
+		Patient patient = new Patient(
+						id,
+						"Juan",
+						"Torrez",
+						birthDate,
+						email,
+						cellphone
+		);
 
-    assertEquals(id, patient.getId());
-    assertEquals("Juan", patient.getName());
-    assertEquals("Torrez", patient.getDocument());
-    assertEquals(birthDate, patient.getBirthDate());
-    assertEquals(email, patient.getEmail());
-    assertEquals(cellphone, patient.getCellphone());
-  }
+		assertEquals(id, patient.getId());
+		assertEquals("Juan", patient.getName());
+		assertEquals("Torrez", patient.getDocument());
+		assertEquals(birthDate, patient.getBirthDate());
+		assertEquals(email, patient.getEmail());
+		assertEquals(cellphone, patient.getCellphone());
+	}
 }

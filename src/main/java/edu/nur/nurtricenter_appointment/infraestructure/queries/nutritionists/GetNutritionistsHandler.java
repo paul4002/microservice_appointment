@@ -14,24 +14,24 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories
 @Component
 public class GetNutritionistsHandler implements Command.Handler<GetNutritionistsQuery, ResultWithValue<List<NutritionistDto>>> {
 
-  private NutritionistCrudRepository nutritionistCrudRepository;
-  
-  public GetNutritionistsHandler(NutritionistCrudRepository nutritionistCrudRepository) {
-    this.nutritionistCrudRepository = nutritionistCrudRepository;
-  }
+	private NutritionistCrudRepository nutritionistCrudRepository;
+	
+	public GetNutritionistsHandler(NutritionistCrudRepository nutritionistCrudRepository) {
+		this.nutritionistCrudRepository = nutritionistCrudRepository;
+	}
 
-  @Override
-  public ResultWithValue<List<NutritionistDto>> handle(GetNutritionistsQuery command) {
-    List<NutritionistDto> nutritionistsDto = Streamable
-      .of(nutritionistCrudRepository.findAll())
-      .map(nutritionist -> new NutritionistDto(
-        nutritionist.getId(),
-        nutritionist.getName(),
-        nutritionist.getLastname(),
-        nutritionist.getSpecialty(),
-        nutritionist.getProfessionalLicense()
-      ))
-      .toList();
-    return ResultWithValue.success(nutritionistsDto);
-  }
+	@Override
+	public ResultWithValue<List<NutritionistDto>> handle(GetNutritionistsQuery command) {
+		List<NutritionistDto> nutritionistsDto = Streamable
+			.of(nutritionistCrudRepository.findAll())
+			.map(nutritionist -> new NutritionistDto(
+				nutritionist.getId(),
+				nutritionist.getName(),
+				nutritionist.getLastname(),
+				nutritionist.getSpecialty(),
+				nutritionist.getProfessionalLicense()
+			))
+			.toList();
+		return ResultWithValue.success(nutritionistsDto);
+	}
 }

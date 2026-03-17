@@ -13,71 +13,71 @@ import edu.nur.nurtricenter_appointment.core.abstractions.AggregateRoot;
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 
 public class MealPlan extends AggregateRoot {
-  private String generalDescription;
-  private String nutritionalGoal;
-  private Date startDate;
-  private Date endDate;
-  private List<Meal> _meals;
-  private String restrictions;
-  private UUID appointmentId;
+	private String generalDescription;
+	private String nutritionalGoal;
+	private Date startDate;
+	private Date endDate;
+	private List<Meal> _meals;
+	private String restrictions;
+	private UUID appointmentId;
 
-  public MealPlan() {
-    super(UUID.randomUUID());
-  }
+	public MealPlan() {
+		super(UUID.randomUUID());
+	}
 
-  public MealPlan(String generalDescription, String nutritionalGoal, Date startDate, Date endDate, String restrictions) {
-    super(UUID.randomUUID());
-    if(generalDescription.isBlank()) {
-      throw new DomainException(MealPlanErrors.GeneralDescriptionIsRequired());
-    } else if (nutritionalGoal.isBlank()) {
-      throw new DomainException(MealPlanErrors.NutritionalGoalIsRequired());
-    } else if ((new Date()).after(startDate) || (new Date()).after(endDate)) {
-      throw new DomainException(MealPlanErrors.InvalidDate());
-    } else if (startDate.after(endDate)) {
-      throw new DomainException(MealPlanErrors.InvalidDateRange());
-    }
-    this.generalDescription = generalDescription;
-    this.nutritionalGoal = nutritionalGoal;
-    this._meals = new LinkedList<>();
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.restrictions = restrictions;
-  }
+	public MealPlan(String generalDescription, String nutritionalGoal, Date startDate, Date endDate, String restrictions) {
+		super(UUID.randomUUID());
+		if(generalDescription.isBlank()) {
+			throw new DomainException(MealPlanErrors.GeneralDescriptionIsRequired());
+		} else if (nutritionalGoal.isBlank()) {
+			throw new DomainException(MealPlanErrors.NutritionalGoalIsRequired());
+		} else if ((new Date()).after(startDate) || (new Date()).after(endDate)) {
+			throw new DomainException(MealPlanErrors.InvalidDate());
+		} else if (startDate.after(endDate)) {
+			throw new DomainException(MealPlanErrors.InvalidDateRange());
+		}
+		this.generalDescription = generalDescription;
+		this.nutritionalGoal = nutritionalGoal;
+		this._meals = new LinkedList<>();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.restrictions = restrictions;
+	}
 
-  public void addMeal(String name, MealSchedule schedule, QuantityValue calories) {
-    Meal newMeal = new Meal(name, schedule, calories);
-    this._meals.add(newMeal);
-  }
+	public void addMeal(String name, MealSchedule schedule, QuantityValue calories) {
+		Meal newMeal = new Meal(name, schedule, calories);
+		this._meals.add(newMeal);
+	}
 
-  public String getGeneralDescription() {
-    return generalDescription;
-  }
+	public String getGeneralDescription() {
+		return generalDescription;
+	}
 
-  public String getNutritionalGoal() {
-    return nutritionalGoal;
-  }
+	public String getNutritionalGoal() {
+		return nutritionalGoal;
+	}
 
-  public Date getStartDate() {
-    return startDate;
-  }
+	public Date getStartDate() {
+		return startDate;
+	}
 
-  public Date getEndDate() {
-    return endDate;
-  }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-  public String getRestrictions() {
-    return restrictions;
-  }
+	public String getRestrictions() {
+		return restrictions;
+	}
 
-  public List<Meal> get_meals() {
-    return _meals;
-  }
+	public List<Meal> get_meals() {
+		return _meals;
+	}
 
-  public UUID getAppointmentId() {
-    return appointmentId;
-  }
+	public UUID getAppointmentId() {
+		return appointmentId;
+	}
 
-  public void setAppointmentId(UUID appointmentId) {
-    this.appointmentId = appointmentId;
-  }
+	public void setAppointmentId(UUID appointmentId) {
+		this.appointmentId = appointmentId;
+	}
 }

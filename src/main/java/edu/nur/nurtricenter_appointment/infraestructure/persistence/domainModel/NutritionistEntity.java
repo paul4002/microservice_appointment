@@ -14,65 +14,65 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "nutritionists")
 public class NutritionistEntity {
-  @Id
-  private UUID id;
-  private String name;
-  private String lastname;
-  @Convert(converter = NutritionistSpecialtyConverter.class)
-  private NutritionistSpecialty specialty;
-  private String professionalLicense;
-  @Column(columnDefinition = "boolean default true")
-  private Boolean state;
+	@Id
+	private UUID id;
+	private String name;
+	private String lastname;
+	@Convert(converter = NutritionistSpecialtyConverter.class)
+	private NutritionistSpecialty specialty;
+	private String professionalLicense;
+	@Column(columnDefinition = "boolean default true")
+	private Boolean state;
 
-  public UUID getId() {
-    return id;
-  }
-  public void setId(UUID id) {
-    this.id = id;
-  }
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-  public String getLastname() {
-    return lastname;
-  }
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-  public NutritionistSpecialty getSpecialty() {
-    return specialty;
-  }
-  public void setSpecialty(NutritionistSpecialty specialty) {
-    this.specialty = specialty;
-  }
-  public String getProfessionalLicense() {
-    return professionalLicense;
-  }
-  public void setProfessionalLicense(String professionalLicense) {
-    this.professionalLicense = professionalLicense;
-  }
-  public Boolean getState() {
-    return state;
-  }
-  public void setState(Boolean state) {
-    this.state = state;
-  }
+	public UUID getId() {
+		return id;
+	}
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+	public NutritionistSpecialty getSpecialty() {
+		return specialty;
+	}
+	public void setSpecialty(NutritionistSpecialty specialty) {
+		this.specialty = specialty;
+	}
+	public String getProfessionalLicense() {
+		return professionalLicense;
+	}
+	public void setProfessionalLicense(String professionalLicense) {
+		this.professionalLicense = professionalLicense;
+	}
+	public Boolean getState() {
+		return state;
+	}
+	public void setState(Boolean state) {
+		this.state = state;
+	}
 
-  public static NutritionistEntity fromDomain(Nutritionist nutritionist) {
-    NutritionistEntity nutritionistEntity = new NutritionistEntity();
-    nutritionistEntity.id = nutritionist.getId();
-    nutritionistEntity.name = nutritionist.getName();
-    nutritionistEntity.lastname = nutritionist.getLastname();
-    nutritionistEntity.specialty = nutritionist.getSpecialty();
-    nutritionistEntity.professionalLicense = nutritionist.getProfessionalLicense();
-    nutritionistEntity.state = true;
-    return nutritionistEntity;
-  }
+	public static NutritionistEntity fromDomain(Nutritionist nutritionist) {
+		NutritionistEntity nutritionistEntity = new NutritionistEntity();
+		nutritionistEntity.id = nutritionist.getId();
+		nutritionistEntity.name = nutritionist.getName();
+		nutritionistEntity.lastname = nutritionist.getLastname();
+		nutritionistEntity.specialty = nutritionist.getSpecialty();
+		nutritionistEntity.professionalLicense = nutritionist.getProfessionalLicense();
+		nutritionistEntity.state = true;
+		return nutritionistEntity;
+	}
 
-  public Nutritionist toDomain() {
-    return new Nutritionist(id, name, lastname, specialty, professionalLicense);
-  }
+	public Nutritionist toDomain() {
+		return new Nutritionist(id, name, lastname, specialty, professionalLicense);
+	}
 }

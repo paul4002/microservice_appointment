@@ -8,5 +8,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OutboxEventRepository extends CrudRepository<OutboxEventEntity, UUID> {
-  List<OutboxEventEntity> findByProcessedOnIsNullAndNextAttemptAtLessThanEqualOrderByOccurredOnAsc(LocalDateTime now, Pageable pageable);
+	List<OutboxEventEntity> findByProcessedOnIsNullAndNextAttemptAtLessThanEqualOrderByOccurredOnAsc(LocalDateTime now, Pageable pageable);
 }

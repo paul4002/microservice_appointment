@@ -27,75 +27,75 @@ import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentReposito
 import edu.nur.nurtricenter_appointment.infraestructure.config.UnitOfWorkJpa;
 
 public class AttendAppointmentHandlerTest {
-  @Mock
-  private IAppointmentRepository appointmentRepository;
+	@Mock
+	private IAppointmentRepository appointmentRepository;
 
-  @Mock
-  private UnitOfWorkJpa unitOfWork;
+	@Mock
+	private UnitOfWorkJpa unitOfWork;
 
-  private AttendAppointmentHandler handler;
+	private AttendAppointmentHandler handler;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    handler = new AttendAppointmentHandler(appointmentRepository, unitOfWork);
-  }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		handler = new AttendAppointmentHandler(appointmentRepository, unitOfWork);
+	}
 
-  @Test
-  void shouldReturnFailureWhenAppointmentNotFound() {
-    UUID id = UUID.randomUUID();
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, null, null, null);
+	@Test
+	void shouldReturnFailureWhenAppointmentNotFound() {
+		UUID id = UUID.randomUUID();
+		AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, null, null, null);
 
-    when(appointmentRepository.GetById(id)).thenReturn(null);
+		when(appointmentRepository.GetById(id)).thenReturn(null);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Appointment.NotFound", result.getError().getCode());
-  }
+		assertFalse(result.isSuccess());
+		assertEquals("Appointment.NotFound", result.getError().getCode());
+	}
 
-  @Test
-  void shouldAttendAppointmentSuccessfully() throws DomainException {
-    UUID id = UUID.randomUUID();
-    Appointment appointment = mock(Appointment.class);
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
+	@Test
+	void shouldAttendAppointmentSuccessfully() throws DomainException {
+		UUID id = UUID.randomUUID();
+		Appointment appointment = mock(Appointment.class);
+		AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
 
-    when(appointmentRepository.GetById(id)).thenReturn(appointment);
+		when(appointmentRepository.GetById(id)).thenReturn(appointment);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    verify(appointment).attend(
-        eq("Notas"),
-        any(),
-        any()
-    );
+		verify(appointment).attend(
+				eq("Notas"),
+				any(),
+				any()
+		);
 
-    verify(appointmentRepository).update(appointment);
-    // verify(unitOfWork).register(appointment);
-    verify(unitOfWork).commitAsync();
+		verify(appointmentRepository).update(appointment);
+		// verify(unitOfWork).register(appointment);
+		verify(unitOfWork).commitAsync();
 
-    assertTrue(result.isSuccess());
-    assertEquals(true, result.getValue());
-  }
+		assertTrue(result.isSuccess());
+		assertEquals(true, result.getValue());
+	}
 
-  @Test
-  void shouldReturnFailureWhenAttendThrowsDomainException() throws DomainException {
-    UUID id = UUID.randomUUID();
-    Appointment appointment = mock(Appointment.class);
-    AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
+	@Test
+	void shouldReturnFailureWhenAttendThrowsDomainException() throws DomainException {
+		UUID id = UUID.randomUUID();
+		Appointment appointment = mock(Appointment.class);
+		AttendAppointmentCommand cmd = new AttendAppointmentCommand(id, "Notas", null, null);
 
-    when(appointmentRepository.GetById(id)).thenReturn(appointment);
-    
-    DomainException ex = new DomainException(Error.failure("Test.Code", "Test message"));
-    doThrow(ex).when(appointment).attend(any(), any(), any());
+		when(appointmentRepository.GetById(id)).thenReturn(appointment);
+		
+		DomainException ex = new DomainException(Error.failure("Test.Code", "Test message"));
+		doThrow(ex).when(appointment).attend(any(), any(), any());
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Test.Code", result.getError().getCode());
+		assertFalse(result.isSuccess());
+		assertEquals("Test.Code", result.getError().getCode());
 
-    verify(appointmentRepository, never()).update(any());
-    // verify(unitOfWork, never()).register(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		verify(appointmentRepository, never()).update(any());
+		// verify(unitOfWork, never()).register(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 }

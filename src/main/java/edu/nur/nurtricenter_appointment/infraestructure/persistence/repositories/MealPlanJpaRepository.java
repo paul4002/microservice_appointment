@@ -12,12 +12,12 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.
 @Repository
 public class MealPlanJpaRepository implements IMealPlanRepository {
 
-  @Autowired
-  MealPlanEntityRepository mealPlanEntityRepository;
+	@Autowired
+	MealPlanEntityRepository mealPlanEntityRepository;
 
-  @Override
-  public UUID add(MealPlan mealPlan) {
-    MealPlanEntity entity = MealPlanEntity.fromDomain(mealPlan);
-    return this.mealPlanEntityRepository.save(entity).getId();
-  }
+	@Override
+	public UUID add(MealPlan mealPlan) {
+		MealPlanEntity entity = MealPlanEntity.fromDomain(mealPlan);
+		return this.mealPlanEntityRepository.save(entity).getId();
+	}
 }

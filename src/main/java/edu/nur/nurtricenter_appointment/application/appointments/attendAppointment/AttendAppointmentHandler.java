@@ -19,7 +19,7 @@ public class AttendAppointmentHandler implements Command.Handler<AttendAppointme
 	private final UnitOfWorkJpa unitOfWork;
 
 	public AttendAppointmentHandler(IAppointmentRepository appointmentRepository, UnitOfWorkJpa unitOfWork) {
-		 this.appointmentRepository = appointmentRepository;
+		this.appointmentRepository = appointmentRepository;
 		this.unitOfWork = unitOfWork;
 	}
 

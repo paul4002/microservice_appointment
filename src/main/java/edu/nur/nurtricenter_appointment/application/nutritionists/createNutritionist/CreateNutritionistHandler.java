@@ -15,30 +15,30 @@ import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
 public class CreateNutritionistHandler implements Command.Handler<CreateNutritionistCommand, ResultWithValue<UUID>> {
-  private final INutritionistRepository nutritionistRepository;
-  private final IUnitOfWork unitOfWork;
+	private final INutritionistRepository nutritionistRepository;
+	private final IUnitOfWork unitOfWork;
 
-  public CreateNutritionistHandler(INutritionistRepository nutritionistRepository, IUnitOfWork unitOfWork) {
-    this.nutritionistRepository = nutritionistRepository;
-    this.unitOfWork = unitOfWork;
-  }
+	public CreateNutritionistHandler(INutritionistRepository nutritionistRepository, IUnitOfWork unitOfWork) {
+		this.nutritionistRepository = nutritionistRepository;
+		this.unitOfWork = unitOfWork;
+	}
 
-  @Override
-  public ResultWithValue<UUID> handle(CreateNutritionistCommand request) {
-    Nutritionist nutritionist;
-    try {
-    nutritionist = new Nutritionist(
-        request.name(), 
-        request.lastname(), 
-        NutritionistSpecialty.fromLabel(request.specialty()), 
-        request.professionalLicense()
-      );
-    } catch(IllegalArgumentException e) {
-      return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
-    }
-    this.nutritionistRepository.Add(nutritionist);
-    nutritionist.addDomainEvent(new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
-    this.unitOfWork.commitAsync();
-    return ResultWithValue.success(nutritionist.getId());
-  }
+	@Override
+	public ResultWithValue<UUID> handle(CreateNutritionistCommand request) {
+		Nutritionist nutritionist;
+		try {
+		nutritionist = new Nutritionist(
+				request.name(), 
+				request.lastname(), 
+				NutritionistSpecialty.fromLabel(request.specialty()), 
+				request.professionalLicense()
+			);
+		} catch(IllegalArgumentException e) {
+			return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
+		}
+		this.nutritionistRepository.Add(nutritionist);
+		nutritionist.addDomainEvent(new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
+		this.unitOfWork.commitAsync();
+		return ResultWithValue.success(nutritionist.getId());
+	}
 }

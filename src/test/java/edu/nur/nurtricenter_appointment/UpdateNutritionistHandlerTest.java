@@ -23,71 +23,71 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistReposi
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 
 public class UpdateNutritionistHandlerTest {
-  @Mock
-  private INutritionistRepository nutritionistRepository;
+	@Mock
+	private INutritionistRepository nutritionistRepository;
 
-  @Mock
-  private IUnitOfWork unitOfWork;
+	@Mock
+	private IUnitOfWork unitOfWork;
 
-  private UpdateNutritionistHandler handler;
+	private UpdateNutritionistHandler handler;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    handler = new UpdateNutritionistHandler(nutritionistRepository, unitOfWork);
-  }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		handler = new UpdateNutritionistHandler(nutritionistRepository, unitOfWork);
+	}
 
-  @Test
-  void shouldReturnFailureWhenNutritionistNotFound() {
-    UUID id = UUID.randomUUID();
-    UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
-        id, "John", "Doe", "Clinical Nutrition", "LIC123"
-    );
+	@Test
+	void shouldReturnFailureWhenNutritionistNotFound() {
+		UUID id = UUID.randomUUID();
+		UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
+				id, "John", "Doe", "Clinical Nutrition", "LIC123"
+		);
 
-    when(nutritionistRepository.GetById(id)).thenReturn(null);
+		when(nutritionistRepository.GetById(id)).thenReturn(null);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Nutritionist.NotFound", result.getError().getCode());
-    verify(nutritionistRepository, never()).Update(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		assertFalse(result.isSuccess());
+		assertEquals("Nutritionist.NotFound", result.getError().getCode());
+		verify(nutritionistRepository, never()).Update(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 
-  @Test
-  void shouldReturnFailureWhenInvalidSpecialty() {
-    UUID id = UUID.randomUUID();
-    Nutritionist existing = mock(Nutritionist.class);
-    UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
-        id, "John", "Doe", "INVALID_SPECIALTY", "LIC123"
-    );
+	@Test
+	void shouldReturnFailureWhenInvalidSpecialty() {
+		UUID id = UUID.randomUUID();
+		Nutritionist existing = mock(Nutritionist.class);
+		UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
+				id, "John", "Doe", "INVALID_SPECIALTY", "LIC123"
+		);
 
-    when(nutritionistRepository.GetById(id)).thenReturn(existing);
+		when(nutritionistRepository.GetById(id)).thenReturn(existing);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    assertFalse(result.isSuccess());
-    assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
-    verify(nutritionistRepository, never()).Update(any());
-    verify(unitOfWork, never()).commitAsync();
-  }
+		assertFalse(result.isSuccess());
+		assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
+		verify(nutritionistRepository, never()).Update(any());
+		verify(unitOfWork, never()).commitAsync();
+	}
 
-  @Test
-  void shouldUpdateNutritionistSuccessfully() {
-    UUID id = UUID.randomUUID();
-    Nutritionist existing = mock(Nutritionist.class);
-    UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
-        id, "John", "Doe", "Clinical Nutrition", "LIC123"
-    );
+	@Test
+	void shouldUpdateNutritionistSuccessfully() {
+		UUID id = UUID.randomUUID();
+		Nutritionist existing = mock(Nutritionist.class);
+		UpdateNutritionistCommand cmd = new UpdateNutritionistCommand(
+				id, "John", "Doe", "Clinical Nutrition", "LIC123"
+		);
 
-    when(nutritionistRepository.GetById(id)).thenReturn(existing);
+		when(nutritionistRepository.GetById(id)).thenReturn(existing);
 
-    var result = handler.handle(cmd);
+		var result = handler.handle(cmd);
 
-    verify(nutritionistRepository).Update(any());
-    verify(unitOfWork).commitAsync();
+		verify(nutritionistRepository).Update(any());
+		verify(unitOfWork).commitAsync();
 
-    assertTrue(result.isSuccess());
-    assertEquals(true, result.getValue());
-  }
+		assertTrue(result.isSuccess());
+		assertEquals(true, result.getValue());
+	}
 }

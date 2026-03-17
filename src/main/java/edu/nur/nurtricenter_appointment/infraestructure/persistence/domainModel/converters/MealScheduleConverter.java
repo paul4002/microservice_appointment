@@ -5,13 +5,13 @@ import jakarta.persistence.AttributeConverter;
 
 public class MealScheduleConverter implements AttributeConverter<MealSchedule, String> {
 
-  @Override
-  public String convertToDatabaseColumn(MealSchedule attribute) {
-    return attribute != null ? attribute.getLabel() : null;
-  }
+	@Override
+	public String convertToDatabaseColumn(MealSchedule attribute) {
+		return attribute != null ? attribute.getLabel() : null;
+	}
 
-  @Override
-  public MealSchedule convertToEntityAttribute(String dbData) {
-    return dbData != null ? MealSchedule.fromLabel(dbData) : null;
-  }
+	@Override
+	public MealSchedule convertToEntityAttribute(String dbData) {
+		return dbData != null ? MealSchedule.fromLabel(dbData) : null;
+	}
 }

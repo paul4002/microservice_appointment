@@ -13,18 +13,18 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.
 @Repository
 public class PatientJpaRepository implements IPatientRepository {
 
-  @Autowired
-  private PatientEntityRepository patientEntityRepository;
+	@Autowired
+	private PatientEntityRepository patientEntityRepository;
 
-  @Override
-  public Patient GetById(UUID id) {
-    Optional<PatientEntity> entity = this.patientEntityRepository.findById(id);
-    return entity.map(PatientEntity::toDomain).orElse(null);
-  }
+	@Override
+	public Patient GetById(UUID id) {
+		Optional<PatientEntity> entity = this.patientEntityRepository.findById(id);
+		return entity.map(PatientEntity::toDomain).orElse(null);
+	}
 
-  @Override
-  public void Add(Patient patient) {
-    PatientEntity entity = PatientEntity.fromDomain(patient);
-    this.patientEntityRepository.save(entity);
-  }
+	@Override
+	public void Add(Patient patient) {
+		PatientEntity entity = PatientEntity.fromDomain(patient);
+		this.patientEntityRepository.save(entity);
+	}
 }

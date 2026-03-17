@@ -9,41 +9,41 @@ import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentAttendanc
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.AppointmentAttendanceConverter;
 
 public class AppointmentAttendanceConverterTest {
-  private final AppointmentAttendanceConverter converter = new AppointmentAttendanceConverter();
+	private final AppointmentAttendanceConverter converter = new AppointmentAttendanceConverter();
 
-  @Test
-  void shouldConvertToDatabaseColumn() {
-    // Arrange
-    AppointmentAttendance attendance = AppointmentAttendance.ATTENDED;
-    // Act
-    String result = converter.convertToDatabaseColumn(attendance);
-    // Assert
-    assertEquals(attendance.getLabel(), result);
-  }
+	@Test
+	void shouldConvertToDatabaseColumn() {
+		// Arrange
+		AppointmentAttendance attendance = AppointmentAttendance.ATTENDED;
+		// Act
+		String result = converter.convertToDatabaseColumn(attendance);
+		// Assert
+		assertEquals(attendance.getLabel(), result);
+	}
 
-  @Test
-  void shouldReturnNullWhenConvertToDatabaseColumnWithNull() {
-    // Act
-    String result = converter.convertToDatabaseColumn(null);
-    // Assert
-    assertNull(result);
-  }
+	@Test
+	void shouldReturnNullWhenConvertToDatabaseColumnWithNull() {
+		// Act
+		String result = converter.convertToDatabaseColumn(null);
+		// Assert
+		assertNull(result);
+	}
 
-  @Test
-  void shouldConvertToEntityAttribute() {
-    // Arrange
-    AppointmentAttendance expected = AppointmentAttendance.PENDING;
-    // Act
-    AppointmentAttendance result = converter.convertToEntityAttribute(expected.getLabel());
-    // Assert
-    assertEquals(expected, result);
-  }
+	@Test
+	void shouldConvertToEntityAttribute() {
+		// Arrange
+		AppointmentAttendance expected = AppointmentAttendance.PENDING;
+		// Act
+		AppointmentAttendance result = converter.convertToEntityAttribute(expected.getLabel());
+		// Assert
+		assertEquals(expected, result);
+	}
 
-  @Test
-  void shouldReturnNullWhenConvertToEntityAttributeWithNull() {
-    // Act
-    AppointmentAttendance result = converter.convertToEntityAttribute(null);
-    // Assert
-    assertNull(result);
-  }
+	@Test
+	void shouldReturnNullWhenConvertToEntityAttributeWithNull() {
+		// Act
+		AppointmentAttendance result = converter.convertToEntityAttribute(null);
+		// Assert
+		assertNull(result);
+	}
 }

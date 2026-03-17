@@ -23,33 +23,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/api/appointment")
 public class AppointmentController {
-  private final  Pipeline pipeline;
+	private final  Pipeline pipeline;
 
-  public AppointmentController(Pipeline pipeline) {
-    this.pipeline = pipeline;
-  }
+	public AppointmentController(Pipeline pipeline) {
+		this.pipeline = pipeline;
+	}
 
-  @PreAuthorize("hasRole('nutritionist')")
-  @PostMapping("/schedule")
-  public ResultWithValue<UUID> scheduleAppointment(@RequestBody ScheduleAppointmentCommand command) {
-    return command.execute(pipeline);
-  }
-  
-  @PreAuthorize("hasRole('nutritionist')")
-  @PatchMapping("/cancel")
-  public ResultWithValue<Boolean> cancelAppointment(@RequestBody CancelAppointmentCommand command) {
-    return command.execute(pipeline);
-  }
+	@PreAuthorize("hasRole('nutritionist')")
+	@PostMapping("/schedule")
+	public ResultWithValue<UUID> scheduleAppointment(@RequestBody ScheduleAppointmentCommand command) {
+		return command.execute(pipeline);
+	}
+	
+	@PreAuthorize("hasRole('nutritionist')")
+	@PatchMapping("/cancel")
+	public ResultWithValue<Boolean> cancelAppointment(@RequestBody CancelAppointmentCommand command) {
+		return command.execute(pipeline);
+	}
 
-  @PreAuthorize("hasRole('nutritionist')")
-  @PatchMapping("/notattended")
-  public ResultWithValue<Boolean> notAttendedAppointment(@RequestBody NotAttendedAppointmentCommand command) {
-    return command.execute(pipeline);
-  }
+	@PreAuthorize("hasRole('nutritionist')")
+	@PatchMapping("/notattended")
+	public ResultWithValue<Boolean> notAttendedAppointment(@RequestBody NotAttendedAppointmentCommand command) {
+		return command.execute(pipeline);
+	}
 
-  @PreAuthorize("hasRole('nutritionist')")
-  @PostMapping("/attend")
-  public ResultWithValue<Boolean> attend(@RequestBody AttendAppointmentCommand command) {
-    return command.execute(pipeline);
-  }
+	@PreAuthorize("hasRole('nutritionist')")
+	@PostMapping("/attend")
+	public ResultWithValue<Boolean> attend(@RequestBody AttendAppointmentCommand command) {
+		return command.execute(pipeline);
+	}
 }

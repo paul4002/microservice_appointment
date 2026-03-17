@@ -19,112 +19,112 @@ import jakarta.persistence.Table;
 @Table(name = "mealplans")
 public class MealPlanEntity {
 
-  @Id
-  private UUID id;
+	@Id
+	private UUID id;
 
-  @Column(nullable = false)
-  private String generalDescripcion;
+	@Column(nullable = false)
+	private String generalDescripcion;
 
-  @Column(nullable = false)
-  private String nutritionalGoal;
+	@Column(nullable = false)
+	private String nutritionalGoal;
 
-  private Date startDate;
+	private Date startDate;
 
-  private Date endDate;
+	private Date endDate;
 
-  private String restrictions;
+	private String restrictions;
 
-  private UUID appointmentId;
+	private UUID appointmentId;
 
-  @OneToMany(
-    mappedBy = "mealPlan",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
-  )
-  private List<MealEntity> meals = new ArrayList<>();
+	@OneToMany(
+		mappedBy = "mealPlan",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
+	)
+	private List<MealEntity> meals = new ArrayList<>();
 
-  public UUID getId() {
-    return id;
-  }
+	public UUID getId() {
+		return id;
+	}
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
-  public String getGeneralDescripcion() {
-    return generalDescripcion;
-  }
+	public String getGeneralDescripcion() {
+		return generalDescripcion;
+	}
 
-  public void setGeneralDescripcion(String generalDescripcion) {
-    this.generalDescripcion = generalDescripcion;
-  }
+	public void setGeneralDescripcion(String generalDescripcion) {
+		this.generalDescripcion = generalDescripcion;
+	}
 
-  public String getNutritionalGoal() {
-    return nutritionalGoal;
-  }
+	public String getNutritionalGoal() {
+		return nutritionalGoal;
+	}
 
-  public void setNutritionalGoal(String nutritionalGoal) {
-    this.nutritionalGoal = nutritionalGoal;
-  }
+	public void setNutritionalGoal(String nutritionalGoal) {
+		this.nutritionalGoal = nutritionalGoal;
+	}
 
-  public Date getStartDate() {
-    return startDate;
-  }
+	public Date getStartDate() {
+		return startDate;
+	}
 
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
-  }
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
-  public Date getEndDate() {
-    return endDate;
-  }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-  public String getRestrictions() {
-    return restrictions;
-  }
+	public String getRestrictions() {
+		return restrictions;
+	}
 
-  public void setRestrictions(String restrictions) {
-    this.restrictions = restrictions;
-  }
+	public void setRestrictions(String restrictions) {
+		this.restrictions = restrictions;
+	}
 
-  public UUID getAppointmentId() {
-    return appointmentId;
-  }
+	public UUID getAppointmentId() {
+		return appointmentId;
+	}
 
-  public void setAppointmentId(UUID appointmentId) {
-    this.appointmentId = appointmentId;
-  }
+	public void setAppointmentId(UUID appointmentId) {
+		this.appointmentId = appointmentId;
+	}
 
-  public List<MealEntity> getMeals() {
-    return meals;
-  }
+	public List<MealEntity> getMeals() {
+		return meals;
+	}
 
-  public void setMeals(List<MealEntity> meals) {
-    this.meals = meals;
-  }
+	public void setMeals(List<MealEntity> meals) {
+		this.meals = meals;
+	}
 
-  public static MealPlanEntity fromDomain(MealPlan mealPlan) {
-    MealPlanEntity mealPlanEntity = new MealPlanEntity();
-    mealPlanEntity.id = mealPlan.getId();
-    mealPlanEntity.generalDescripcion = mealPlan.getGeneralDescription();
-    mealPlanEntity.nutritionalGoal = mealPlan.getNutritionalGoal();
-    mealPlanEntity.startDate = mealPlan.getStartDate();
-    mealPlanEntity.endDate = mealPlan.getEndDate();
-    mealPlanEntity.restrictions = mealPlan.getRestrictions();
-    mealPlanEntity.appointmentId = mealPlan.getAppointmentId();
-    if (mealPlan.get_meals() != null) {
-      List<MealEntity> mealEntities = new LinkedList<>();
-      for(Meal meal : mealPlan.get_meals()) {
-        MealEntity mealEntity = MealEntity.fromDomain(meal);
-        mealEntity.setMealPlan(mealPlanEntity);
-        mealEntities.add(mealEntity);
-      }
-      mealPlanEntity.meals = mealEntities;
-    }
-    return mealPlanEntity;
-  }
+	public static MealPlanEntity fromDomain(MealPlan mealPlan) {
+		MealPlanEntity mealPlanEntity = new MealPlanEntity();
+		mealPlanEntity.id = mealPlan.getId();
+		mealPlanEntity.generalDescripcion = mealPlan.getGeneralDescription();
+		mealPlanEntity.nutritionalGoal = mealPlan.getNutritionalGoal();
+		mealPlanEntity.startDate = mealPlan.getStartDate();
+		mealPlanEntity.endDate = mealPlan.getEndDate();
+		mealPlanEntity.restrictions = mealPlan.getRestrictions();
+		mealPlanEntity.appointmentId = mealPlan.getAppointmentId();
+		if (mealPlan.get_meals() != null) {
+			List<MealEntity> mealEntities = new LinkedList<>();
+			for(Meal meal : mealPlan.get_meals()) {
+				MealEntity mealEntity = MealEntity.fromDomain(meal);
+				mealEntity.setMealPlan(mealPlanEntity);
+				mealEntities.add(mealEntity);
+			}
+			mealPlanEntity.meals = mealEntities;
+		}
+		return mealPlanEntity;
+	}
 }

@@ -11,14 +11,14 @@ import org.springframework.data.repository.query.Param;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel.AppointmentPersistenceModel;
 
 public interface AppointmentCrudRepository extends CrudRepository<AppointmentPersistenceModel, UUID>  {
-  @Query("""
-      SELECT a
-      FROM AppointmentPersistenceModel a
-      WHERE a.nutritionistId = :nutritionistId
-      AND DATE(a.scheduledDate) = :date
-  """)
-  List<AppointmentPersistenceModel> findByNutritionistAndDate(
-    @Param("nutritionistId") UUID nutritionistId,
-    @Param("date") LocalDate date
-  );
+	@Query("""
+			SELECT a
+			FROM AppointmentPersistenceModel a
+			WHERE a.nutritionistId = :nutritionistId
+			AND DATE(a.scheduledDate) = :date
+	""")
+	List<AppointmentPersistenceModel> findByNutritionistAndDate(
+		@Param("nutritionistId") UUID nutritionistId,
+		@Param("date") LocalDate date
+	);
 }

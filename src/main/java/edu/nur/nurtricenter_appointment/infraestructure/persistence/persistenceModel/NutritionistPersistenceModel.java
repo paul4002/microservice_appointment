@@ -10,59 +10,59 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "nutritionists")
 public class NutritionistPersistenceModel {
-  @Id
-  @Column(nullable = false)
-  private UUID id;
+	@Id
+	@Column(nullable = false)
+	private UUID id;
 
-  @Column(nullable = false)
-  private String name;
+	@Column(nullable = false)
+	private String name;
 
-  @Column(nullable = false)
-  private String lastname;
+	@Column(nullable = false)
+	private String lastname;
 
-  @Column(nullable = false)
-  private String specialty;
+	@Column(nullable = false)
+	private String specialty;
 
-  @Column(nullable = false)
-  private String professionalLicense;
+	@Column(nullable = false)
+	private String professionalLicense;
 
-  public UUID getId() {
-    return id;
-  }
+	public UUID getId() {
+		return id;
+	}
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getLastname() {
-    return lastname;
-  }
+	public String getLastname() {
+		return lastname;
+	}
 
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-  public String getSpecialty() {
-    return specialty;
-  }
+	public String getSpecialty() {
+		return specialty;
+	}
 
-  public void setSpecialty(String specialty) {
-    this.specialty = specialty;
-  }
+	public void setSpecialty(String specialty) {
+		this.specialty = specialty;
+	}
 
-  public String getProfessionalLicense() {
-    return professionalLicense;
-  }
+	public String getProfessionalLicense() {
+		return professionalLicense;
+	}
 
-  public void setProfessionalLicense(String professionalLicense) {
-    this.professionalLicense = professionalLicense;
-  }
+	public void setProfessionalLicense(String professionalLicense) {
+		this.professionalLicense = professionalLicense;
+	}
 }
