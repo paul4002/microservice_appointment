@@ -28,6 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.coverage.jacoco.xmlReportPaths>
+      target/site/jacoco/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -107,7 +110,7 @@
 							<!-- Generar el reporte después de los tests -->
 							<execution>
 									<id>report</id>
-									<phase>test</phase>
+									<phase>verify</phase>
 									<goals>
 											<goal>report</goal>
 									</goals>
