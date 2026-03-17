@@ -15,7 +15,6 @@ import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentStatus;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
-import edu.nur.nurtricenter_appointment.domain.mealplans.MealPlan;
 
 public class AppointmentTest {
 
@@ -71,7 +70,6 @@ public class AppointmentTest {
 			String notes = "Paciente estable";
 			Measurement measurement = new Measurement();
 			Diagnosis diagnosis = new Diagnosis();
-			MealPlan mealPlan = new MealPlan();
 
 			// Act
 			appointment.attend(notes, measurement, diagnosis);
