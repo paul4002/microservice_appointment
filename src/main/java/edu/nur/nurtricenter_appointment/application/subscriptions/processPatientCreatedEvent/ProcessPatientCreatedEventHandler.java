@@ -14,6 +14,9 @@ import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
 @Component
 public class ProcessPatientCreatedEventHandler implements Command.Handler<ProcessPatientCreatedEventCommand, Result> {
+	private static final String FIELD_PATIENT = "pacienteId";
+	private static final String FIELD_NAME = "nombre";
+	private static final String FIELD_DOCUMENT = "documento";
 	private final IPatientRepository patientRepository;
 	private final IUnitOfWork unitOfWork;
 
@@ -24,18 +27,18 @@ public class ProcessPatientCreatedEventHandler implements Command.Handler<Proces
 
 	@Override
 	public Result handle(ProcessPatientCreatedEventCommand request) {
-		if (request.payload().get("pacienteId") == null || request.payload().get("pacienteId").toString().isBlank()) {
+		if (request.payload().get(FIELD_PATIENT) == null || request.payload().get(FIELD_PATIENT).toString().isBlank()) {
 			return Result.failure(new Error("PatientCreated.PatientIdMissing", "Patient id is required in event", ErrorType.VALIDATION, ""));
 		}
-		if (request.payload().get("nombre") == null || request.payload().get("nombre").toString().isBlank()) {
+		if (request.payload().get(FIELD_NAME) == null || request.payload().get(FIELD_NAME).toString().isBlank()) {
 			return Result.failure(new Error("PatientCreated.PatientNameMissing", "Patient name is required in event", ErrorType.VALIDATION, ""));
 		}
-		if (request.payload().get("documento") == null || request.payload().get("documento").toString().isBlank()) {
+		if (request.payload().get(FIELD_DOCUMENT) == null || request.payload().get(FIELD_DOCUMENT).toString().isBlank()) {
 			return Result.failure(new Error("PatientCreated.PatientDocumentMissing", "Patient document is required in event", ErrorType.VALIDATION, ""));
 		}
-		String pacienteId = request.payload().get("pacienteId").toString();
-		String name = request.payload().get("nombre").toString();
-		String document = request.payload().get("documento").toString();
+		String pacienteId = request.payload().get(FIELD_PATIENT).toString();
+		String name = request.payload().get(FIELD_NAME).toString();
+		String document = request.payload().get(FIELD_DOCUMENT).toString();
 		Patient patient = new Patient(UUID.fromString(pacienteId), name, document);
 		this.patientRepository.Add(patient);
 		this.unitOfWork.commitAsync(patient);
