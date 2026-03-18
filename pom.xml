@@ -130,6 +130,7 @@
 								</indent>
 								<removeUnusedImports/>
 						</java>
+						<lineEndings>UNIX</lineEndings>
 				</configuration>
 
 				<executions>
