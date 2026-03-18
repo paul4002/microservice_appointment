@@ -1,1 +1,12 @@
-npm test
+#!/bin/sh
+
+echo "Checking formatting..."
+
+./mvnw spotless:check
+
+if [ $? -ne 0 ]; then
+	echo "Formatting errors detected"
+	echo "Running: mvn spotless:apply"
+	./mvnw spotless:apply
+	exit 0
+fi
