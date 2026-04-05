@@ -10,3 +10,12 @@ if [ $? -ne 0 ]; then
 	./mvnw spotless:apply
 	exit 0
 fi
+
+echo "Running unit tests..."
+
+./mvnw test
+
+if [ $? -ne 0 ]; then
+	echo "Unit tests failed. Commit aborted."
+	exit 1
+fi
