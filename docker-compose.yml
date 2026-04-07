@@ -14,6 +14,7 @@ services:
   citas_evaluaciones:
     build: .
     container_name: citas_evaluaciones
+    hostname: citas-evaluaciones
     depends_on:
       - citas_evaluaciones_postgres
     env_file:
@@ -22,8 +23,52 @@ services:
       DB_URL: jdbc:postgresql://citas_evaluaciones_postgres:5432/nurtricenter_db
       DB_USER: citas_evaluaciones_user
       DB_PASSWORD: SuperUsuar10
+      LOKI_URL: http://loki:3100
     ports:
       - "9004:8080"
 
+  loki:
+    image: grafana/loki:3.3.2
+    container_name: grupo3-loki
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    ports:
+      - "3100:3100"
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: grupo3-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grupo3-grafana
+    depends_on:
+      - prometheus
+      - loki
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+
 volumes:
   citas_evaluaciones_postgres_data:
+  loki_data:
+  prometheus_data:
+  grafana_data:
