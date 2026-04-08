@@ -24,3 +24,13 @@ Variables de entorno:
 - DB_URL (Conexión a base de datos)
 - DB_USER
 - DB_PASS
+
+## CI/CD Actions
+
+### Build (`build.yml`)
+Se ejecuta automáticamente al abrir un Pull Request o solicitar un review.
+Compila el proyecto con Maven y ejecuta los tests unitarios.
+
+### Release (`release.yml`)
+Se ejecuta cuando se hace merge a `main`.
+Conecta al servidor vía SSH y ejecuta el script de despliegue.
