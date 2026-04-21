@@ -1,5 +1,6 @@
 package edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
@@ -74,5 +75,22 @@ public class NutritionistEntity {
 
 	public Nutritionist toDomain() {
 		return new Nutritionist(id, name, lastname, specialty, professionalLicense);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof NutritionistEntity other)) return false;
+		return Objects.equals(id, other.id)
+			&& Objects.equals(name, other.name)
+			&& Objects.equals(lastname, other.lastname)
+			&& Objects.equals(specialty, other.specialty)
+			&& Objects.equals(professionalLicense, other.professionalLicense)
+			&& Objects.equals(state, other.state);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, lastname, specialty, professionalLicense, state);
 	}
 }
