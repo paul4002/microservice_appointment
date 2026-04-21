@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.DiagnosisEntity;
 
 public class DiagnosisEntityTest {
 	@Test

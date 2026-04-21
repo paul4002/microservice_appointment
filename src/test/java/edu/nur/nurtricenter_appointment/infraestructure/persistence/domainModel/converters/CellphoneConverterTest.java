@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.CellphoneConverter;
 
 public class CellphoneConverterTest {
 	private final CellphoneConverter converter = new CellphoneConverter();

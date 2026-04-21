@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.DecimalValueConverter;
 
 public class DecimalValueConverterTest {
 	private final DecimalValueConverter converter = new DecimalValueConverter();

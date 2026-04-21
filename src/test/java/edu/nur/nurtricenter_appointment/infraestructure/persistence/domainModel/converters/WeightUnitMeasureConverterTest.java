@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasure;
 import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasureName;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.WeightUnitMeasureConverter;
 
 public class WeightUnitMeasureConverterTest {
 	private final WeightUnitMeasureConverter converter = new WeightUnitMeasureConverter();

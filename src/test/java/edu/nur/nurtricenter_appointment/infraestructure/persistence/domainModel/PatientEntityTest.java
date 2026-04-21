@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
 import edu.nur.nurtricenter_appointment.domain.patients.Email;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 

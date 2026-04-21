@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.MeasurementDto;
-import edu.nur.nurtricenter_appointment.application.utils.MeasurementMapper;
 import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 
 public class MeasurementMapperTest {
