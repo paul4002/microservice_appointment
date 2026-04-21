@@ -3,15 +3,17 @@ package edu.nur.nurtricenter_appointment.domain.appointments;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 
-public class AppointmentTest {
+class AppointmentTest {
 
 	@Test
 	void schedule_ShouldCreateScheduledAppointment() {
@@ -93,6 +95,89 @@ public class AppointmentTest {
 		// Assert
 		assertEquals(AppointmentStatus.CLOSED, appointment.getStatus());
 		assertEquals(AppointmentAttendance.NOT_ATTENDED, appointment.getAttendance());
+	}
+
+	@Test
+	void schedule_WithPastDate_ShouldThrowDomainException() {
+		// Arrange
+		UUID patientId = UUID.randomUUID();
+		UUID nutritionistId = UUID.randomUUID();
+		LocalDateTime pastDate = LocalDateTime.now().minusDays(1);
+
+		// Act + Assert
+		assertThrows(DomainException.class, () ->
+			Appointment.schedule(patientId, nutritionistId, pastDate, AppointmentType.INITIAL)
+		);
+	}
+
+	@Test
+	void cancel_WhenNotScheduled_ShouldThrowDomainException() {
+		// Arrange
+		Appointment appointment = Appointment.schedule(
+				UUID.randomUUID(), UUID.randomUUID(),
+				LocalDateTime.now().plusDays(1), AppointmentType.INITIAL);
+		appointment.cancel();
+
+		// Act + Assert
+		assertThrows(DomainException.class,
+				appointment::cancel);
+	}
+
+	@Test
+	void attend_WhenNotScheduled_ShouldThrowDomainException() {
+		// Arrange
+		Measurement measurement = new Measurement();
+		Diagnosis diagnosis = new Diagnosis();
+		Appointment appointment = Appointment.schedule(
+				UUID.randomUUID(), UUID.randomUUID(),
+				LocalDateTime.now().plusDays(1), AppointmentType.INITIAL);
+		appointment.cancel();
+
+		// Act + Assert
+		assertThrows(DomainException.class, () ->
+			appointment.attend("notes", measurement, diagnosis)
+		);
+	}
+
+	@Test
+	void attend_WhenAttendanceNotPending_ShouldThrowDomainException() {
+		// Arrange
+		Measurement measurement = new Measurement();
+		Diagnosis diagnosis = new Diagnosis();
+		Appointment appointment = Appointment.schedule(
+				UUID.randomUUID(), UUID.randomUUID(),
+				LocalDateTime.now().plusDays(1), AppointmentType.INITIAL);
+		appointment.attend("first", measurement, diagnosis);
+
+		// Act + Assert
+		assertThrows(DomainException.class, () ->
+			appointment.attend("second", new Measurement(), new Diagnosis())
+		);
+	}
+
+	@Test
+	void notAttended_WhenNotScheduled_ShouldThrowDomainException() {
+		// Arrange
+		Appointment appointment = Appointment.schedule(
+				UUID.randomUUID(), UUID.randomUUID(),
+				LocalDateTime.now().plusDays(1), AppointmentType.INITIAL);
+		appointment.cancel();
+
+		// Act + Assert
+		assertThrows(DomainException.class,
+				appointment::notAttended);
+	}
+
+	@Test
+	void notAttended_WhenAttendanceNotPending_ShouldThrowDomainException() {
+		// Arrange
+		Appointment appointment = Appointment.schedule(
+				UUID.randomUUID(), UUID.randomUUID(),
+				LocalDateTime.now().plusDays(1), AppointmentType.INITIAL);
+		appointment.attend("notes", new Measurement(), new Diagnosis());
+
+		// Act + Assert
+		assertThrows(DomainException.class, appointment::notAttended);
 	}
 
 	@Test

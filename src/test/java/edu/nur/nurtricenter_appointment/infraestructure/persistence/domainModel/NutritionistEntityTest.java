@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
-public class NutritionistEntityTest {
+class NutritionistEntityTest {
 	@Test
 	void shouldSetAndGetFields() {
 		// Arrange
@@ -80,5 +80,78 @@ public class NutritionistEntityTest {
 		assertEquals(entity.getLastname(), domain.getLastname());
 		assertEquals(entity.getSpecialty(), domain.getSpecialty());
 		assertEquals(entity.getProfessionalLicense(), domain.getProfessionalLicense());
+	}
+
+	@Test
+	void equals_SameObject_ShouldReturnTrue() {
+		// Arrange
+		NutritionistEntity entity = new NutritionistEntity();
+		entity.setId(UUID.randomUUID());
+
+		// Act + Assert
+		assertEquals(entity, entity);
+	}
+
+	@Test
+	void equals_EqualEntities_ShouldReturnTrue() {
+		// Arrange
+		UUID id = UUID.randomUUID();
+		NutritionistEntity a = new NutritionistEntity();
+		a.setId(id);
+		a.setName("Juan");
+		a.setLastname("Velasquez");
+		a.setSpecialty(NutritionistSpecialty.CLINICAL_NUTRITION);
+		a.setProfessionalLicense("LIC-001");
+		a.setState(true);
+
+		NutritionistEntity b = new NutritionistEntity();
+		b.setId(id);
+		b.setName("Juan");
+		b.setLastname("Velasquez");
+		b.setSpecialty(NutritionistSpecialty.CLINICAL_NUTRITION);
+		b.setProfessionalLicense("LIC-001");
+		b.setState(true);
+
+		// Act + Assert
+		assertEquals(a, b);
+	}
+
+	@Test
+	void equals_DifferentId_ShouldReturnFalse() {
+		// Arrange
+		NutritionistEntity a = new NutritionistEntity();
+		a.setId(UUID.randomUUID());
+		a.setName("Juan");
+
+		NutritionistEntity b = new NutritionistEntity();
+		b.setId(UUID.randomUUID());
+		b.setName("Juan");
+
+		// Act + Assert
+		org.junit.jupiter.api.Assertions.assertNotEquals(a, b);
+	}
+
+	@Test
+	void hashCode_EqualEntities_ShouldReturnSameHash() {
+		// Arrange
+		UUID id = UUID.randomUUID();
+		NutritionistEntity a = new NutritionistEntity();
+		a.setId(id);
+		a.setName("Juan");
+		a.setLastname("Velasquez");
+		a.setSpecialty(NutritionistSpecialty.CLINICAL_NUTRITION);
+		a.setProfessionalLicense("LIC-001");
+		a.setState(true);
+
+		NutritionistEntity b = new NutritionistEntity();
+		b.setId(id);
+		b.setName("Juan");
+		b.setLastname("Velasquez");
+		b.setSpecialty(NutritionistSpecialty.CLINICAL_NUTRITION);
+		b.setProfessionalLicense("LIC-001");
+		b.setState(true);
+
+		// Act + Assert
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 }
