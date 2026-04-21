@@ -12,8 +12,6 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.nur.nurtricenter_appointment.application.nutritionists.getNutritionist.GetNutritionistsQuery;
-import edu.nur.nurtricenter_appointment.application.nutritionists.getNutritionist.NutritionistDto;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel.NutritionistPersistenceModel;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.NutritionistCrudRepository;

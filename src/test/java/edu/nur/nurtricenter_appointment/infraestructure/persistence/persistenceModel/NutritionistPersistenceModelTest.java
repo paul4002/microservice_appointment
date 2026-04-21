@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel.NutritionistPersistenceModel;
 
 public class NutritionistPersistenceModelTest {
 	@Test

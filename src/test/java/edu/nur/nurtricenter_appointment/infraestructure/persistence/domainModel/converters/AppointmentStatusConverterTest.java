@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentStatus;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.AppointmentStatusConverter;
 
 public class AppointmentStatusConverterTest {
 	private final AppointmentStatusConverter converter = new AppointmentStatusConverter();

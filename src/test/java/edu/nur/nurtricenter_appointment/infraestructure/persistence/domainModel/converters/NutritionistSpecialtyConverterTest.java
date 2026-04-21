@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.NutritionistSpecialtyConverter;
 
 public class NutritionistSpecialtyConverterTest {
 	private final NutritionistSpecialtyConverter converter = new NutritionistSpecialtyConverter();

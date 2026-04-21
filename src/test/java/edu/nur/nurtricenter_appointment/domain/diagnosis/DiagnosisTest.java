@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
-import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
-import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisErrors;
-import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 
 public class DiagnosisTest {
 

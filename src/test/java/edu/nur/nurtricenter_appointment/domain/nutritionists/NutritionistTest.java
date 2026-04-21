@@ -10,9 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
-import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
-import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistErrors;
-import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
 public class NutritionistTest {
 	@Test

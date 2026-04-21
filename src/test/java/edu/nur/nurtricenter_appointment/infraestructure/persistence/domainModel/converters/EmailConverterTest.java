@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Email;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.EmailConverter;
 
 public class EmailConverterTest {
 	private final EmailConverter converter = new EmailConverter();

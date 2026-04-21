@@ -9,11 +9,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
-import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentAttendance;
-import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentStatus;
-import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
-import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 
 public class AppointmentTest {

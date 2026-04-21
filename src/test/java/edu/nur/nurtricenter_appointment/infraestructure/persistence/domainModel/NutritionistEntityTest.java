@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.NutritionistEntity;
 
 public class NutritionistEntityTest {
 	@Test

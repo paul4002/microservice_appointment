@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.DiagnosisNutritionalStateConverter;
 
 public class DiagnosisNutritionalStateConverterTest {
 	private final DiagnosisNutritionalStateConverter converter = new DiagnosisNutritionalStateConverter();

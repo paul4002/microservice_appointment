@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import edu.nur.nurtricenter_appointment.application.nutritionists.deleteNutritionist.DeleteNutritionistCommand;
-import edu.nur.nurtricenter_appointment.application.nutritionists.deleteNutritionist.DeleteNutritionistHandler;
 import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;

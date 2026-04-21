@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ResponseAppointmentDto;
 
 public class ResponseAppointmentDtoTest {
 	@Test

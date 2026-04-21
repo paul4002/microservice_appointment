@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.QuantityValue;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.QuantityValueConverter;
 
 public class QuantityValueConverterTest {
 	private final QuantityValueConverter converter = new QuantityValueConverter();

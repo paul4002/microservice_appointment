@@ -17,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ScheduleAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ScheduleAppointmentHandler;
 import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;

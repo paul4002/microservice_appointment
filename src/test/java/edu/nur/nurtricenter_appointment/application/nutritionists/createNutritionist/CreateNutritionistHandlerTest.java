@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import edu.nur.nurtricenter_appointment.application.nutritionists.createNutritionist.CreateNutritionistCommand;
-import edu.nur.nurtricenter_appointment.application.nutritionists.createNutritionist.CreateNutritionistHandler;
 import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 

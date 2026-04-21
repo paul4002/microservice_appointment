@@ -9,7 +9,6 @@ import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 import edu.nur.nurtricenter_appointment.domain.appointments.Percentage;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.AppointmentEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

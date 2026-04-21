@@ -18,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.AttendAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.AttendAppointmentHandler;
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
