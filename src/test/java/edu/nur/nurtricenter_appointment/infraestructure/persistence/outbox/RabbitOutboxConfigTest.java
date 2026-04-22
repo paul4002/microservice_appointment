@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Declarables;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -159,7 +162,7 @@ class RabbitOutboxConfigTest {
 		// Assert
 		assertNotNull(declarables, "Declarables should not be null");
 		assertTrue(declarables.getDeclarables().stream()
-				.anyMatch(d -> d.getClass().getSimpleName().equals("DirectExchange")),
+				.anyMatch(DirectExchange.class::isInstance),
 				"Declarables should contain DirectExchange");
 	}
 
@@ -181,7 +184,7 @@ class RabbitOutboxConfigTest {
 		// Assert
 		assertNotNull(declarables, "Declarables should not be null");
 		assertTrue(declarables.getDeclarables().stream()
-				.anyMatch(d -> d.getClass().getSimpleName().equals("TopicExchange")),
+				.anyMatch(TopicExchange.class::isInstance),
 				"Declarables should contain TopicExchange");
 	}
 
@@ -203,7 +206,7 @@ class RabbitOutboxConfigTest {
 		// Assert
 		assertNotNull(declarables, "Declarables should not be null");
 		assertTrue(declarables.getDeclarables().stream()
-				.anyMatch(d -> d.getClass().getSimpleName().equals("Queue")),
+				.anyMatch(Queue.class::isInstance),
 				"Declarables should contain Queue");
 	}
 
