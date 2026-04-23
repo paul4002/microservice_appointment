@@ -12,7 +12,7 @@ import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 
 import java.util.UUID;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,25 +29,25 @@ public class AppointmentController {
 		this.pipeline = pipeline;
 	}
 
-	@PreAuthorize("hasRole('nutritionist')")
+	// @PreAuthorize("hasRole('nutritionist')")
 	@PostMapping("/schedule")
 	public ResultWithValue<UUID> scheduleAppointment(@RequestBody ScheduleAppointmentCommand command) {
 		return command.execute(pipeline);
 	}
-	
-	@PreAuthorize("hasRole('nutritionist')")
+
+	// @PreAuthorize("hasRole('nutritionist')")
 	@PatchMapping("/cancel")
 	public ResultWithValue<Boolean> cancelAppointment(@RequestBody CancelAppointmentCommand command) {
 		return command.execute(pipeline);
 	}
 
-	@PreAuthorize("hasRole('nutritionist')")
+	// @PreAuthorize("hasRole('nutritionist')")
 	@PatchMapping("/notattended")
 	public ResultWithValue<Boolean> notAttendedAppointment(@RequestBody NotAttendedAppointmentCommand command) {
 		return command.execute(pipeline);
 	}
 
-	@PreAuthorize("hasRole('nutritionist')")
+	// @PreAuthorize("hasRole('nutritionist')")
 	@PostMapping("/attend")
 	public ResultWithValue<Boolean> attend(@RequestBody AttendAppointmentCommand command) {
 		return command.execute(pipeline);
