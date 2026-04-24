@@ -1,0 +1,1419 @@
+{
+  "info": {
+    "_postman_id": "b0e2e595-cb4c-4f83-8117-582d83951663",
+    "name": "Nurtricenter-Appointment Integration Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14478604"
+  },
+  "item": [
+    {
+      "name": "1.0 Crear citas válidas e inválidas",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomDate(isFuture) {\r",
+              "    const now = new Date();\r",
+              "    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+              "\r",
+              "    if (isFuture) {\r",
+              "        now.setDate(now.getDate() + daysOffset);\r",
+              "    } else {\r",
+              "        now.setDate(now.getDate() - daysOffset);\r",
+              "    }\r",
+              "\r",
+              "    const hour = Math.floor(Math.random() * 9) + 8;\r",
+              "    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+              "\r",
+              "    const dd = String(now.getDate()).padStart(2, '0');\r",
+              "    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+              "    const yyyy = now.getFullYear();\r",
+              "    const hh = String(hour).padStart(2, '0');\r",
+              "\r",
+              "    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+              "}\r",
+              "\r",
+              "\r",
+              "const appointments = JSON.parse(pm.collectionVariables.get(\"appointments\"));\r",
+              "let index = pm.collectionVariables.get(\"index\");\r",
+              "if (!index) {\r",
+              "    index = 0;\r",
+              "}\r",
+              "const appointment = appointments[parseInt(index)];\r",
+              "\r",
+              "if (appointment.scheduleDate === \"FUTURE\") {\r",
+              "    appointment.scheduleDate = randomDate(true);\r",
+              "} else if (appointment.scheduleDate === \"PAST\") {\r",
+              "    appointment.scheduleDate = randomDate(false);\r",
+              "}\r",
+              "pm.collectionVariables.set(\"index\", parseInt(index));\r",
+              "pm.collectionVariables.set(\"appointmentJson\", JSON.stringify(appointment));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "var index = pm.collectionVariables.get(\"index\");\r",
+              "console.log(pm.response.code);\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code is 200 for appointment \" + index, function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Appointment created - value token not empty\", function () {\r",
+              "            pm.expect(body).to.have.property(\"value\");\r",
+              "            pm.expect(body.value).to.be.a(\"string\");\r",
+              "            pm.expect(body.value.trim()).to.not.equal(\"\");\r",
+              "        });\r",
+              "    } else {\r",
+              "        pm.test(\"Appointment not created - value null\", function () {\r",
+              "            pm.expect(body.value).to.be.null;\r",
+              "        })\r",
+              "        pm.test(\"Appointment not created - error code not empty\", function () {\r",
+              "            pm.expect(body).to.have.property(\"error\");\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error.code).to.be.a(\"string\");\r",
+              "            pm.expect(body.error.code.trim()).to.not.equal(\"\");\r",
+              "        })\r",
+              "        pm.test(\"Appointment not created - invalid scheduleDate\", function () {\r",
+              "            pm.expect(body).to.have.property(\"error\");\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error.code).to.be.a(\"string\");\r",
+              "            pm.expect(body.error.code.trim()).to.not.equal(\"\");\r",
+              "        })\r",
+              "    }\r",
+              "}\r",
+              "\r",
+              "let appointments = JSON.parse(pm.collectionVariables.get(\"appointments\"));\r",
+              "if (index + 1 >= appointments.length) {\r",
+              "    index = 0;\r",
+              "}\r",
+              "pm.collectionVariables.set(\"index\", parseInt(index) + 1);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{appointmentJson}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/appointment/schedule",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "appointment",
+            "schedule"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "1.1 Cancelar Cita",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomDate(isFuture) {\r",
+              "    const now = new Date();\r",
+              "    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+              "\r",
+              "    if (isFuture) {\r",
+              "        now.setDate(now.getDate() + daysOffset);\r",
+              "    } else {\r",
+              "        now.setDate(now.getDate() - daysOffset);\r",
+              "    }\r",
+              "\r",
+              "    const hour = Math.floor(Math.random() * 9) + 8;\r",
+              "    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+              "\r",
+              "    const dd = String(now.getDate()).padStart(2, '0');\r",
+              "    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+              "    const yyyy = now.getFullYear();\r",
+              "    const hh = String(hour).padStart(2, '0');\r",
+              "\r",
+              "    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+              "}\r",
+              "\r",
+              "pm.sendRequest({\r",
+              "    url: pm.collectionVariables.get(\"URL_BASE\") + '/api/appointment/schedule',\r",
+              "    method: 'POST',\r",
+              "    header: {\r",
+              "        'Content-Type': 'application/json',\r",
+              "        'Authorization': 'Bearer ' + pm.collectionVariables.get('token')\r",
+              "    },\r",
+              "    body: {\r",
+              "        mode: 'raw',\r",
+              "        raw: JSON.stringify({\r",
+              "            \"patientId\": \"af5d3817-a221-4bca-acef-2d53bb84973d\",\r",
+              "            \"nutritionistId\": \"eed29f4a-a8c1-4c54-b522-8afb229bd0de\",\r",
+              "            \"type\": \"Initial\",\r",
+              "            \"scheduleDate\": randomDate(true)\r",
+              "        })\r",
+              "    }\r",
+              "}, function (err, response) {\r",
+              "    if (err) {\r",
+              "        console.log('Error agendando cita: ' + err);\r",
+              "    } else {\r",
+              "        const citaResponse = response.json();\r",
+              "        if (citaResponse.success) {\r",
+              "            pm.variables.set(\"appointmentId\", citaResponse.value);\r",
+              "            console.log(\"Cita agendada para cancelar: \" + citaResponse.value);\r",
+              "        }\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Cancelación\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "\r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Cita cancelada exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            console.log(\"Cita cancelada correctamente\");\r",
+              "        });\r",
+              "    } else {\r",
+              "        pm.test(\"Error al cancelar cita\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "        });\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Status code es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"{{appointmentId}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/appointment/cancel",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "appointment",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "1.2 Marcar No Atendida",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomDate(isFuture) {\r",
+              "    const now = new Date();\r",
+              "    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+              "\r",
+              "    if (isFuture) {\r",
+              "        now.setDate(now.getDate() + daysOffset);\r",
+              "    } else {\r",
+              "        now.setDate(now.getDate() - daysOffset);\r",
+              "    }\r",
+              "\r",
+              "    const hour = Math.floor(Math.random() * 9) + 8;\r",
+              "    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+              "\r",
+              "    const dd = String(now.getDate()).padStart(2, '0');\r",
+              "    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+              "    const yyyy = now.getFullYear();\r",
+              "    const hh = String(hour).padStart(2, '0');\r",
+              "\r",
+              "    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+              "}\r",
+              "\r",
+              "pm.sendRequest({\r",
+              "    url: pm.collectionVariables.get(\"URL_BASE\") + '/api/appointment/schedule',\r",
+              "    method: 'POST',\r",
+              "    header: {\r",
+              "        'Content-Type': 'application/json',\r",
+              "        'Authorization': 'Bearer ' + pm.collectionVariables.get('token')\r",
+              "    },\r",
+              "    body: {\r",
+              "        mode: 'raw',\r",
+              "        raw: JSON.stringify({\r",
+              "            \"patientId\": \"af5d3817-a221-4bca-acef-2d53bb84973d\",\r",
+              "            \"nutritionistId\": \"eed29f4a-a8c1-4c54-b522-8afb229bd0de\",\r",
+              "            \"type\": \"Initial\",\r",
+              "            \"scheduleDate\": randomDate(true)\r",
+              "        })\r",
+              "    }\r",
+              "}, function (err, response) {\r",
+              "    if (err) {\r",
+              "        console.log('Error agendando cita: ' + err);\r",
+              "    } else {\r",
+              "        const citaResponse = response.json();\r",
+              "        if (citaResponse.success) {\r",
+              "            pm.variables.set(\"appointmentId\", citaResponse.value);\r",
+              "            console.log(\"Cita agendada para marcar no atendida: \" + citaResponse.value);\r",
+              "        }\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Marcar no atendida\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "\r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Cita marcada como no atendida exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            console.log(\"Cita cancelada correctamente\");\r",
+              "        });\r",
+              "    } else {\r",
+              "        pm.test(\"Error al marcar no atendida cita\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "        });\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Status code es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"{{appointmentId}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/appointment/notattended",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "appointment",
+            "notattended"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "1.3 Atendida",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomDate(isFuture) {\r",
+              "    const now = new Date();\r",
+              "    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+              "\r",
+              "    if (isFuture) {\r",
+              "        now.setDate(now.getDate() + daysOffset);\r",
+              "    } else {\r",
+              "        now.setDate(now.getDate() - daysOffset);\r",
+              "    }\r",
+              "\r",
+              "    const hour = Math.floor(Math.random() * 9) + 8;\r",
+              "    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+              "\r",
+              "    const dd = String(now.getDate()).padStart(2, '0');\r",
+              "    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+              "    const yyyy = now.getFullYear();\r",
+              "    const hh = String(hour).padStart(2, '0');\r",
+              "\r",
+              "    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+              "}\r",
+              "\r",
+              "pm.sendRequest({\r",
+              "    url: pm.collectionVariables.get(\"URL_BASE\") + '/api/appointment/schedule',\r",
+              "    method: 'POST',\r",
+              "    header: {\r",
+              "        'Content-Type': 'application/json',\r",
+              "        'Authorization': 'Bearer ' + pm.collectionVariables.get('token')\r",
+              "    },\r",
+              "    body: {\r",
+              "        mode: 'raw',\r",
+              "        raw: JSON.stringify({\r",
+              "            \"patientId\": \"af5d3817-a221-4bca-acef-2d53bb84973d\",\r",
+              "            \"nutritionistId\": \"eed29f4a-a8c1-4c54-b522-8afb229bd0de\",\r",
+              "            \"type\": \"Initial\",\r",
+              "            \"scheduleDate\": randomDate(true)\r",
+              "        })\r",
+              "    }\r",
+              "}, function (err, response) {\r",
+              "    if (err) {\r",
+              "        console.log('Error agendando cita: ' + err);\r",
+              "    } else {\r",
+              "        const citaResponse = response.json();\r",
+              "        if (citaResponse.success) {\r",
+              "            pm.variables.set(\"appointmentId\", citaResponse.value);\r",
+              "            console.log(\"Cita agendada para marcar atendida: \" + citaResponse.value);\r",
+              "        }\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Marcar atendida\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "\r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Cita marcada como atendida exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            console.log(\"Cita cancelada correctamente\");\r",
+              "        });\r",
+              "    } else {\r",
+              "        pm.test(\"Error al marcar atendida cita\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "        });\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Status code es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"{{appointmentId}}\",\r\n    \"notes\": \"Notas descripción de la consulta.\",\r\n    \"measurementDto\": {\r\n        \"weight\": 80.5,\r\n        \"height\": 182.0,\r\n        \"imc\": 20.0,\r\n        \"bodyFat\": 25.0,\r\n        \"muscleMass\": 60.0\r\n    },\r\n    \"diagnosisDto\": {\r\n        \"description\": \"Descripción de prueba del diagnóstico.\",\r\n        \"nutritionalState\": \"Normal weight\",\r\n        \"associatedRisks\": \"\",\r\n        \"recommendations\": \"\",\r\n        \"goals\": \"\",\r\n        \"comments\": \"\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/appointment/attend",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "appointment",
+            "attend"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.0 Listar Nutricionistas",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Listado de Nutricionistas\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    pm.test(\"Respuesta contiene estructura esperada\", function () {\r",
+              "        pm.expect(body).to.have.property(\"success\");\r",
+              "        pm.expect(body).to.have.property(\"failure\");\r",
+              "        pm.expect(body).to.have.property(\"value\");\r",
+              "        pm.expect(body).to.have.property(\"error\");\r",
+              "    });\r",
+              "    \r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Listado de nutricionistas obtenido exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            pm.expect(body.failure).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Value contiene array de nutricionistas\", function () {\r",
+              "            pm.expect(body.value).to.be.an(\"array\");\r",
+              "            pm.expect(body.value.length).to.be.greaterThan(0);\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Cada nutricionista tiene estructura válida\", function () {\r",
+              "            body.value.forEach((nutritionist, index) => {\r",
+              "                pm.expect(nutritionist).to.have.property(\"id\");\r",
+              "                pm.expect(nutritionist).to.have.property(\"name\");\r",
+              "                pm.expect(nutritionist).to.have.property(\"lastname\");\r",
+              "                pm.expect(nutritionist).to.have.property(\"specialty\");\r",
+              "                pm.expect(nutritionist).to.have.property(\"professionalLicense\");\r",
+              "                \r",
+              "                pm.expect(nutritionist.id).to.be.a(\"string\");\r",
+              "                pm.expect(nutritionist.name).to.be.a(\"string\");\r",
+              "                pm.expect(nutritionist.lastname).to.be.a(\"string\");\r",
+              "                pm.expect(nutritionist.specialty).to.be.a(\"string\");\r",
+              "                pm.expect(nutritionist.professionalLicense).to.be.a(\"string\");\r",
+              "            });\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error object está vacío en caso de éxito\", function () {\r",
+              "            pm.expect(body.error.code).to.equal(\"\");\r",
+              "            pm.expect(body.error.description).to.equal(\"\");\r",
+              "            pm.expect(body.error.structuredMessage).to.equal(\"\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"✓ Listado obtenido: \" + body.value.length + \" nutricionistas encontrados\");\r",
+              "        body.value.forEach((nutritionist) => {\r",
+              "            console.log(\"  - \" + nutritionist.name + \" \" + nutritionist.lastname + \" (\" + nutritionist.specialty + \")\");\r",
+              "        });\r",
+              "        \r",
+              "    } else {\r",
+              "        pm.test(\"Error al obtener listado de nutricionistas\", function () {\r",
+              "            pm.expect(body.success).to.be.false;\r",
+              "            pm.expect(body.failure).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error contiene información del fallo\", function () {\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error).to.have.property(\"description\");\r",
+              "            pm.expect(body.error).to.have.property(\"type\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "            pm.expect(body.error.code).to.not.equal(\"\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"Error: \" + body.error.description);\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Error: Status code no es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    console.log(\"Error HTTP: \" + pm.response.code);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL_BASE}}/api/nutritionist",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "nutritionist"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.1 Nuevo Nutricionista",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function generateRandomString(length) {\r",
+              "    const chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\";\r",
+              "    let result = \"\";\r",
+              "    for (let i = 0; i < length; i++) {\r",
+              "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+              "    }\r",
+              "    return result;\r",
+              "}\r",
+              "\r",
+              "const numbers = Math.floor(Math.random() * 999999).toString().padStart(6, '0');\r",
+              "const letters = generateRandomString(5);\r",
+              "\r",
+              "const professionalLicense = numbers + \"-\" + letters;\r",
+              "\r",
+              "pm.variables.set(\"professionalLicense\", professionalLicense);\r",
+              "\r",
+              "console.log(\"Professional License generado: \" + professionalLicense);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Nutricionista creado\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    pm.test(\"Respuesta contiene estructura esperada\", function () {\r",
+              "        pm.expect(body).to.have.property(\"success\");\r",
+              "        pm.expect(body).to.have.property(\"failure\");\r",
+              "        pm.expect(body).to.have.property(\"value\");\r",
+              "        pm.expect(body).to.have.property(\"error\");\r",
+              "    });\r",
+              "    \r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Nutricionista creado exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            pm.expect(body.failure).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Value contiene ID del nutricionista\", function () {\r",
+              "            pm.expect(body.value).to.be.a(\"string\");\r",
+              "            pm.expect(body.value).to.not.equal(\"\");\r",
+              "            // Valida que sea un UUID válido\r",
+              "            pm.expect(body.value).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error object está vacío en caso de éxito\", function () {\r",
+              "            pm.expect(body.error.code).to.equal(\"\");\r",
+              "            pm.expect(body.error.description).to.equal(\"\");\r",
+              "            pm.expect(body.error.structuredMessage).to.equal(\"\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "        });\r",
+              "        \r",
+              "        // Guardar el ID en una variable global para usarlo después\r",
+              "        pm.globals.set(\"nutritionistId\", body.value);\r",
+              "        \r",
+              "        console.log(\"✓ Nutricionista creado exitosamente\");\r",
+              "        console.log(\"✓ ID: \" + body.value);\r",
+              "        \r",
+              "    } else {\r",
+              "        pm.test(\"Error al crear nutricionista\", function () {\r",
+              "            pm.expect(body.success).to.be.false;\r",
+              "            pm.expect(body.failure).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error contiene información del fallo\", function () {\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error).to.have.property(\"description\");\r",
+              "            pm.expect(body.error).to.have.property(\"type\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "            pm.expect(body.error.code).to.not.equal(\"\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"Error: \" + body.error.description);\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Error: Status code no es 201\", function () {\r",
+              "        pm.response.to.have.status(201);\r",
+              "    });\r",
+              "    \r",
+              "    console.log(\"Error HTTP: \" + pm.response.code);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Jorge\",\r\n    \"lastname\": \"Balderrama\",\r\n    \"specialty\": \"Functional Nutrition\",\r\n    \"professionalLicense\": \"{{professionalLicense}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/nutritionist",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "nutritionist"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.2 Actualizar Nutricionista",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Nutricionista actualizado\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    pm.test(\"Respuesta contiene estructura esperada\", function () {\r",
+              "        pm.expect(body).to.have.property(\"success\");\r",
+              "        pm.expect(body).to.have.property(\"failure\");\r",
+              "        pm.expect(body).to.have.property(\"value\");\r",
+              "        pm.expect(body).to.have.property(\"error\");\r",
+              "    });\r",
+              "    \r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Nutricionista actualizado exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            pm.expect(body.failure).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Value indica actualización correcta\", function () {\r",
+              "            pm.expect(body.value).to.be.a(\"boolean\");\r",
+              "            pm.expect(body.value).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error object está vacío en caso de éxito\", function () {\r",
+              "            pm.expect(body.error.code).to.equal(\"\");\r",
+              "            pm.expect(body.error.description).to.equal(\"\");\r",
+              "            pm.expect(body.error.structuredMessage).to.equal(\"\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"✓ Nutricionista actualizado exitosamente\");\r",
+              "        \r",
+              "    } else {\r",
+              "        pm.test(\"Error al actualizar nutricionista\", function () {\r",
+              "            pm.expect(body.success).to.be.false;\r",
+              "            pm.expect(body.failure).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error contiene información del fallo\", function () {\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error).to.have.property(\"description\");\r",
+              "            pm.expect(body.error).to.have.property(\"type\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "            pm.expect(body.error.code).to.not.equal(\"\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"Error: \" + body.error.description);\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Error: Status code no es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    console.log(\"Error HTTP: \" + pm.response.code);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"e2102dbc-e0ce-4df7-ac54-081ddb4997a1\",\r\n    \"name\": \"Carlos\",\r\n    \"lastname\": \"Valverde\",\r\n    \"specialty\": \"Functional Nutrition\",\r\n    \"professionalLicense\": \"129887-A1JK2\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/nutritionist",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "nutritionist"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.3 Citas de Nutricionista",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomDate(isFuture) {\r",
+              "    const now = new Date();\r",
+              "    const daysOffset = Math.floor(Math.random() * 30) + 1;\r",
+              "    if (isFuture) {\r",
+              "        now.setDate(now.getDate() + daysOffset);\r",
+              "    } else {\r",
+              "        now.setDate(now.getDate() - daysOffset);\r",
+              "    }\r",
+              "    const hour = Math.floor(Math.random() * 9) + 8;\r",
+              "    const minute = Math.random() < 0.5 ? \"00\" : \"30\";\r",
+              "    const dd = String(now.getDate()).padStart(2, '0');\r",
+              "    const mm = String(now.getMonth() + 1).padStart(2, '0');\r",
+              "    const yyyy = now.getFullYear();\r",
+              "    const hh = String(hour).padStart(2, '0');\r",
+              "    return `${dd}-${mm}-${yyyy} ${hh}:${minute}:00`;\r",
+              "}\r",
+              "\r",
+              "const appointmentDate = randomDate(true);\r",
+              "const patientId = pm.collectionVariables.get(\"patientId\");\r",
+              "const nutritionistId = pm.collectionVariables.get(\"nutritionistId\");\r",
+              "const urlBase = pm.collectionVariables.get(\"URL_BASE\");\r",
+              "const token = pm.collectionVariables.get(\"token\");\r",
+              "\r",
+              "if (!patientId || !nutritionistId || !urlBase || !token) {\r",
+              "    console.log(\"✗ Error: Faltan variables de colección\");\r",
+              "    console.log(\"  patientId: \" + patientId);\r",
+              "    console.log(\"  nutritionistId: \" + nutritionistId);\r",
+              "    console.log(\"  URL_BASE: \" + urlBase);\r",
+              "    console.log(\"  token: \" + token);\r",
+              "} else {\r",
+              "    pm.sendRequest({\r",
+              "        url: urlBase + '/api/appointment/schedule',\r",
+              "        method: 'POST',\r",
+              "        header: {\r",
+              "            'Content-Type': 'application/json',\r",
+              "            'Authorization': 'Bearer ' + token\r",
+              "        },\r",
+              "        body: {\r",
+              "            mode: 'raw',\r",
+              "            raw: JSON.stringify({\r",
+              "                \"patientId\": patientId,\r",
+              "                \"nutritionistId\": nutritionistId,\r",
+              "                \"type\": \"Initial\",\r",
+              "                \"scheduleDate\": appointmentDate\r",
+              "            })\r",
+              "        }\r",
+              "    }, function (err, response) {\r",
+              "        if (err) {\r",
+              "            console.log('✗ Error en pm.sendRequest: ' + err);\r",
+              "        } else {\r",
+              "            try {\r",
+              "                const citaResponse = response.json();\r",
+              "                console.log(\"Respuesta completa: \" + JSON.stringify(citaResponse));\r",
+              "                \r",
+              "                if (citaResponse && citaResponse.success) {\r",
+              "                    const appointmentId = citaResponse.value;\r",
+              "                    const dateArray = appointmentDate.split(\" \");\r",
+              "                    const datePart = dateArray[0];\r",
+              "                    \r",
+              "                    pm.variables.set(\"appointmentId\", appointmentId);\r",
+              "                    pm.variables.set(\"appointmentDate\", datePart);\r",
+              "                    \r",
+              "                    console.log(\"Cita agendada exitosamente\");\r",
+              "                    console.log(\"  ID: \" + appointmentId);\r",
+              "                    console.log(\"  Fecha: \" + appointmentDate);\r",
+              "                    console.log(\"  Fecha para query: \" + datePart);\r",
+              "                } else {\r",
+              "                    console.log(\"La respuesta no fue exitosa\");\r",
+              "                    if (citaResponse && citaResponse.error) {\r",
+              "                        console.log(\"  Error: \" + citaResponse.error.description);\r",
+              "                    }\r",
+              "                }\r",
+              "            } catch (parseErr) {\r",
+              "                console.log(\"Error al parsear respuesta: \" + parseErr);\r",
+              "                console.log(\"  Response status: \" + response.code);\r",
+              "                console.log(\"  Response body: \" + response.text());\r",
+              "            }\r",
+              "        }\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Citas consultadas\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    pm.test(\"Respuesta contiene estructura esperada\", function () {\r",
+              "        pm.expect(body).to.have.property(\"success\");\r",
+              "        pm.expect(body).to.have.property(\"failure\");\r",
+              "        pm.expect(body).to.have.property(\"value\");\r",
+              "        pm.expect(body).to.have.property(\"error\");\r",
+              "    });\r",
+              "    \r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Citas consultadas exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            pm.expect(body.failure).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Value contiene array de citas\", function () {\r",
+              "            pm.expect(body.value).to.be.an(\"array\");\r",
+              "            pm.expect(body.value.length).to.be.greaterThan(0);\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Cada cita tiene estructura válida\", function () {\r",
+              "            body.value.forEach((appointment, index) => {\r",
+              "                pm.expect(appointment).to.have.property(\"id\");\r",
+              "                pm.expect(appointment).to.have.property(\"patientId\");\r",
+              "                pm.expect(appointment).to.have.property(\"type\");\r",
+              "                pm.expect(appointment).to.have.property(\"scheduleDate\");\r",
+              "                pm.expect(appointment).to.have.property(\"status\");\r",
+              "                pm.expect(appointment).to.have.property(\"attendance\");\r",
+              "                \r",
+              "                pm.expect(appointment.id).to.be.a(\"string\");\r",
+              "                pm.expect(appointment.patientId).to.be.a(\"string\");\r",
+              "                pm.expect(appointment.type).to.be.a(\"string\");\r",
+              "                pm.expect(appointment.scheduleDate).to.be.an(\"array\");\r",
+              "                pm.expect(appointment.scheduleDate.length).to.equal(5);\r",
+              "                pm.expect(appointment.status).to.be.a(\"string\");\r",
+              "                pm.expect(appointment.attendance).to.be.a(\"string\");\r",
+              "            });\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Cita agendada está en el listado\", function () {\r",
+              "            const appointmentId = pm.variables.get(\"appointmentId\");\r",
+              "            const citaEncontrada = body.value.some(cita => cita.id === appointmentId);\r",
+              "            pm.expect(citaEncontrada).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Citas tienen estados válidos\", function () {\r",
+              "            body.value.forEach((appointment) => {\r",
+              "                pm.expect([\"Scheduled\", \"Attended\", \"Cancelled\"]).to.include(appointment.status);\r",
+              "                pm.expect([\"Pending\", \"Attended\", \"Cancelled\"]).to.include(appointment.attendance);\r",
+              "            });\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error object está vacío en caso de éxito\", function () {\r",
+              "            pm.expect(body.error.code).to.equal(\"\");\r",
+              "            pm.expect(body.error.description).to.equal(\"\");\r",
+              "            pm.expect(body.error.structuredMessage).to.equal(\"\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"Citas consultadas: \" + body.value.length + \" citas encontradas\");\r",
+              "        body.value.forEach((appointment) => {\r",
+              "            const date = appointment.scheduleDate;\r",
+              "            console.log(\"  - ID: \" + appointment.id + \" | Fecha: \" + date[2] + \"-\" + date[1] + \"-\" + date[0] + \" | Estado: \" + appointment.status);\r",
+              "        });\r",
+              "        \r",
+              "    } else {\r",
+              "        pm.test(\"Error al consultar citas\", function () {\r",
+              "            pm.expect(body.success).to.be.false;\r",
+              "            pm.expect(body.failure).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error contiene información del fallo\", function () {\r",
+              "            pm.expect(body.error).to.have.property(\"code\");\r",
+              "            pm.expect(body.error).to.have.property(\"description\");\r",
+              "            pm.expect(body.error).to.have.property(\"type\");\r",
+              "            pm.expect(body.error.type).to.equal(\"FAILURE\");\r",
+              "            pm.expect(body.error.code).to.not.equal(\"\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"Error: \" + body.error.description);\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Error: Status code no es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    console.log(\"Error HTTP: \" + pm.response.code);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nutritionistId\": \"{{nutritionistId}}\",\r\n    \"date\": \"{{appointmentDate}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/nutritionist/appointments",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "nutritionist",
+            "appointments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.4 Borrar Nutricionista",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Función para generar el professionalLicense aleatorio\r",
+              "function generateRandomString(length) {\r",
+              "    const chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\";\r",
+              "    let result = \"\";\r",
+              "    for (let i = 0; i < length; i++) {\r",
+              "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+              "    }\r",
+              "    return result;\r",
+              "}\r",
+              "\r",
+              "// Generar el professionalLicense con la estructura: \"XXXXXX-XXXXX\"\r",
+              "const numbers = Math.floor(Math.random() * 999999).toString().padStart(6, '0');\r",
+              "const letters = generateRandomString(5);\r",
+              "const professionalLicense = numbers + \"-\" + letters;\r",
+              "\r",
+              "// Guardar en variable para que esté disponible en el body si es necesario\r",
+              "pm.variables.set(\"professionalLicense\", professionalLicense);\r",
+              "\r",
+              "const urlBase = pm.collectionVariables.get(\"URL_BASE\");\r",
+              "const token = pm.collectionVariables.get(\"token\");\r",
+              "\r",
+              "// Validar variables\r",
+              "if (!urlBase || !token) {\r",
+              "    console.log(\"✗ Error: Faltan variables de colección\");\r",
+              "    console.log(\"  URL_BASE: \" + urlBase);\r",
+              "    console.log(\"  token: \" + token);\r",
+              "} else {\r",
+              "    pm.sendRequest({\r",
+              "        url: urlBase + '/api/nutritionist',\r",
+              "        method: 'POST',\r",
+              "        header: {\r",
+              "            'Content-Type': 'application/json',\r",
+              "            'Authorization': 'Bearer ' + token\r",
+              "        },\r",
+              "        body: {\r",
+              "            mode: 'raw',\r",
+              "            raw: JSON.stringify({\r",
+              "                \"name\": \"Jorge\",\r",
+              "                \"lastname\": \"Balderrama\",\r",
+              "                \"specialty\": \"Functional Nutrition\",\r",
+              "                \"professionalLicense\": professionalLicense\r",
+              "            })\r",
+              "        }\r",
+              "    }, function (err, response) {\r",
+              "        console.log(\"==== CREANDO NUTRICIONISTA ====\");\r",
+              "        \r",
+              "        if (err) {\r",
+              "            console.log('✗ Error en pm.sendRequest: ' + err);\r",
+              "        } else {\r",
+              "            console.log(\"Status: \" + response.code);\r",
+              "            \r",
+              "            try {\r",
+              "                const nutriResponse = response.json();\r",
+              "                console.log(\"Respuesta: \" + JSON.stringify(nutriResponse));\r",
+              "                \r",
+              "                if (nutriResponse && nutriResponse.success) {\r",
+              "                    const nutritionistId = nutriResponse.value;\r",
+              "                    \r",
+              "                    pm.variables.set(\"nutritionistIdToDelete\", nutritionistId);\r",
+              "                    \r",
+              "                    console.log(\"  Nutricionista creado exitosamente\");\r",
+              "                    console.log(\"  ID: \" + nutritionistId);\r",
+              "                    console.log(\"  Nombre: Jorge Balderrama\");\r",
+              "                    console.log(\"  Specialty: Functional Nutrition\");\r",
+              "                    console.log(\"  License: \" + professionalLicense);\r",
+              "                } else {\r",
+              "                    console.log(\"✗ La respuesta no fue exitosa\");\r",
+              "                    if (nutriResponse && nutriResponse.error) {\r",
+              "                        console.log(\"  Error: \" + nutriResponse.error.description);\r",
+              "                    }\r",
+              "                }\r",
+              "            } catch (parseErr) {\r",
+              "                console.log(\"  Error al parsear respuesta: \" + parseErr);\r",
+              "                console.log(\"  Response body: \" + response.text());\r",
+              "            }\r",
+              "        }\r",
+              "        \r",
+              "        console.log(\"==== FIN DEL PRE-REQUEST ====\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code == 200) {\r",
+              "    pm.test(\"Status code es 200 - Nutricionista eliminado\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "    \r",
+              "    pm.test(\"Respuesta contiene estructura esperada\", function () {\r",
+              "        pm.expect(body).to.have.property(\"success\");\r",
+              "        pm.expect(body).to.have.property(\"failure\");\r",
+              "        pm.expect(body).to.have.property(\"value\");\r",
+              "        pm.expect(body).to.have.property(\"error\");\r",
+              "    });\r",
+              "    \r",
+              "    if (body.success) {\r",
+              "        pm.test(\"Nutricionista eliminado exitosamente\", function () {\r",
+              "            pm.expect(body.success).to.be.true;\r",
+              "            pm.expect(body.failure).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Value indica eliminación correcta\", function () {\r",
+              "            pm.expect(body.value).to.be.a(\"boolean\");\r",
+              "            pm.expect(body.value).to.be.true;\r",
+              "        });\r",
+              "        \r",
+              "        pm.test(\"Error object está vacío\", function () {\r",
+              "            pm.expect(body.error.code).to.equal(\"\");\r",
+              "            pm.expect(body.error.description).to.equal(\"\");\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"✓ Nutricionista eliminado exitosamente\");\r",
+              "        \r",
+              "    } else {\r",
+              "        pm.test(\"Error al eliminar nutricionista\", function () {\r",
+              "            pm.expect(body.success).to.be.false;\r",
+              "        });\r",
+              "        \r",
+              "        console.log(\"✗ Error: \" + body.error.description);\r",
+              "    }\r",
+              "} else {\r",
+              "    pm.test(\"Error: Status code no es 200\", function () {\r",
+              "        pm.response.to.have.status(200);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"{{nutritionistIdToDelete}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_BASE}}/api/nutritionist",
+          "host": [
+            "{{URL_BASE}}"
+          ],
+          "path": [
+            "api",
+            "nutritionist"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.sendRequest({\r",
+          "    url: 'http://154.38.180.80:8080/realms/group3realm/protocol/openid-connect/token',\r",
+          "    method: 'POST',\r",
+          "    header: {\r",
+          "        'Content-Type': 'application/x-www-form-urlencoded'\r",
+          "    },\r",
+          "    body: {\r",
+          "        mode: 'urlencoded',\r",
+          "        urlencoded: [\r",
+          "            { key: 'grant_type', value: 'password' },\r",
+          "            { key: 'client_id', value: 'group3app' },\r",
+          "            { key: 'client_secret', value: 'pS9x84Qm0FkOJVrueg5OTtNYCWCAGtEp' },\r",
+          "            { key: 'username', value: 'admin' },\r",
+          "            { key: 'password', value: 'admin' }\r",
+          "        ]\r",
+          "    }\r",
+          "}, function (err, response) {\r",
+          "    if (err) {\r",
+          "        console.log('Error obteniendo token: ' + err);\r",
+          "    } else {\r",
+          "        try {\r",
+          "            const jsonResponse = response.json();\r",
+          "            const token = jsonResponse.access_token;\r",
+          "            \r",
+          "            pm.collectionVariables.set(\"token\", token);\r",
+          "            \r",
+          "            console.log(\"✓ Token obtenido exitosamente\");\r",
+          "            console.log(\"Token: \" + token.substring(0, 20) + \"...\");\r",
+          "        } catch (e) {\r",
+          "            console.log('Error al parsear respuesta: ' + e);\r",
+          "            console.log('Respuesta: ' + response.text());\r",
+          "        }\r",
+          "    }\r",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "URL_BASE",
+      "value": ""
+    },
+    {
+      "key": "appointments",
+      "value": ""
+    },
+    {
+      "key": "index",
+      "value": ""
+    },
+    {
+      "key": "appointmentJson",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "appointmentId",
+      "value": ""
+    },
+    {
+      "key": "professionalLicense",
+      "value": ""
+    },
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "nutritionistId",
+      "value": ""
+    },
+    {
+      "key": "appointmentDate",
+      "value": ""
+    },
+    {
+      "key": "nutritionistIdToDelete",
+      "value": ""
+    }
+  ]
+}
