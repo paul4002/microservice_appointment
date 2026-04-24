@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import an.awesome.pipelinr.Pipeline;
 import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.AttendAppointmentCommand;
 import edu.nur.nurtricenter_appointment.application.appointments.cancelAppointment.CancelAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.AppointmentDetailsDto;
+import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.GetAppointmentDetailsQuery;
 import edu.nur.nurtricenter_appointment.application.appointments.notAttendedAppointment.NotAttendedAppointmentCommand;
 import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ScheduleAppointmentCommand;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
@@ -14,7 +16,9 @@ import java.util.UUID;
 
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -51,5 +55,11 @@ public class AppointmentController {
 	@PostMapping("/attend")
 	public ResultWithValue<Boolean> attend(@RequestBody AttendAppointmentCommand command) {
 		return command.execute(pipeline);
+	}
+
+	// @PreAuthorize("hasRole('nutritionist')")
+	@GetMapping("/{appointmentId}")
+	public ResultWithValue<AppointmentDetailsDto> getAppointmentDetails(@PathVariable UUID appointmentId) {
+		return new GetAppointmentDetailsQuery(appointmentId).execute(pipeline);
 	}
 }

@@ -138,4 +138,12 @@ public class Appointment extends AggregateRoot {
 	public Diagnosis getDiagnosis() {
 		return diagnosis;
 	}
+
+	public void setDiagnosis(Diagnosis diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public void setMeasurement(Measurement measurement) {
+		this.measurement = measurement;
+	}
 }
