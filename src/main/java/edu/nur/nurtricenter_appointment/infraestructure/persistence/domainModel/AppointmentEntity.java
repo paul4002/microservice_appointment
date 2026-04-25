@@ -14,6 +14,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.AppointmentAttendanceConverter;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.AppointmentStatusConverter;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.converters.AppointmentTypeConverter;
+import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
@@ -166,6 +167,28 @@ public class AppointmentEntity {
 	}
 
 	public Appointment toDomain() {
-		return new Appointment(id, patientId, nutritionistId, type, creationDate, scheduledDate, cancelDate, status, attendance, notes);
+		Appointment appointment = new Appointment(id, patientId, nutritionistId, type, creationDate, scheduledDate, cancelDate, status, attendance, notes);
+		if (measurement != null) {
+			Measurement domainMeasurement = new Measurement(
+				measurement.getWeight().value(),
+				measurement.getHeight().value(),
+				measurement.getImc(),
+				measurement.getBodyFat(),
+				measurement.getMuscleMass()
+			);
+			appointment.setMeasurement(domainMeasurement);
+		}
+		if (diagnosis != null) {
+			Diagnosis domainDiagnosis = new Diagnosis(
+				diagnosis.getDescription(),
+				diagnosis.getNutritionalState(),
+				diagnosis.getAssociatedRisks(),
+				diagnosis.getRecommendations(),
+				diagnosis.getGoals(),
+				diagnosis.getComments()
+			);
+			appointment.setDiagnosis(domainDiagnosis);
+		}
+		return appointment;
 	}
 }

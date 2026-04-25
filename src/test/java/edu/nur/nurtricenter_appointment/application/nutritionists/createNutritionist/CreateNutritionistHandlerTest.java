@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
+import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 
 public class CreateNutritionistHandlerTest {
 	@Mock
@@ -40,7 +41,7 @@ public class CreateNutritionistHandlerTest {
 		var result = handler.handle(cmd);
 
 		verify(nutritionistRepository).Add(any());
-		verify(unitOfWork).commitAsync();
+		verify(unitOfWork).commitAsync(any(Nutritionist.class));
 
 		assertTrue(result.isSuccess());
 		assertNotNull(result.getValue());
@@ -58,6 +59,6 @@ public class CreateNutritionistHandlerTest {
 		assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
 
 		verify(nutritionistRepository, never()).Add(any());
-		verify(unitOfWork, never()).commitAsync();
+		verify(unitOfWork, never()).commitAsync(any(Nutritionist.class));
 	}
 }

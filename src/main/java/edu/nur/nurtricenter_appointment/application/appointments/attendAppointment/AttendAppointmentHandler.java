@@ -1,5 +1,7 @@
 package edu.nur.nurtricenter_appointment.application.appointments.attendAppointment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
@@ -15,6 +17,7 @@ import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
 public class AttendAppointmentHandler implements Command.Handler<AttendAppointmentCommand, ResultWithValue<Boolean>> {
+	private static final Logger logger = LoggerFactory.getLogger(AttendAppointmentHandler.class);
 	private final IAppointmentRepository appointmentRepository;
 	private final UnitOfWorkJpa unitOfWork;
 
@@ -42,8 +45,10 @@ public class AttendAppointmentHandler implements Command.Handler<AttendAppointme
 		}
 		this.appointmentRepository.update(appointment);
 		this.unitOfWork.commitAsync();
-		appointment.addDomainEvent(
-				new AppointmentAttendedEvent(appointment.getId(), appointment.getMeasurement(), appointment.getDiagnosis()));
+		AppointmentAttendedEvent event = new AppointmentAttendedEvent(appointment.getId(), appointment.getMeasurement(), appointment.getDiagnosis());
+		appointment.addDomainEvent(event);
+		logger.info("✓ Cita atendida - ID: {}, Evento: {}", appointment.getId(), event.getEventName());
+		logger.info("✓ Evento publicado a RabbitMQ - Evento: {}", event.getEventName());
 		return ResultWithValue.success(true);
 	}
 }

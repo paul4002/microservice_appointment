@@ -1,5 +1,7 @@
 package edu.nur.nurtricenter_appointment.application.nutritionists.deleteNutritionist;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
@@ -12,6 +14,7 @@ import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
 public class DeleteNutritionistHandler implements Command.Handler<DeleteNutritionistCommand, ResultWithValue<Boolean>> {
+	private static final Logger logger = LoggerFactory.getLogger(DeleteNutritionistHandler.class);
 	private final INutritionistRepository nutritionistRepository;
 	private final IUnitOfWork unitOfWork;
 
@@ -25,8 +28,12 @@ public class DeleteNutritionistHandler implements Command.Handler<DeleteNutritio
 		Nutritionist dbNutritionist = this.nutritionistRepository.GetById(request.id());
 		if (dbNutritionist == null) return ResultWithValue.failure(Error.notFound("Nutritionist.NotFound", "The nutritionist was not found", request.id().toString()));
 		this.nutritionistRepository.Delete(dbNutritionist);
-		this.unitOfWork.commitAsync();
-		dbNutritionist.addDomainEvent(new NutritionistDeletedEvent(dbNutritionist.getId()));
+		NutritionistDeletedEvent event = new NutritionistDeletedEvent(dbNutritionist.getId());
+		dbNutritionist.addDomainEvent(event);
+		logger.info("✓ Nutricionista deshabilitado - ID: {}, Evento: {}",
+			dbNutritionist.getId(), event.getEventName());
+		this.unitOfWork.commitAsync(dbNutritionist);
+		logger.info("✓ Evento publicado a RabbitMQ - Evento: {}", event.getEventName());
 		return ResultWithValue.success(true);
 	}
 }

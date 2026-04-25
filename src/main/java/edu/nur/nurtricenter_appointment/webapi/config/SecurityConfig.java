@@ -26,6 +26,7 @@ public class SecurityConfig {
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/actuator/**").permitAll()
+				.requestMatchers("GET", "/api/appointment/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			.oauth2ResourceServer(oauth2 ->

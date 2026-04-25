@@ -102,7 +102,26 @@
 			<artifactId>loki-logback-appender</artifactId>
 			<version>1.5.2</version>
 		</dependency>
+
+		<!-- Consul Service Discovery -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+		</dependency>
 	</dependencies>
+
+	<!-- Spring Cloud BOM para gestionar versiones correctas -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>2023.0.5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

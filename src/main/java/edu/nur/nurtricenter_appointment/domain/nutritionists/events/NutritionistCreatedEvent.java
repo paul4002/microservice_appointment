@@ -11,7 +11,7 @@ public class NutritionistCreatedEvent extends DomainEvent {
 	private final String apellido;
 	private final NutritionistSpecialty especialidad;
 	private final String licenciaProfesional;
-	
+
 	public NutritionistCreatedEvent(UUID nutricionistaId, String nombre, String apellido, NutritionistSpecialty especialidad,
 			String licenciaProfesional) {
 		this.nutricionistaId = nutricionistaId;
@@ -58,7 +58,7 @@ public class NutritionistCreatedEvent extends DomainEvent {
 
 	@Override
 	public Object getPayload() {
-		return new Payload(apellido, nombre, apellido, especialidad.getLabel(), licenciaProfesional);
+		return new Payload(nutricionistaId.toString(), nombre, apellido, especialidad.getLabel(), licenciaProfesional);
 	}
 
 	private record Payload(String nutricionistaId, String nombre, String apellido, String especialidad, String licenciaProfesional) {}
