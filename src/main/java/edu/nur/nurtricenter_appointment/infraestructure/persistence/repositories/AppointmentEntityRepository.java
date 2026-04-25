@@ -16,6 +16,7 @@ public interface AppointmentEntityRepository extends CrudRepository<AppointmentE
 		FROM AppointmentPersistenceModel a
 		WHERE a.nutritionistId = :nutritionistId
 			AND a.scheduledDate BETWEEN :startDate AND :endDate
+			AND a.status != 'Cancelled'
 	""")
 	boolean existsAppointmentNearTime(
 		@Param("nutritionistId") UUID nutritionistId,
