@@ -33,4 +33,4 @@ Compila el proyecto con Maven y ejecuta los tests unitarios.
 
 ### Release (`release.yml`)
 Se ejecuta cuando se hace merge a `main`.
-Conecta al servidor vía SSH y ejecuta el script de despliegue.
+Conecta al servidor vía SSH y ejecuta el script de despliegue
