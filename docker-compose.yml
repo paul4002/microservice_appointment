@@ -23,7 +23,7 @@ services:
       DB_URL: jdbc:postgresql://citas_evaluaciones_postgres:5432/nurtricenter_db
       DB_USER: citas_evaluaciones_user
       DB_PASSWORD: SuperUsuar10
-      LOKI_URL: ${LOKI_URL:-http://154.38.180.80:3100}
+      LOKI_URL: ${LOKI_URL:-http://146.190.116.159:3100}
       CONSUL_ENABLED: ${CONSUL_ENABLED:-true}
       CONSUL_HOST: ${CONSUL_HOST:-154.38.180.80}
       CONSUL_PORT: ${CONSUL_PORT:-8500}
