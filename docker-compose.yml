@@ -23,7 +23,7 @@ services:
       DB_URL: jdbc:postgresql://citas_evaluaciones_postgres:5432/nurtricenter_db
       DB_USER: citas_evaluaciones_user
       DB_PASSWORD: SuperUsuar10
-      LOKI_URL: ${LOKI_URL:-http://146.190.116.159:3100}
+      LOKI_URL: http://loki:3100
       CONSUL_ENABLED: ${CONSUL_ENABLED:-true}
       CONSUL_HOST: ${CONSUL_HOST:-154.38.180.80}
       CONSUL_PORT: ${CONSUL_PORT:-8500}
@@ -41,5 +41,29 @@ services:
       - "9004:8080"
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki:3.3.2
+    container_name: grupo3-loki
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    ports:
+      - "3100:3100"
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: grupo3-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
 volumes:
   citas_evaluaciones_postgres_data:
+  loki_data:
+  prometheus_data:
