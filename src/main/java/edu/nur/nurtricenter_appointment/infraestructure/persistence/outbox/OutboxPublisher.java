@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.core.Binding;
@@ -30,6 +32,7 @@ import jakarta.transaction.Transactional;
 
 @Component
 public class OutboxPublisher {
+	private static final Logger logger = LoggerFactory.getLogger(OutboxPublisher.class);
 	private static final String FORCED_EXCHANGE = "outbox.events";
 	private final OutboxEventRepository repository;
 	private final RabbitTemplate rabbitTemplate;
@@ -76,6 +79,8 @@ public class OutboxPublisher {
 			event.setProcessedOn(LocalDateTime.now());
 			event.setLastError(null);
 			repository.save(event);
+			logger.info("✓ Evento enviado a RabbitMQ - Evento: {}, Queue: {}, Exchange: {}",
+				event.getEventName(), routingKey, FORCED_EXCHANGE);
 		} catch (Exception ex) {
 			int attempts = event.getAttempts() != null ? event.getAttempts() + 1 : 1;
 			event.setAttempts(attempts);
@@ -85,6 +90,8 @@ public class OutboxPublisher {
 			long delayMs = baseBackoffMs * Math.min(attempts, cap);
 			event.setNextAttemptAt(LocalDateTime.now().plusNanos(delayMs * 1_000_000));
 			repository.save(event);
+			logger.warn("⚠ Error al enviar evento a RabbitMQ - Evento: {}, Intento: {}, Error: {}, Próximo intento en: {}ms",
+				event.getEventName(), attempts, ex.getMessage(), delayMs);
 		}
 	}
 

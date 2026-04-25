@@ -48,7 +48,7 @@ public class DeleteNutritionistHandlerTest {
 		assertEquals("Nutritionist.NotFound", result.getError().getCode());
 
 		verify(nutritionistRepository, never()).Delete(any());
-		verify(unitOfWork, never()).commitAsync();
+		verify(unitOfWork, never()).commitAsync(any(Nutritionist.class));
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class DeleteNutritionistHandlerTest {
 		var result = handler.handle(cmd);
 
 		verify(nutritionistRepository).Delete(nutritionist);
-		verify(unitOfWork).commitAsync();
+		verify(unitOfWork).commitAsync(any(Nutritionist.class));
 
 		assertTrue(result.isSuccess());
 		assertEquals(true, result.getValue());

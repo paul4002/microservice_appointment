@@ -1,5 +1,7 @@
 package edu.nur.nurtricenter_appointment.application.nutritionists.updateNutritionist;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
@@ -13,6 +15,7 @@ import edu.nur.nurtricenter_appointment.domain.nutritionists.events.Nutritionist
 
 @Component
 public class UpdateNutritionistHandler implements Command.Handler<UpdateNutritionistCommand, ResultWithValue<Boolean>> {
+	private static final Logger logger = LoggerFactory.getLogger(UpdateNutritionistHandler.class);
 	private final INutritionistRepository nutritionistRepository;
 	private final IUnitOfWork unitOfWork;
 
@@ -38,8 +41,12 @@ public class UpdateNutritionistHandler implements Command.Handler<UpdateNutritio
 			return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
 		}
 		this.nutritionistRepository.Update(nutritionist);
-		nutritionist.addDomainEvent(new NutritionistUpdatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
-		this.unitOfWork.commitAsync();
+		NutritionistUpdatedEvent event = new NutritionistUpdatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense());
+		nutritionist.addDomainEvent(event);
+		logger.info("✓ Nutricionista actualizado - ID: {}, Nombre: {} {}, Evento: {}",
+			nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), event.getEventName());
+		this.unitOfWork.commitAsync(nutritionist);
+		logger.info("✓ Evento publicado a RabbitMQ - Evento: {}", event.getEventName());
 		return ResultWithValue.success(true);
 	}
 

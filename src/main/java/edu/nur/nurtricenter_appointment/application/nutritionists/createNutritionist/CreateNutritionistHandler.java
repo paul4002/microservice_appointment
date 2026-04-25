@@ -2,6 +2,8 @@ package edu.nur.nurtricenter_appointment.application.nutritionists.createNutriti
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
@@ -15,6 +17,7 @@ import edu.nur.nurtricenter_appointment.core.results.Error;
 
 @Component
 public class CreateNutritionistHandler implements Command.Handler<CreateNutritionistCommand, ResultWithValue<UUID>> {
+	private static final Logger logger = LoggerFactory.getLogger(CreateNutritionistHandler.class);
 	private final INutritionistRepository nutritionistRepository;
 	private final IUnitOfWork unitOfWork;
 
@@ -37,8 +40,12 @@ public class CreateNutritionistHandler implements Command.Handler<CreateNutritio
 			return ResultWithValue.failure(Error.notFound("Nutritionist.InvalidSpecialty", "The nutritionist specialty is invalid", request.specialty()));
 		}
 		this.nutritionistRepository.Add(nutritionist);
-		nutritionist.addDomainEvent(new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense()));
-		this.unitOfWork.commitAsync();
+		NutritionistCreatedEvent event = new NutritionistCreatedEvent(nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), nutritionist.getSpecialty(), nutritionist.getProfessionalLicense());
+		nutritionist.addDomainEvent(event);
+		logger.info("✓ Nutricionista creado - ID: {}, Nombre: {} {}, Evento: {}",
+			nutritionist.getId(), nutritionist.getName(), nutritionist.getLastname(), event.getEventName());
+		this.unitOfWork.commitAsync(nutritionist);
+		logger.info("✓ Evento publicado a RabbitMQ - Evento: {}", event.getEventName());
 		return ResultWithValue.success(nutritionist.getId());
 	}
 }

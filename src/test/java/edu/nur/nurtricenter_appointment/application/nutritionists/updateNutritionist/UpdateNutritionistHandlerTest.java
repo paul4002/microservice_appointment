@@ -49,7 +49,7 @@ public class UpdateNutritionistHandlerTest {
 		assertFalse(result.isSuccess());
 		assertEquals("Nutritionist.NotFound", result.getError().getCode());
 		verify(nutritionistRepository, never()).Update(any());
-		verify(unitOfWork, never()).commitAsync();
+		verify(unitOfWork, never()).commitAsync(any(Nutritionist.class));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class UpdateNutritionistHandlerTest {
 		assertFalse(result.isSuccess());
 		assertEquals("Nutritionist.InvalidSpecialty", result.getError().getCode());
 		verify(nutritionistRepository, never()).Update(any());
-		verify(unitOfWork, never()).commitAsync();
+		verify(unitOfWork, never()).commitAsync(any(Nutritionist.class));
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class UpdateNutritionistHandlerTest {
 		var result = handler.handle(cmd);
 
 		verify(nutritionistRepository).Update(any());
-		verify(unitOfWork).commitAsync();
+		verify(unitOfWork).commitAsync(any(Nutritionist.class));
 
 		assertTrue(result.isSuccess());
 		assertEquals(true, result.getValue());
