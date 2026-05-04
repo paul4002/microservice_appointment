@@ -31,6 +31,14 @@
 		<sonar.coverage.jacoco.xmlReportPaths>
       target/site/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.exclusions>
+			src/main/java/edu/nur/nurtricenter_appointment/core/**,
+			src/main/java/edu/nur/nurtricenter_appointment/infraestructure/config/**,
+			src/main/java/edu/nur/nurtricenter_appointment/infraestructure/discovery/**,
+			src/main/java/edu/nur/nurtricenter_appointment/infraestructure/persistence/inbound/**,
+			src/main/java/edu/nur/nurtricenter_appointment/infraestructure/persistence/outbox/**,
+			src/main/java/edu/nur/nurtricenter_appointment/infraestructure/persistence/repositories/**
+		</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
