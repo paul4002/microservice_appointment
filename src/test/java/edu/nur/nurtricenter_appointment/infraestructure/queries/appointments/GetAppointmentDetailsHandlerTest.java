@@ -27,7 +27,7 @@ import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalSta
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
 @ExtendWith(MockitoExtension.class)
-public class GetAppointmentDetailsHandlerTest {
+class GetAppointmentDetailsHandlerTest {
 
 	@Mock
 	private IAppointmentRepository appointmentRepository;
@@ -128,7 +128,7 @@ public class GetAppointmentDetailsHandlerTest {
 		assertEquals("75.5", dto.measurement.weight.value);
 		assertEquals("KG", dto.measurement.weight.unit);
 		assertNotNull(dto.measurement.height);
-		assertEquals("180", dto.measurement.height.value);
+		assertEquals("180.0", dto.measurement.height.value);
 		assertEquals("CM", dto.measurement.height.unit);
 		assertEquals("23.3", dto.measurement.imc);
 		assertEquals("18.5", dto.measurement.bodyFat);
@@ -234,10 +234,54 @@ public class GetAppointmentDetailsHandlerTest {
 		assertEquals("Completed", dto.status);
 		assertEquals("ATTENDED", dto.attendance);
 
+		verify(appointmentRepository, times(1)).GetById(appointmentId);
+	}
+
+	@Test
+	void testHandleAppointmentWithCompleteDataMeasurementAndDiagnosis() {
+		// Arrange
+		UUID appointmentId = UUID.randomUUID();
+		UUID patientId = UUID.randomUUID();
+		UUID nutritionistId = UUID.randomUUID();
+
+		Appointment appointment = new Appointment(appointmentId, patientId, nutritionistId,
+				AppointmentType.FOLLOWUP, LocalDateTime.now(), LocalDateTime.now().plusDays(7), null,
+				AppointmentStatus.COMPLETED, AppointmentAttendance.ATTENDED, "Attended");
+
+		Measurement measurement = new Measurement(
+			new DecimalValue(72.0),
+			new DecimalValue(175),
+			new DecimalValue(23.5),
+			new Percentage(new DecimalValue(20.0)),
+			new Percentage(new DecimalValue(36.0))
+		);
+		appointment.setMeasurement(measurement);
+
+		Diagnosis diagnosis = new Diagnosis(
+			"Follow-up assessment",
+			DiagnosisNutritionalState.NORMAL_WEIGHT,
+			"No risks",
+			"Continue current plan",
+			"Maintain weight loss",
+			"Excellent progress"
+		);
+		appointment.setDiagnosis(diagnosis);
+
+		GetAppointmentDetailsQuery query = new GetAppointmentDetailsQuery(appointmentId);
+		when(appointmentRepository.GetById(appointmentId)).thenReturn(appointment);
+
+		// Act
+		ResultWithValue<AppointmentDetailsDto> result = handler.handle(query);
+
+		// Assert
+		assertTrue(result.isSuccess());
+		assertNotNull(result.getValue());
+		AppointmentDetailsDto dto = result.getValue();
+
 		assertNotNull(dto.measurement);
 		assertEquals("72.0", dto.measurement.weight.value);
 		assertEquals("KG", dto.measurement.weight.unit);
-		assertEquals("175", dto.measurement.height.value);
+		assertEquals("175.0", dto.measurement.height.value);
 		assertEquals("CM", dto.measurement.height.unit);
 		assertEquals("23.5", dto.measurement.imc);
 		assertEquals("20.0", dto.measurement.bodyFat);
@@ -316,7 +360,7 @@ public class GetAppointmentDetailsHandlerTest {
 		AppointmentDetailsDto dto = result.getValue();
 		assertNotNull(dto.measurement);
 		assertEquals("70.0", dto.measurement.weight.value);
-		assertEquals("170", dto.measurement.height.value);
+		assertEquals("170.0", dto.measurement.height.value);
 		assertNull(dto.measurement.imc);
 		assertNull(dto.measurement.bodyFat);
 		assertNull(dto.measurement.muscleMass);

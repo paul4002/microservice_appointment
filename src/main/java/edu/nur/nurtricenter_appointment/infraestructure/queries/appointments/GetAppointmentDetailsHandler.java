@@ -32,16 +32,16 @@ public class GetAppointmentDetailsHandler implements Command.Handler<GetAppointm
 			var measurement = appointment.getMeasurement();
 			measurementDto = new MeasurementDetailsDto(
 				new MeasurementDetailsDto.UnitMeasureDto(
-					measurement.getWeight().value().toString(),
+					String.valueOf(measurement.getWeight().value().value()),
 					measurement.getWeight().unit().toString()
 				),
 				new MeasurementDetailsDto.UnitMeasureDto(
-					measurement.getHeight().value().toString(),
+					String.valueOf(measurement.getHeight().value().value()),
 					measurement.getHeight().unit().toString()
 				),
-				measurement.getImc() != null ? measurement.getImc().toString() : null,
-				measurement.getBodyFat() != null ? measurement.getBodyFat().toString() : null,
-				measurement.getMuscleMass() != null ? measurement.getMuscleMass().toString() : null
+				measurement.getImc() != null ? String.valueOf(measurement.getImc().value()) : null,
+				measurement.getBodyFat() != null ? String.valueOf(measurement.getBodyFat().value().value()) : null,
+				measurement.getMuscleMass() != null ? String.valueOf(measurement.getMuscleMass().value().value()) : null
 			);
 		}
 
