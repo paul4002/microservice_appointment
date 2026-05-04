@@ -11,7 +11,7 @@ public class ConsulProperties {
 	private String scheme = "http";
 	private String serviceId = "nur-tricenter-appointments";
 	private String serviceName = "nur-tricenter-appointments";
-	private String serviceAddress = "146.190.116.159";
+	private String serviceAddress;
 	private int servicePort = 9004;
 	private String healthCheckPath = "/actuator/health";
 	private String healthCheckInterval = "15s";
