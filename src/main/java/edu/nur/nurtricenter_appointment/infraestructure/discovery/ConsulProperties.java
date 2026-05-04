@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ConsulProperties {
 
 	private boolean enabled = true;
-	private String host = "154.38.180.80";
+	private String host;
 	private int port = 8500;
 	private String scheme = "http";
 	private String serviceId = "nur-tricenter-appointments";
