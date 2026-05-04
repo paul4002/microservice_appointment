@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.DiagnosisDto;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.DiagnosisDto;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 

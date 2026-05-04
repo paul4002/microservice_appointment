@@ -1,6 +1,6 @@
 package edu.nur.nurtricenter_appointment.application.utils;
 
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.MeasurementDto;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.MeasurementDto;
 import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 import edu.nur.nurtricenter_appointment.domain.appointments.Percentage;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;

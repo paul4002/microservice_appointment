@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import an.awesome.pipelinr.Pipeline;
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.AttendAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.DiagnosisDto;
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.MeasurementDto;
-import edu.nur.nurtricenter_appointment.application.appointments.cancelAppointment.CancelAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.notAttendedAppointment.NotAttendedAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ScheduleAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.AttendAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.DiagnosisDto;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.MeasurementDto;
+import edu.nur.nurtricenter_appointment.application.appointments.cancel_appointment.CancelAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.not_attended_appointment.NotAttendedAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.schedule_appointment.ScheduleAppointmentCommand;
 import edu.nur.nurtricenter_appointment.core.results.Result;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;

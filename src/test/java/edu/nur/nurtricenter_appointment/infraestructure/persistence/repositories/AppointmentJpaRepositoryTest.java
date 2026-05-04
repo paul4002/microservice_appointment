@@ -21,7 +21,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentAttendance;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentStatus;
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.AppointmentEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.AppointmentEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class AppointmentJpaRepositoryTest {

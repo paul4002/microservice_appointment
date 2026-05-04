@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import an.awesome.pipelinr.Pipeline;
-import edu.nur.nurtricenter_appointment.application.subscriptions.processPatientCreatedEvent.ProcessPatientCreatedEventCommand;
+import edu.nur.nurtricenter_appointment.application.subscriptions.process_patient_created_event.ProcessPatientCreatedEventCommand;
 import edu.nur.nurtricenter_appointment.core.results.Result;
 
 @Component

@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.PatientEntity;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientJpaRepositoryTest {

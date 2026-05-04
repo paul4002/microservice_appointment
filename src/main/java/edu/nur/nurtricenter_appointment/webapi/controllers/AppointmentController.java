@@ -4,12 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import an.awesome.pipelinr.Pipeline;
-import edu.nur.nurtricenter_appointment.application.appointments.attendAppointment.AttendAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.cancelAppointment.CancelAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.AppointmentDetailsDto;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.GetAppointmentDetailsQuery;
-import edu.nur.nurtricenter_appointment.application.appointments.notAttendedAppointment.NotAttendedAppointmentCommand;
-import edu.nur.nurtricenter_appointment.application.appointments.scheduleAppointment.ScheduleAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.AttendAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.cancel_appointment.CancelAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.GetAppointmentDetailsQuery;
+import edu.nur.nurtricenter_appointment.application.appointments.not_attended_appointment.NotAttendedAppointmentCommand;
+import edu.nur.nurtricenter_appointment.application.appointments.schedule_appointment.ScheduleAppointmentCommand;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 
 import java.util.UUID;

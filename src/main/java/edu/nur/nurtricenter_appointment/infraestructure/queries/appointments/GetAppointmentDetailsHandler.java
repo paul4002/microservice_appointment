@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.AppointmentDetailsDto;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.GetAppointmentDetailsQuery;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.AppointmentDetailsDto.DiagnosisDetailsDto;
-import edu.nur.nurtricenter_appointment.application.appointments.getAppointmentDetails.AppointmentDetailsDto.MeasurementDetailsDto;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.GetAppointmentDetailsQuery;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto.DiagnosisDetailsDto;
+import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto.MeasurementDetailsDto;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;

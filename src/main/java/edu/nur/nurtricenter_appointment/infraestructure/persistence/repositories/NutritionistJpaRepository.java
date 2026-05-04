@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.NutritionistEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.NutritionistEntity;
 
 @Repository
 public class NutritionistJpaRepository implements INutritionistRepository {

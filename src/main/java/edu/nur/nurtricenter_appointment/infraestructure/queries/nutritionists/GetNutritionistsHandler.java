@@ -6,8 +6,8 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
-import edu.nur.nurtricenter_appointment.application.nutritionists.getNutritionist.GetNutritionistsQuery;
-import edu.nur.nurtricenter_appointment.application.nutritionists.getNutritionist.NutritionistDto;
+import edu.nur.nurtricenter_appointment.application.nutritionists.get_nutritionist.GetNutritionistsQuery;
+import edu.nur.nurtricenter_appointment.application.nutritionists.get_nutritionist.NutritionistDto;
 import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.NutritionistCrudRepository;
 

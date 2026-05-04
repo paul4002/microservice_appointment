@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.PatientEntity;
 
 public interface PatientEntityRepository extends CrudRepository<PatientEntity, UUID> {
 }

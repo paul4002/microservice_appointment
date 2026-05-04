@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistenceModel.AppointmentPersistenceModel;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistence_model.AppointmentPersistenceModel;
 
 public interface AppointmentCrudRepository extends CrudRepository<AppointmentPersistenceModel, UUID>  {
 	@Query("""

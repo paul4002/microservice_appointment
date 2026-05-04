@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.nur.nurtricenter_appointment.domain.patients.IPatientRepository;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.PatientEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.PatientEntity;
 
 @Repository
 public class PatientJpaRepository implements IPatientRepository {

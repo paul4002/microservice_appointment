@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.AppointmentEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.AppointmentEntity;
 
 @Repository
 public class AppointmentJpaRepository implements IAppointmentRepository {

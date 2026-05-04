@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
-import edu.nur.nurtricenter_appointment.infraestructure.persistence.domainModel.NutritionistEntity;
+import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.NutritionistEntity;
 
 @ExtendWith(MockitoExtension.class)
 class NutritionistJpaRepositoryTest {
