@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class UnitMeasureTest {
+class UnitMeasureTest {
 
 	@Test
 	void constructor_ShouldStoreValueAndUnit() {

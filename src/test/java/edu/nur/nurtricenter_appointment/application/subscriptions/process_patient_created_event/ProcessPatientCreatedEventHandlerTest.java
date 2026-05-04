@@ -23,7 +23,7 @@ import edu.nur.nurtricenter_appointment.domain.patients.IPatientRepository;
 import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
 @ExtendWith(MockitoExtension.class)
-public class ProcessPatientCreatedEventHandlerTest {
+class ProcessPatientCreatedEventHandlerTest {
 
 	@Mock
 	IPatientRepository patientRepository;

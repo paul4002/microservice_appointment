@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class AppointmentEntityTest {
+class AppointmentEntityTest {
 	@Test
 	void shouldSetAndGetBasicFields() {
 		// Arrange

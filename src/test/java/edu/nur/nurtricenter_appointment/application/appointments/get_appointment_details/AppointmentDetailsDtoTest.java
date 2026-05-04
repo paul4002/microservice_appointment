@@ -10,7 +10,7 @@ import edu.nur.nurtricenter_appointment.application.appointments.get_appointment
 import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto.MeasurementDetailsDto;
 import edu.nur.nurtricenter_appointment.application.appointments.get_appointment_details.AppointmentDetailsDto.MeasurementDetailsDto.UnitMeasureDto;
 
-public class AppointmentDetailsDtoTest {
+class AppointmentDetailsDtoTest {
 
 	@Test
 	void testAppointmentDetailsDtoEmptyConstructor() {

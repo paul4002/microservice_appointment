@@ -23,7 +23,7 @@ import edu.nur.nurtricenter_appointment.core.results.Error;
 import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
 
-public class NotAttendedAppointmentHandlerTest {
+class NotAttendedAppointmentHandlerTest {
 	@Mock
 	private IAppointmentRepository appointmentRepository;
 

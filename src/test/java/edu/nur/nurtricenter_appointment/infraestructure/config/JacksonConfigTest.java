@@ -8,7 +8,7 @@ import org.springframework.amqp.support.converter.SimpleMessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JacksonConfigTest {
+class JacksonConfigTest {
 
 	private JacksonConfig config;
 

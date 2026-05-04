@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.QuantityValue;
 
-public class QuantityValueConverterTest {
+class QuantityValueConverterTest {
 	private final QuantityValueConverter converter = new QuantityValueConverter();
 
 	@Test

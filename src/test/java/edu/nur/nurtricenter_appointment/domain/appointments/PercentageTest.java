@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class PercentageTest {
+class PercentageTest {
 
 	@Test
 	void constructor_WithValidValue_ShouldStoreValue() {

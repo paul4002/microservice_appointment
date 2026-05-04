@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Email;
 
-public class EmailConverterTest {
+class EmailConverterTest {
 	private final EmailConverter converter = new EmailConverter();
 
 	@Test

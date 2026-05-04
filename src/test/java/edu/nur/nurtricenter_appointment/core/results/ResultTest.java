@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class ResultTest {
+class ResultTest {
 
 	@Test
 	void success_ShouldReturnSuccessResult() {

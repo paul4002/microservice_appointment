@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class ScheduledAppointmentNutritionistDtoTest {
+class ScheduledAppointmentNutritionistDtoTest {
 
 	@Test
 	void fields_ShouldBeAssignableAndReadable() {

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ScheduleAppointmentHandlerTest {
+class ScheduleAppointmentHandlerTest {
 	@Mock IAppointmentRepository appointmentRepository;
 	@Mock IPatientRepository patientRepository;
 	@Mock INutritionistRepository nutritionistRepository;

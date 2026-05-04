@@ -27,7 +27,7 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.NutritionistCrudRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class GetNutritionistAppointmentsScheduledByDateHandlerTest {
+class GetNutritionistAppointmentsScheduledByDateHandlerTest {
 
 	@Mock
 	NutritionistCrudRepository nutritionistCrudRepository;

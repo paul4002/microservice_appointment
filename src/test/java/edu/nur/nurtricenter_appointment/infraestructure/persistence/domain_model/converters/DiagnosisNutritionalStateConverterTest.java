@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 
-public class DiagnosisNutritionalStateConverterTest {
+class DiagnosisNutritionalStateConverterTest {
 	private final DiagnosisNutritionalStateConverter converter = new DiagnosisNutritionalStateConverter();
 
 	@Test

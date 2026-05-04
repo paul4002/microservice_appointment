@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 
-public class DiagnosisTest {
+class DiagnosisTest {
 
 	@Test
 		void createDiagnosis_ShouldSetAllFields() {

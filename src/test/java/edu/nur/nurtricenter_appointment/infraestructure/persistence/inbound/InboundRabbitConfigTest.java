@@ -15,7 +15,7 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.TopicExchange;
 
-public class InboundRabbitConfigTest {
+class InboundRabbitConfigTest {
 
 	private InboundRabbitConfig inboundRabbitConfig;
 	private InboundSubscriptionProperties properties;

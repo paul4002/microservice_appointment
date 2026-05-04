@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 
-public class PatientTest {
+class PatientTest {
 	@Test
 	void shouldCreatePatientSuccessfully() {
 		UUID id = UUID.randomUUID();

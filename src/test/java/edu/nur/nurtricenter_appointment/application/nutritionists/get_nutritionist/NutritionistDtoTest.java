@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-public class NutritionistDtoTest {
+class NutritionistDtoTest {
 
 	@Test
 	void constructor_WithAllFields_ShouldStoreValues() {

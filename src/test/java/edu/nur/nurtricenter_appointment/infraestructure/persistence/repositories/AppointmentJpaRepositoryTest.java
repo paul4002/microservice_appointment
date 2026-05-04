@@ -24,7 +24,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.AppointmentEntity;
 
 @ExtendWith(MockitoExtension.class)
-public class AppointmentJpaRepositoryTest {
+class AppointmentJpaRepositoryTest {
 
 	@Mock
 	AppointmentEntityRepository appointmentEntityRepository;

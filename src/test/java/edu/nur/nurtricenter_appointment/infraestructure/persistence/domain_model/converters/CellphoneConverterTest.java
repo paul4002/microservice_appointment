@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.patients.Cellphone;
 
-public class CellphoneConverterTest {
+class CellphoneConverterTest {
 	private final CellphoneConverter converter = new CellphoneConverter();
 
 	@Test

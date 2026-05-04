@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 
-public class ResponseAppointmentDtoTest {
+class ResponseAppointmentDtoTest {
 	@Test
 	void shouldCreateEmptyDtoWithDefaultConstructor() {
 		ResponseAppointmentDto dto = new ResponseAppointmentDto();

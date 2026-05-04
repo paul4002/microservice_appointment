@@ -13,7 +13,7 @@ import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class PatientEntityTest {
+class PatientEntityTest {
 	@Test
 	void shouldSetAndGetFields() {
 		// Arrange

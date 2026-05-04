@@ -12,7 +12,7 @@ import edu.nur.nurtricenter_appointment.application.appointments.attend_appointm
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 
-public class DiagnosisMapperTest {
+class DiagnosisMapperTest {
 	@Test
 	void shouldReturnEmptyDiagnosisWhenDtoIsNull() {
 		Diagnosis result = DiagnosisMapper.from(null);

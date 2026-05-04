@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
-public class NutritionistSpecialtyConverterTest {
+class NutritionistSpecialtyConverterTest {
 	private final NutritionistSpecialtyConverter converter = new NutritionistSpecialtyConverter();
 
 	@Test

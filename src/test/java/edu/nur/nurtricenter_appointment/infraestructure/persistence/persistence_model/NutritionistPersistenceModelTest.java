@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 
-public class NutritionistPersistenceModelTest {
+class NutritionistPersistenceModelTest {
 	@Test
 	void shouldSetAndGetAllFields() {
 		// Arrange

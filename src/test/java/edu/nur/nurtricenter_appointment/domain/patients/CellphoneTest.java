@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-public class CellphoneTest {
+class CellphoneTest {
 
 	@Test
 	void constructor_WithValid8DigitNumber_ShouldStoreValue() {

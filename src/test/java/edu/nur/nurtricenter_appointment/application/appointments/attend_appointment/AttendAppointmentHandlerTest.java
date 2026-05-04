@@ -24,7 +24,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.Appointment;
 import edu.nur.nurtricenter_appointment.domain.appointments.IAppointmentRepository;
 import edu.nur.nurtricenter_appointment.infraestructure.config.UnitOfWorkJpa;
 
-public class AttendAppointmentHandlerTest {
+class AttendAppointmentHandlerTest {
 	@Mock
 	private IAppointmentRepository appointmentRepository;
 

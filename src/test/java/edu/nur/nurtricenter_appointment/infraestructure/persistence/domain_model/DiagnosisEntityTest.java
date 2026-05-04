@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 
-public class DiagnosisEntityTest {
+class DiagnosisEntityTest {
 	@Test
 	void shouldSetAndGetFields() {
 		// Arrange

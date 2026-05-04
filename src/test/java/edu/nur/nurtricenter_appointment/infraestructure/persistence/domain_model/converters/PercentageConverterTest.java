@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.domain.appointments.Percentage;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class PercentageConverterTest {
+class PercentageConverterTest {
 	private final PercentageConverter converter = new PercentageConverter();
 
 	@Test

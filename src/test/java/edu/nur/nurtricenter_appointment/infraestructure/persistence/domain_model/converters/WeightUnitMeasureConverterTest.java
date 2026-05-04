@@ -10,7 +10,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasure;
 import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasureName;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class WeightUnitMeasureConverterTest {
+class WeightUnitMeasureConverterTest {
 	private final WeightUnitMeasureConverter converter = new WeightUnitMeasureConverter();
 
 	@Test

@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 
-public class AppointmentPersistenceModelTest {
+class AppointmentPersistenceModelTest {
 	@Test
 	void shouldSetAndGetFields() {
 		// Arrange

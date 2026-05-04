@@ -20,7 +20,7 @@ import edu.nur.nurtricenter_appointment.domain.patients.Patient;
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.domain_model.PatientEntity;
 
 @ExtendWith(MockitoExtension.class)
-public class PatientJpaRepositoryTest {
+class PatientJpaRepositoryTest {
 
 	@Mock
 	PatientEntityRepository patientEntityRepository;

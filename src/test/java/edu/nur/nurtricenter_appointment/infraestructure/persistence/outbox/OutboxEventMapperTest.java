@@ -15,7 +15,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.events.NutritionistDeletedEvent;
 
-public class OutboxEventMapperTest {
+class OutboxEventMapperTest {
 
 	private OutboxEventMapper mapper;
 	private NutritionistDeletedEvent event;

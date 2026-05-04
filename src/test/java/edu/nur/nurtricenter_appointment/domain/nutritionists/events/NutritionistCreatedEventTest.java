@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
-public class NutritionistCreatedEventTest {
+class NutritionistCreatedEventTest {
 
 	private UUID nutricionistaId;
 	private String nombre;

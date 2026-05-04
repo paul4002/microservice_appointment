@@ -20,7 +20,7 @@ import edu.nur.nurtricenter_appointment.core.abstractions.IUnitOfWork;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.INutritionistRepository;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.Nutritionist;
 
-public class UpdateNutritionistHandlerTest {
+class UpdateNutritionistHandlerTest {
 	@Mock
 	private INutritionistRepository nutritionistRepository;
 

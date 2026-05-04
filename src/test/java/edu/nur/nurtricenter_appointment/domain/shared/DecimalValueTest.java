@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-public class DecimalValueTest {
+class DecimalValueTest {
 
 	@Test
 	void constructor_WithPositiveValue_ShouldStoreValue() {

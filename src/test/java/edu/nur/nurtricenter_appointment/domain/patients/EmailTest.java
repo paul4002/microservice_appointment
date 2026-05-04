@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-public class EmailTest {
+class EmailTest {
 
 	@Test
 	void constructor_WithValidEmail_ShouldStoreValue() {

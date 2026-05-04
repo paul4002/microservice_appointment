@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class ValidationErrorTest {
+class ValidationErrorTest {
 
 	@Test
 	void constructor_ShouldHaveValidationCode() {

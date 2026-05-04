@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.application.appointments.attend_appointment.MeasurementDto;
 import edu.nur.nurtricenter_appointment.domain.appointments.Measurement;
 
-public class MeasurementMapperTest {
+class MeasurementMapperTest {
 	@Test
 	void shouldReturnEmptyMeasurementWhenDtoIsNull() {
 		Measurement result = MeasurementMapper.from(null);

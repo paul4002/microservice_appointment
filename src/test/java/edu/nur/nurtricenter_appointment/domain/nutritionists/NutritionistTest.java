@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.core.results.DomainException;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 
-public class NutritionistTest {
+class NutritionistTest {
 	@Test
 	void shouldCreateNutritionistSuccessfully() {
 		NutritionistSpecialty specialty = NutritionistSpecialty.CLINICAL_NUTRITION;

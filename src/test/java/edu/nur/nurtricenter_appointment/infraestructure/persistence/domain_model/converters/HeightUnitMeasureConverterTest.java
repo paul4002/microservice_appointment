@@ -10,7 +10,7 @@ import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasure;
 import edu.nur.nurtricenter_appointment.domain.appointments.UnitMeasureName;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class HeightUnitMeasureConverterTest {
+class HeightUnitMeasureConverterTest {
 	private final HeightUnitMeasureConverter converter = new HeightUnitMeasureConverter();
 
 	@Test

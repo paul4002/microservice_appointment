@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class MeasurementTest {
+class MeasurementTest {
 
 	private DecimalValue weight;
 	private DecimalValue height;

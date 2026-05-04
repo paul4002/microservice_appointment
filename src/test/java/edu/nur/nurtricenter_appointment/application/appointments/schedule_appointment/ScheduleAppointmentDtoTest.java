@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class ScheduleAppointmentDtoTest {
+class ScheduleAppointmentDtoTest {
 
 	@Test
 	void constructor_WithAllFields_ShouldStoreValues() {

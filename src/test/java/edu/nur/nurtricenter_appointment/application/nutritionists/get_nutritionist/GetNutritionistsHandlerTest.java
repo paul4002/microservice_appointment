@@ -17,7 +17,7 @@ import edu.nur.nurtricenter_appointment.infraestructure.persistence.persistence_
 import edu.nur.nurtricenter_appointment.infraestructure.persistence.repositories.NutritionistCrudRepository;
 import edu.nur.nurtricenter_appointment.infraestructure.queries.nutritionists.GetNutritionistsHandler;
 
-public class GetNutritionistsHandlerTest {
+class GetNutritionistsHandlerTest {
 	private NutritionistCrudRepository nutritionistRepo;
 	private GetNutritionistsHandler handler;
 

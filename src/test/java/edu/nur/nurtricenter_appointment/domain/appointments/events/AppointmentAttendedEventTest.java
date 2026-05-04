@@ -16,7 +16,7 @@ import edu.nur.nurtricenter_appointment.domain.diagnosis.Diagnosis;
 import edu.nur.nurtricenter_appointment.domain.diagnosis.DiagnosisNutritionalState;
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class AppointmentAttendedEventTest {
+class AppointmentAttendedEventTest {
 
 	private UUID appointmentId;
 	private Measurement measurement;

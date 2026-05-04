@@ -28,7 +28,7 @@ import edu.nur.nurtricenter_appointment.core.results.ResultWithValue;
 import edu.nur.nurtricenter_appointment.domain.nutritionists.NutritionistSpecialty;
 
 @ExtendWith(MockitoExtension.class)
-public class NutritionistControllerTest {
+class NutritionistControllerTest {
 
 	@Mock
 	Pipeline pipeline;

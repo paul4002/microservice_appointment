@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.appointments.AppointmentType;
 
-public class AppointmentTypeConverterTest {
+class AppointmentTypeConverterTest {
 	private final AppointmentTypeConverter converter = new AppointmentTypeConverter();
 
 	@Test

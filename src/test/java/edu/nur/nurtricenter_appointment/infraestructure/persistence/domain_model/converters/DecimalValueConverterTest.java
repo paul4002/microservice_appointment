@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.nur.nurtricenter_appointment.domain.shared.DecimalValue;
 
-public class DecimalValueConverterTest {
+class DecimalValueConverterTest {
 	private final DecimalValueConverter converter = new DecimalValueConverter();
 
 	@Test

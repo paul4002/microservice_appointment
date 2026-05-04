@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.nur.nurtricenter_appointment.core.results.Error;
 import edu.nur.nurtricenter_appointment.core.results.ErrorType;
 
-public class NutritionistErrorsTest {
+class NutritionistErrorsTest {
 
 	@Test
 	void nameIsRequired_ShouldReturnErrorWithValidationCode() {

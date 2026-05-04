@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-public class MeasurementDtoTest {
+class MeasurementDtoTest {
 
 	@Test
 	void constructor_WithAllFields_ShouldStoreValues() {
